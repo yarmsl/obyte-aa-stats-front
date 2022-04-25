@@ -12,6 +12,19 @@ export const theme = (darkMode: boolean): Theme =>
       },
     },
     typography: {
+      fontFamily: [
+        'Open Sans',
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(','),
       button: {
         textTransform: 'none',
       },
@@ -47,32 +60,32 @@ export const theme = (darkMode: boolean): Theme =>
       : {
           mode: 'light',
           common: {
-            black: '#252527',
+            black: 'rgba(0,0,0,.6)',
             white: '#fff',
           },
           primary: {
-            dark: '#008cf0',
-            main: '#3ab1f4',
-            light: '#FF1C26',
-            contrastText: '#fff',
+            dark: '#1560bd',
+            main: '#2c3e50',
+            light: '#3085ee',
+            contrastText: 'rgba(0,0,0,.6)',
           },
           secondary: {
-            dark: '#dedede',
-            main: '#fff',
-            light: '#90CAF9',
+            dark: '#ff8c6f',
+            main: '#ffa16f',
+            light: '#fff1cc',
             contrastText: '#4f4f4f',
           },
           background: {
-            paper: '#E3F2FD',
-            default: '#fff',
+            paper: '#e0eeff',
+            default: '#f0f4f9',
           },
           text: {
-            primary: '#212121',
-            secondary: '#757575',
+            primary: 'rgba(0,0,0,.6)',
+            secondary: '#456c91',
           },
         },
     shape: {
-      borderRadius: 12,
+      borderRadius: 5,
     },
     shadows: [
       'none',

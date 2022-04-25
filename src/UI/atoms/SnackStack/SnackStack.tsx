@@ -1,22 +1,9 @@
-import {
-  Alert,
-  AlertTitle,
-  IconButton,
-  Snackbar,
-  SnackbarCloseReason,
-  SnackbarOrigin,
-  Stack,
-} from '@mui/material';
+import { SnackbarCloseReason } from '@mui/material';
 import { FC, memo, useCallback, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 import { closeSnackAction } from 'store/SnackStack';
-import CloseIcon from '@mui/icons-material/Close';
-
-interface ISnackStackProps {
-  anchorOrigin?: SnackbarOrigin;
-  spacing?: number;
-  maxSnack?: number;
-}
+import { ISnackStackProps } from './types';
+import SnackStackLayout from './SnackStackLayout';
 
 const SnackStack: FC<ISnackStackProps> = ({
   anchorOrigin = undefined,
@@ -25,17 +12,23 @@ const SnackStack: FC<ISnackStackProps> = ({
 }) => {
   const { snackBarsStack } = useAppSelector((st) => st.snackStack);
   const dispatch = useAppDispatch();
+
   const handleClose = useCallback(
+    (id: string) => dispatch(closeSnackAction(id)),
+    [dispatch]
+  );
+
+  const handleCloseByTimeout = useCallback(
     (
       event: Event | React.SyntheticEvent<unknown, Event>,
       reason: SnackbarCloseReason,
       id: string
     ) => {
       if (reason === 'timeout') {
-        dispatch(closeSnackAction(id));
+        handleClose(id);
       }
     },
-    [dispatch]
+    [handleClose]
   );
 
   const top = useMemo(() => {
@@ -93,57 +86,18 @@ const SnackStack: FC<ISnackStackProps> = ({
   );
 
   return (
-    // eslint-disable-next-line react/jsx-no-useless-fragment
-    <>
-      {cuttedSnackStack.length > 0 && (
-        <Stack
-          spacing={spacing}
-          sx={{ position: 'fixed', top, right, bottom, left, transform }}
-        >
-          {cuttedSnackStack.map(
-            ({
-              id,
-              open,
-              autoHideDuration = 6000,
-              title = undefined,
-              message,
-              severity = undefined,
-              variant = undefined,
-              closable = false,
-            }) => (
-              <Snackbar
-                anchorOrigin={anchorOrigin}
-                sx={{ position: 'relative' }}
-                key={id}
-                open={open}
-                autoHideDuration={autoHideDuration}
-                onClose={(event, reason) => handleClose(event, reason, id)}
-              >
-                <Alert
-                  severity={severity}
-                  variant={variant}
-                  action={
-                    closable && (
-                      <IconButton
-                        aria-label='close'
-                        color='inherit'
-                        size='small'
-                        onClick={() => dispatch(closeSnackAction(id))}
-                      >
-                        <CloseIcon fontSize='inherit' />
-                      </IconButton>
-                    )
-                  }
-                >
-                  {title && <AlertTitle>{title}</AlertTitle>}
-                  {message}
-                </Alert>
-              </Snackbar>
-            )
-          )}
-        </Stack>
-      )}
-    </>
+    <SnackStackLayout
+      cuttedSnackStack={cuttedSnackStack}
+      anchorOrigin={anchorOrigin}
+      spacing={spacing}
+      top={top}
+      right={right}
+      bottom={bottom}
+      left={left}
+      transform={transform}
+      handleClose={handleClose}
+      handleCloseByTimeout={handleCloseByTimeout}
+    />
   );
 };
 

@@ -1,6 +1,9 @@
 {
-  "name": "react-mui-template",
+  "name": "obyte-aa-stats",
   "version": "0.1.0",
+  "author": "Obyte",
+  "license": "MIT",
+  "description": "Obyte Autonomous agents statistics frontend",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.7.1",
@@ -8,6 +11,7 @@
     "@mui/icons-material": "^5.2.5",
     "@mui/lab": "^5.0.0-alpha.68",
     "@mui/material": "^5.2.8",
+    "@nivo/core": "^0.79.0",
     "@reduxjs/toolkit": "^1.7.1",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
