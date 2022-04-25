@@ -3,16 +3,18 @@ import { FC, memo, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import Loading from 'UI/atoms/Loading/Loading';
 import Header from 'UI/templates/Header/Header';
+import Footer from '../Footer/Footer';
 import { styles } from './styles';
 
 const MainLayout: FC = () => (
   <Container sx={styles.root} disableGutters maxWidth={false}>
     <Header />
-    <Container disableGutters sx={styles.main} maxWidth='xl'>
+    <Container component='main' disableGutters sx={styles.main} maxWidth='xl'>
       <Suspense fallback={<Loading />}>
         <Outlet />
       </Suspense>
     </Container>
+    <Footer />
   </Container>
 );
 
