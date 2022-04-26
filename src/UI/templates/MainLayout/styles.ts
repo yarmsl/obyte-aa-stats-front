@@ -10,8 +10,5 @@ export const styles: Record<string, SxProps> = {
   },
   main: {
     flexGrow: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
   },
 };

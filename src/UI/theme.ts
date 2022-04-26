@@ -13,7 +13,7 @@ export const theme = (darkMode: boolean): Theme =>
     },
     typography: {
       fontFamily: [
-        'Open Sans',
+        'Poppins',
         '-apple-system',
         'BlinkMacSystemFont',
         '"Segoe UI"',
@@ -64,9 +64,9 @@ export const theme = (darkMode: boolean): Theme =>
             white: '#fff',
           },
           primary: {
-            dark: '#1560bd',
+            dark: '#1d1e33',
             main: '#2c3e50',
-            light: '#3085ee',
+            light: '#4e77ad',
             contrastText: 'rgba(0,0,0,.6)',
           },
           secondary: {

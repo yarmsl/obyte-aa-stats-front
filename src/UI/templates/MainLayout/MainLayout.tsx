@@ -9,7 +9,7 @@ import { styles } from './styles';
 const MainLayout: FC = () => (
   <Container sx={styles.root} disableGutters maxWidth={false}>
     <Header />
-    <Container component='main' disableGutters sx={styles.main} maxWidth='xl'>
+    <Container component='main' disableGutters sx={styles.main} maxWidth='lg'>
       <Suspense fallback={<Loading />}>
         <Outlet />
       </Suspense>
