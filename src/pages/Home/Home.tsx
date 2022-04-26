@@ -1,10 +1,12 @@
+import { FC, memo } from 'react';
+import HomeDashboard from 'UI/organisms/HomeDashboard/HomeDashboard';
 import HelmetTitle from '../../UI/atoms/Helmet/Helmet';
 
-const Home: React.FC = () => (
+const Home: FC = () => (
   <>
     <HelmetTitle title='Home' />
-    <h1>Home</h1>
+    <HomeDashboard />
   </>
 );
 
-export default Home;
+export default memo(Home);
