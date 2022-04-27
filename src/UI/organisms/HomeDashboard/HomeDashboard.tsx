@@ -1,5 +1,6 @@
 import { FC, memo } from 'react';
-import ValueWidget from 'UI/atoms/Widget/ValueWidget';
+import ValueWidget from 'UI/atoms/ValueWidget/ValueWidget';
+import AgentsTable from 'UI/molecules/AgentsTable/AgentsTable';
 import TotalGraph from 'UI/molecules/TotalGraph/TotalGraph';
 import DragLayout from 'UI/templates/DragLayout/DragLayout';
 import NeuBox from 'UI/templates/NeuBox/NeuBox';
@@ -33,7 +34,9 @@ const HomeDashboard: FC = () => (
     <NeuBox key='e'>
       <TotalGraph />
     </NeuBox>
-    <NeuBox key='f'>333333333333333rd</NeuBox>
+    <NeuBox key='f'>
+      <AgentsTable />
+    </NeuBox>
   </DragLayout>
 );
 
