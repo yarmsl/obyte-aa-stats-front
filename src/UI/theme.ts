@@ -38,14 +38,14 @@ export const theme = (darkMode: boolean): Theme =>
           },
           primary: {
             dark: '#008cf0',
-            main: '#3ab1f4',
+            main: '#fff',
             light: '#FF1C26',
             contrastText: '#fff',
           },
           secondary: {
-            dark: '#dedede',
-            main: '#1a223f',
-            light: '#1a223f',
+            dark: '#ff8c6f',
+            main: '#ffa16f',
+            light: '#fff1cc',
             contrastText: '#4f4f4f',
           },
           background: {
@@ -133,6 +133,7 @@ export const theme = (darkMode: boolean): Theme =>
           body: {
             width: '100%',
             height: '100%',
+            transition: 'background-color 250ms',
           },
           // input: {
           //   "&:-webkit-autofill": {

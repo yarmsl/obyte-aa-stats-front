@@ -7,7 +7,11 @@ export default {
   component: NeuBox,
 } as ComponentMeta<typeof NeuBox>;
 
-const Template: ComponentStory<typeof NeuBox> = (args) => <NeuBox {...args} />;
+const Template: ComponentStory<typeof NeuBox> = (args) => (
+  <div style={{ width: '400px', height: '175px' }}>
+    <NeuBox {...args} />
+  </div>
+);
 
 export const Primary = Template.bind({});
 Primary.args = {
