@@ -1,5 +1,6 @@
 import { Box, Divider, Typography } from '@mui/material';
 import { FC, memo } from 'react';
+import WaterMark from '../WaterMark/WaterMark';
 import { styles } from './styles';
 
 const ValueWidget: FC<IValueWidgetProps> = ({ title, value, unit }) => (
@@ -15,7 +16,7 @@ const ValueWidget: FC<IValueWidgetProps> = ({ title, value, unit }) => (
         {unit}
       </Typography>
     </Box>
-    <Typography sx={styles.logo}>Obyte</Typography>
+    <WaterMark />
   </Box>
 );
 

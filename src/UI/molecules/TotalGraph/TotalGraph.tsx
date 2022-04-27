@@ -1,7 +1,9 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, ButtonGroup, Typography } from '@mui/material';
 import { FC, memo, useCallback, useMemo } from 'react';
 import { ResponsiveLineCanvas } from '@nivo/line';
+import WaterMark from 'UI/atoms/WaterMark/WaterMark';
 import mock from '../../../mock/MOCK_DATA.json';
+import { styles } from './styles';
 
 const TotalGraph: FC = () => {
   const processData = useCallback(
@@ -26,10 +28,15 @@ const TotalGraph: FC = () => {
   );
 
   return (
-    <Box sx={{ width: '100%', height: 'calc(100% - 27px)' }}>
-      <Typography sx={{ fontSize: '18px', fontWeight: 300 }}>
-        Chart Title
-      </Typography>
+    <Box sx={styles.root}>
+      <Box sx={styles.header}>
+        <Typography sx={styles.title}>Chart Title</Typography>
+        <ButtonGroup size='small' color='secondary'>
+          <Button>30 days</Button>
+          <Button>90 days</Button>
+          <Button>All period</Button>
+        </ButtonGroup>
+      </Box>
       <ResponsiveLineCanvas
         data={totalData}
         margin={{ top: 20, right: 120, bottom: 50, left: 60 }}
@@ -49,7 +56,7 @@ const TotalGraph: FC = () => {
           tickPadding: 5,
           tickRotation: 0,
           format: '%b %y',
-          legend: 'price',
+          legend: 'date',
           legendOffset: 36,
           legendPosition: 'middle',
         }}
@@ -58,7 +65,7 @@ const TotalGraph: FC = () => {
           tickPadding: 5,
           tickRotation: 0,
           format: '.2s',
-          legend: 'volume',
+          legend: 'value',
           legendOffset: -40,
           legendPosition: 'middle',
           tickValues: [0, 50, 100],
@@ -66,7 +73,7 @@ const TotalGraph: FC = () => {
         enableGridX={false}
         colors={{ scheme: 'paired' }}
         lineWidth={1}
-        pointSize={4}
+        pointSize={0}
         pointColor={{ theme: 'background' }}
         pointBorderWidth={1}
         pointBorderColor={{ from: 'serieColor' }}
@@ -100,6 +107,7 @@ const TotalGraph: FC = () => {
           },
         ]}
       />
+      <WaterMark />
     </Box>
   );
 };

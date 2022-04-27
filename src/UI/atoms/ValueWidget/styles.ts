@@ -28,11 +28,4 @@ export const styles: Record<string, SxProps> = {
     fontSize: '30px',
     fontWeight: 700,
   },
-  logo: {
-    position: 'absolute',
-    right: '-20px',
-    top: '50%',
-    transform: 'rotate(270deg)',
-    color: 'rgba(0,0,0,.1)',
-  },
 };
