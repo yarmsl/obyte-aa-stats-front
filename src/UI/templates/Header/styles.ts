@@ -18,6 +18,11 @@ export const stylesByMode = (darkMode: boolean): Record<string, SxProps> => ({
     justifyContent: 'space-between',
     maxWidth: '1366px',
   },
+  actions: {
+    '&>*:not(:last-of-type)': {
+      mr: '5px',
+    },
+  },
   shadow: {
     boxShadow: darkMode
       ? '8px 8px 16px #0e152e, -8px -8px 16px #141d3e'

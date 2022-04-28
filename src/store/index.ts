@@ -15,7 +15,7 @@ import { SnackStackReducer } from './SnackStack';
 const UIPersistConfig = {
   key: 'ui',
   storage,
-  whitelist: ['darkMode'],
+  whitelist: ['darkMode', 'homeLayouts'],
 };
 
 const rootReducer = combineReducers({

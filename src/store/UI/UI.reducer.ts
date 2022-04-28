@@ -1,8 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-
-const initialState: UIState = {
-  darkMode: false,
-};
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { initialState } from './initialState';
 
 const UISlice = createSlice({
   name: 'UI',
@@ -11,8 +8,21 @@ const UISlice = createSlice({
     toggleDarkMode: (state) => {
       state.darkMode = !state.darkMode;
     },
+    cacheHomeLayout: (
+      state,
+      action: PayloadAction<ReactGridLayout.Layouts>
+    ) => {
+      state.homeLayoutsCache = action.payload;
+    },
+    saveHomeLayout: (state) => {
+      if ('sm' in state.homeLayoutsCache) {
+        state.homeLayouts = state.homeLayoutsCache;
+        state.homeLayoutsCache = {};
+      }
+    },
   },
 });
 
-export const { toggleDarkMode } = UISlice.actions;
+export const { toggleDarkMode, cacheHomeLayout, saveHomeLayout } =
+  UISlice.actions;
 export const { reducer: UIReducer } = UISlice;

@@ -6,7 +6,7 @@ export const styles: Record<string, SxProps> = {
     right: '-20px',
     top: '50%',
     transform: 'rotate(270deg)',
-    color: 'rgba(0,0,0,.1)',
+    opacity: 0.1,
     userSelect: 'none',
   },
 };
