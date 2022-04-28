@@ -1,12 +1,12 @@
 import { SxProps } from '@mui/material';
 
-export const styles: Record<string, SxProps> = {
+export const stylesByMode = (darkMode: boolean): Record<string, SxProps> => ({
   root: {
     boxShadow: 'none',
     bgcolor: 'background.default',
     p: '0px 25px',
     minHeight: '64px',
-    transition: 'box-shadow 250ms ease-in-out',
+    transition: 'all 250ms ease-in-out',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -18,7 +18,14 @@ export const styles: Record<string, SxProps> = {
     justifyContent: 'space-between',
     maxWidth: '1366px',
   },
-  shadow: {
-    boxShadow: '8px 8px 16px #cccfd4, -8px -8px 16px #ffffff',
+  actions: {
+    '&>*:not(:last-of-type)': {
+      mr: '5px',
+    },
   },
-};
+  shadow: {
+    boxShadow: darkMode
+      ? '8px 8px 16px #0e152e, -8px -8px 16px #141d3e'
+      : '8px 8px 16px #cccfd4, -8px -8px 16px #ffffff',
+  },
+});

@@ -11,6 +11,10 @@ export const styles: Record<string, SxProps> = {
     display: 'flex',
     justifyContent: 'space-between',
   },
+  wrapper: {
+    width: '100%',
+    height: '100%',
+  },
   title: {
     fontSize: '18px',
     fontWeight: 300,

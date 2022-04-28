@@ -4,23 +4,27 @@ import {
   StyledEngineProvider,
   createTheme,
 } from '@mui/material';
+import { Provider as StoreProvider } from 'react-redux';
 import { addDecorator } from '@storybook/react';
 import { theme as muiTheme } from '../src/UI/theme';
 import { ThemeProvider } from 'emotion-theming';
 import { MemoryRouter } from 'react-router-dom';
+import appStore from '../src/store/';
 
 addDecorator((Story, context) => {
   const theme = createTheme(muiTheme(context.globals.theme === 'dark'));
   return (
     <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          <MemoryRouter initialEntries={['/']}>
-            <Story />
-          </MemoryRouter>
-        </MuiThemeProvider>
-      </ThemeProvider>
+      <StoreProvider store={appStore}>
+        <ThemeProvider theme={theme}>
+          <MuiThemeProvider theme={theme}>
+            <CssBaseline />
+            <MemoryRouter initialEntries={['/']}>
+              <Story />
+            </MemoryRouter>
+          </MuiThemeProvider>
+        </ThemeProvider>
+      </StoreProvider>
     </StyledEngineProvider>
   );
 });

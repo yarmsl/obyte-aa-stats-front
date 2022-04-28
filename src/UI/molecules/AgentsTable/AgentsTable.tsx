@@ -4,10 +4,11 @@ import { Cell, Column, HeaderCell, Table } from 'rsuite-table';
 import WaterMark from 'UI/atoms/WaterMark/WaterMark';
 import mock from '../../../mock/MOCK_DATA.json';
 import { styles } from './styles';
-import 'rsuite-table/dist/css/rsuite-table.css';
+import 'rsuite-table/dist/css/rsuite-table.min.css';
 
 const AgentsTable: FC = () => {
   const data = useMemo(() => mock as IMockData[], []);
+
   return (
     <Box sx={styles.root}>
       <Box sx={styles.header}>
@@ -17,7 +18,12 @@ const AgentsTable: FC = () => {
           <Button>controls</Button>
         </ButtonGroup>
       </Box>
-      <Table onMouseDown={(e) => e.stopPropagation()} virtualized data={data}>
+      <Table
+        onMouseDown={(e) => e.stopPropagation()}
+        fillHeight
+        virtualized
+        data={data}
+      >
         <Column width={70} align='center' fixed>
           <HeaderCell>Id</HeaderCell>
           <Cell dataKey='id' />
