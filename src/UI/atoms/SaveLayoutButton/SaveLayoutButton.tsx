@@ -5,7 +5,9 @@ import SaveLayoutButtonLayout from './SaveLayoutButton.layout';
 
 const SaveLayoutButton: FC = () => {
   const { homeLayoutsCache } = useAppSelector((st) => st.ui);
+
   const isCache = useMemo(() => 'sm' in homeLayoutsCache, [homeLayoutsCache]);
+
   const dispatch = useAppDispatch();
   const save = useCallback(() => dispatch(saveHomeLayout()), [dispatch]);
   if (!isCache) return null;
