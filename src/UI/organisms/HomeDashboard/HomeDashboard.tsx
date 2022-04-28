@@ -1,17 +1,27 @@
 import { FC, memo, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
-import { cacheHomeLayout } from 'store/UI';
+import {
+  cacheHomeLayout,
+  clearCacheHomeLayout,
+  homeLayoutsSelector,
+} from 'store/UI';
+import { isEqual } from 'lodash';
+import { cleanUndef } from 'lib/clearUndef';
 import HomeDashboardLayout from './HomeDashboardLayout';
 
 const HomeDashboard: FC = () => {
   const dispatch = useAppDispatch();
-  const { homeLayouts } = useAppSelector((st) => st.ui);
-
+  const homeLayouts = useAppSelector(homeLayoutsSelector);
   const handleLayouts = useCallback(
     (curr, allLayouts: ReactGridLayout.Layouts) => {
+      cleanUndef(allLayouts);
+      if (isEqual(homeLayouts, allLayouts)) {
+        dispatch(clearCacheHomeLayout());
+        return;
+      }
       dispatch(cacheHomeLayout(allLayouts));
     },
-    [dispatch]
+    [dispatch, homeLayouts]
   );
 
   return (

@@ -16,7 +16,6 @@ const HomeDashboardLayout: FC<IHomeDashboardLayoutProps> = ({
     isBounded
     layouts={layouts}
     onLayoutChange={handleLayouts}
-    onBreakpointChange={(newBreakpoint) => console.log(newBreakpoint)}
     measureBeforeMount
   >
     <NeuBox key='widget-1'>

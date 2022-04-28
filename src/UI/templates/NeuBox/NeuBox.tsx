@@ -17,7 +17,7 @@ const NeuBox: FC<INeuBoxProps> = forwardRef(
           boxShadow: darkMode
             ? '16px 16px 32px #0e152e, -16px -16px 32px #141d3e'
             : '16px 16px 32px #cccfd4,-16px -16px 32px #ffffff',
-          borderRadius: 4,
+          borderRadius: 2,
           backgroundColor: 'background.default',
           '& .react-resizable-handle': {
             bottom: '4px!important',

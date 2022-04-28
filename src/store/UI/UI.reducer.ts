@@ -14,6 +14,9 @@ const UISlice = createSlice({
     ) => {
       state.homeLayoutsCache = action.payload;
     },
+    clearCacheHomeLayout: (state) => {
+      state.homeLayoutsCache = {};
+    },
     saveHomeLayout: (state) => {
       if ('sm' in state.homeLayoutsCache) {
         state.homeLayouts = state.homeLayoutsCache;
@@ -23,6 +26,10 @@ const UISlice = createSlice({
   },
 });
 
-export const { toggleDarkMode, cacheHomeLayout, saveHomeLayout } =
-  UISlice.actions;
+export const {
+  toggleDarkMode,
+  cacheHomeLayout,
+  saveHomeLayout,
+  clearCacheHomeLayout,
+} = UISlice.actions;
 export const { reducer: UIReducer } = UISlice;
