@@ -5,6 +5,7 @@
   "license": "MIT",
   "description": "Obyte Autonomous agents statistics frontend",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
