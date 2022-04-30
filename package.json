@@ -5,7 +5,6 @@
   "license": "MIT",
   "description": "Obyte Autonomous agents statistics frontend",
   "private": true,
-  "homepage": ".",
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
@@ -52,8 +51,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "sb": "start-storybook -p 6006 -s public",
-    "build-sb": "build-storybook -s public",
-    "gh-pages": "dotenv -e .env.ghpages react-scripts build && mv build docs"
+    "build-sb": "build-storybook -s public"
   },
   "browserslist": {
     "production": [
