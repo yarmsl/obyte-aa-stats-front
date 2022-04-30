@@ -4,7 +4,7 @@ export const stylesByMode = (darkMode: boolean): Record<string, SxProps> => ({
   root: {
     boxShadow: 'none',
     bgcolor: 'background.default',
-    p: '0px 25px',
+    p: { xs: '0px', md: '0px 25px' },
     minHeight: '64px',
     transition: 'all 250ms ease-in-out',
     display: 'flex',
