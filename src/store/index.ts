@@ -11,6 +11,7 @@ import { ModalStackReducer } from './ModalStack';
 import { UIReducer } from './UI';
 import { TokenMiddleware } from './Auth/Auth.middleware';
 import { SnackStackReducer } from './SnackStack';
+import { aastatsAPI } from './AAstats';
 
 const UIPersistConfig = {
   key: 'ui',
@@ -22,12 +23,16 @@ const rootReducer = combineReducers({
   modalStack: ModalStackReducer,
   snackStack: SnackStackReducer,
   ui: persistReducer(UIPersistConfig, UIReducer),
+  [aastatsAPI.reducerPath]: aastatsAPI.reducer,
 });
 
 const appStore = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }).concat(TokenMiddleware),
+    getDefaultMiddleware({ serializableCheck: false }).concat(
+      TokenMiddleware,
+      aastatsAPI.middleware
+    ),
 });
 
 export const persistor = persistStore(appStore);
