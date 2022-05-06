@@ -17,3 +17,8 @@ export const ishomeLayoutsCache = createSelector(
   homeLayoutsCacheSelector,
   (cache) => 'sm' in cache
 );
+
+export const graphControlValue = createSelector(
+  uiSelector,
+  (ui) => ui.graphControls.value
+);

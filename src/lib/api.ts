@@ -23,14 +23,16 @@ export const apiPost = async <T, K>(
   return response.json();
 };
 
+const corsHeaders = new Headers();
+corsHeaders.append('Content-Type', 'application/json');
+corsHeaders.append('Accept', 'application/json');
+corsHeaders.append('Origin', 'https://localhost:3000');
+
 export const apiGet = async <T>(url: string): Promise<T> => {
   const response = await fetch(url, {
     method: 'GET',
     mode: 'cors',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: corsHeaders,
   });
   if (!response.ok) {
     throw new Error(response.statusText);
