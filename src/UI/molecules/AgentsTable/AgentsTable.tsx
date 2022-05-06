@@ -5,6 +5,7 @@ import WaterMark from 'UI/atoms/WaterMark/WaterMark';
 import mock from '../../../mock/MOCK_DATA.json';
 import { styles } from './styles';
 import 'rsuite-table/dist/css/rsuite-table.min.css';
+import { IMockData } from '../TotalGraph/types';
 
 const AgentsTable: FC = () => {
   const data = useMemo(() => mock as IMockData[], []);
@@ -19,6 +20,7 @@ const AgentsTable: FC = () => {
         </ButtonGroup>
       </Box>
       <Table
+        onTouchStart={(e) => e.stopPropagation()}
         onMouseDown={(e) => e.stopPropagation()}
         fillHeight
         virtualized

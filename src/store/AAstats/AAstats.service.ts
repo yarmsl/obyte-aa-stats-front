@@ -9,7 +9,15 @@ export const aastatsAPI = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Address', 'TvlForAddress', 'TopAA', 'TopAssets'],
+  tagTypes: [
+    'Address',
+    'TvlForAddress',
+    'TotalTvl',
+    'TotalActivity',
+    'TopAA',
+    'TopAAbyTvl',
+    'TopAssets',
+  ],
   refetchOnFocus: true,
   refetchOnReconnect: true,
   endpoints: (build) => ({
@@ -29,13 +37,32 @@ export const aastatsAPI = createApi({
       }),
       providesTags: ['TvlForAddress'],
     }),
-    getTopAAbyTvl: build.query<IAddress[], IAAStatsTopAAbyTvlReq>({
+    getTotalTvlOverTime: build.query<ITotalTvl[], IAAStatsTotalTvl>({
+      query: (request) => ({
+        url: 'total/tvl',
+        method: 'POST',
+        body: request,
+      }),
+      providesTags: ['TotalTvl'],
+    }),
+    getTotalActivityOverTime: build.query<
+      ITotalActivity[],
+      IAAStatsTotalActivity
+    >({
+      query: (request) => ({
+        url: 'total/activity',
+        method: 'POST',
+        body: request,
+      }),
+      providesTags: ['TotalActivity'],
+    }),
+    getTopAAbyTvl: build.query<topAAbyTvlRes[], IAAStatsTopAAbyTvlReq>({
       query: (request) => ({
         url: 'top/aa/tvl',
         method: 'POST',
         body: request,
       }),
-      providesTags: ['TopAA'],
+      providesTags: ['TopAAbyTvl'],
     }),
     getTopAAbyType: build.query<IAddress[], IAAStatsTopAAbyTypeReq>({
       query: ({ asset, from, to, timeframe, limit, type }) => ({
@@ -45,19 +72,11 @@ export const aastatsAPI = createApi({
       }),
       providesTags: ['TopAA'],
     }),
-    getTopAssetsByMarketCap: build.query<IAsset[], IAAStatsTopAssetsReq>({
-      query: (request) => ({
-        url: 'top/asset/market_cap',
+    getTopAssets: build.query<IAsset[], IAAStatsTopAssetsReq>({
+      query: ({ limit, period, type }) => ({
+        url: `top/asset/${type}`,
         method: 'POST',
-        body: request,
-      }),
-      providesTags: ['TopAssets'],
-    }),
-    getTopAssetsByAmountIn: build.query<IAsset[], IAAStatsTopAssetsReq>({
-      query: (request) => ({
-        url: 'top/asset/amount_in',
-        method: 'POST',
-        body: request,
+        body: { limit, period },
       }),
       providesTags: ['TopAssets'],
     }),
@@ -67,8 +86,9 @@ export const aastatsAPI = createApi({
 export const {
   useGetStatsForOneAddressQuery,
   useGetTvlOverTimeForOneAddressQuery,
+  useGetTotalTvlOverTimeQuery,
+  useGetTotalActivityOverTimeQuery,
   useGetTopAAbyTvlQuery,
   useGetTopAAbyTypeQuery,
-  useGetTopAssetsByMarketCapQuery,
-  useGetTopAssetsByAmountInQuery,
+  useGetTopAssetsQuery,
 } = aastatsAPI;

@@ -23,6 +23,9 @@ const UISlice = createSlice({
         state.homeLayoutsCache = {};
       }
     },
+    handleGraphControl: (state, action: PayloadAction<IUiControls>) => {
+      state.graphControls = action.payload;
+    },
   },
 });
 
@@ -31,5 +34,6 @@ export const {
   cacheHomeLayout,
   saveHomeLayout,
   clearCacheHomeLayout,
+  handleGraphControl,
 } = UISlice.actions;
 export const { reducer: UIReducer } = UISlice;

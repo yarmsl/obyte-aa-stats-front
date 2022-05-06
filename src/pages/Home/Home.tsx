@@ -1,11 +1,62 @@
-import { FC, memo } from 'react';
+import {
+  FC,
+  memo /* useCallback, useEffect, useRef, useState  */,
+} from 'react';
 import HomeDashboard from 'UI/organisms/HomeDashboard/HomeDashboard';
-import obyte from 'obyte';
+// import obyte, { Client } from 'obyte';
+// import { useAppDispatch } from 'store';
+// import { showSnackBar } from 'store/SnackStack';
+// import { apiGet } from 'lib/api';
 import HelmetTitle from '../../UI/atoms/Helmet/Helmet';
 
+// eslint-disable-next-line arrow-body-style
 const Home: FC = () => {
-  const client = new obyte.Client();
-  console.log(client.api.getDefinition('REX7IFSWGS5RIQG4QP7VD5VR5DZW6C3P'));
+  // const socket = useRef<Client | null>(null);
+  // const [data, setData] = useState<unknown>('');
+  // const dispatch = useAppDispatch();
+
+  // const ts = 448531 * 1000 * 3600;
+  // console.log(new Date(ts));
+  // console.log(+Math.floor(Date.now() / 3600 / 1000).toFixed());
+
+  // const getData = useCallback(
+  //   async (obyteClient: Client, address: string) => {
+  //     try {
+  //       const res = await obyteClient.api.getDefinition(address);
+  //       if ('doc_url' in res[1]) {
+  //         console.log('doc_url: ', res[1].doc_url);
+  //         const meta = await apiGet(res[1].doc_url);
+  //         setData(meta);
+  //       } else if ('base_aa' in res[1]) {
+  //         console.log('base_aa: ', res[1].base_aa);
+  //         getData(obyteClient, res[1].base_aa);
+  //       }
+  //     } catch (e) {
+  //       dispatch(
+  //         showSnackBar({
+  //           message: e instanceof Error ? e.message : `${e}`,
+  //           severity: 'error',
+  //           closable: true,
+  //         })
+  //       );
+  //     }
+  //   },
+  //   [dispatch]
+  // );
+
+  // useEffect(() => {
+  //   socket.current = new obyte.Client();
+  //   if (socket.current != null) {
+  //     getData(socket.current, 'UH6SNZMZKHWMRM7IQZGFPD5PQULZZSBI');
+  //   }
+  //   return () => {
+  //     if (socket.current != null) {
+  //       socket.current.close();
+  //     }
+  //   };
+  // }, [getData]);
+
+  // console.log(data);
 
   return (
     <>

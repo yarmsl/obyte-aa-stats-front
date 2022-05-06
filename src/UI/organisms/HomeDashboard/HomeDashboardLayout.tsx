@@ -1,7 +1,7 @@
 import { FC, memo } from 'react';
 import ValueWidget from 'UI/atoms/ValueWidget/ValueWidget';
 import AgentsTable from 'UI/molecules/AgentsTable/AgentsTable';
-import TotalGraph from 'UI/molecules/TotalGraph/TotalGraph';
+import TotalGraphConnected from 'UI/molecules/TotalGraph/TotalGraphConnected';
 import DragLayout from 'UI/templates/DragLayout/DragLayout';
 import NeuBox from 'UI/templates/NeuBox/NeuBox';
 
@@ -28,7 +28,7 @@ const HomeDashboardLayout: FC<IHomeDashboardLayoutProps> = ({
       <ValueWidget title='Widget title' value={32.324} unit='%' />
     </NeuBox>
     <NeuBox key='widget-chart'>
-      <TotalGraph />
+      <TotalGraphConnected />
     </NeuBox>
     <NeuBox key='widget-table'>
       <AgentsTable />

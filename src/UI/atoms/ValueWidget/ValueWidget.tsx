@@ -22,7 +22,11 @@ const ValueWidget: FC<IValueWidgetProps> = ({ title, value, unit }) => {
     <Box sx={styles.root}>
       <Typography sx={styles.title}>{title}</Typography>
       <Divider sx={styles.divider} />
-      <Box sx={styles.content}>
+      <Box
+        sx={styles.content}
+        onTouchStart={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
+      >
         <Typography sx={styles.value}>{printValue}</Typography>
       </Box>
       <WaterMark />
