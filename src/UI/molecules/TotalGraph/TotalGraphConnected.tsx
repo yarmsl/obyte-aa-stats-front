@@ -47,7 +47,7 @@ const TotalGraphConnected: FC = () => {
     }
   }, [selectedPeriod, thisHour, timeframe]);
 
-  const { data } = useGetTotalActivityOverTimeQuery({
+  const { data, isFetching } = useGetTotalActivityOverTimeQuery({
     from,
     to,
     asset: null,
@@ -60,6 +60,7 @@ const TotalGraphConnected: FC = () => {
       data={data || []}
       handlePeriod={handlePeriod}
       isSelected={isSelected}
+      isLoading={isFetching}
     />
   );
 };

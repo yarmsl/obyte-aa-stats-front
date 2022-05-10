@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import { FC, memo, MouseEvent, TouchEvent, useCallback } from 'react';
 import WaterMark from 'UI/atoms/WaterMark/WaterMark';
 import { graphUiControls } from 'conf/uiControls';
@@ -11,6 +11,7 @@ const TotalGraph: FC<ITotalGraphProps> = ({
   data,
   handlePeriod,
   isSelected,
+  isLoading,
 }) => {
   const stopPropagate = useCallback(
     (e: MouseEvent | TouchEvent) => e.stopPropagation(),
@@ -32,6 +33,13 @@ const TotalGraph: FC<ITotalGraphProps> = ({
         onMouseDown={stopPropagate}
       >
         <LineChart data={data} />
+        {isLoading && (
+          <Skeleton
+            sx={styles.skeleton}
+            variant='rectangular'
+            animation='wave'
+          />
+        )}
       </Box>
       <WaterMark />
     </Box>
