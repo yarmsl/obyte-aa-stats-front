@@ -84,7 +84,7 @@ const LineChart: FC<ILineChartProps> = ({ data, mini, lineWidth }) => {
           : {
               tickValues: formatDatesX.tickValues,
               tickSize: 0,
-              tickPadding: 2,
+              tickPadding: 5,
               tickRotation: 0,
               format: formatDatesX.format,
             }

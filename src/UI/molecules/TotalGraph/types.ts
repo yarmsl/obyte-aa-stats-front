@@ -15,4 +15,5 @@ export interface ITotalGraphProps {
   data: Serie[];
   handlePeriod: (ctrls: IUiControls) => () => void;
   isSelected: (value: number) => boolean;
+  isLoading: boolean;
 }
