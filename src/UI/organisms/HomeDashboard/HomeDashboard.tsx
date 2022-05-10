@@ -5,8 +5,8 @@ import {
   clearCacheHomeLayout,
   homeLayoutsSelector,
 } from 'store/UI';
-import { isEqual } from 'lodash';
 import { cleanUndef } from 'lib/clearUndef';
+import { equals } from 'ramda';
 import HomeDashboardLayout from './HomeDashboardLayout';
 
 const HomeDashboard: FC = () => {
@@ -15,7 +15,7 @@ const HomeDashboard: FC = () => {
   const handleLayouts = useCallback(
     (curr, allLayouts: ReactGridLayout.Layouts) => {
       cleanUndef(allLayouts);
-      if (isEqual(homeLayouts, allLayouts)) {
+      if (equals(homeLayouts, allLayouts)) {
         dispatch(clearCacheHomeLayout());
         return;
       }

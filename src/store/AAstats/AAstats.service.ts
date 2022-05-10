@@ -1,5 +1,7 @@
+import { Serie } from '@nivo/line';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { apiKey } from 'conf/constants';
+import { transformTotalActivity } from './AAstats.transform';
 
 export const aastatsAPI = createApi({
   reducerPath: 'aastatsAPI',
@@ -45,16 +47,15 @@ export const aastatsAPI = createApi({
       }),
       providesTags: ['TotalTvl'],
     }),
-    getTotalActivityOverTime: build.query<
-      ITotalActivity[],
-      IAAStatsTotalActivity
-    >({
+    getTotalActivityOverTime: build.query<Serie[], IAAStatsTotalActivity>({
       query: (request) => ({
         url: 'total/activity',
         method: 'POST',
         body: request,
       }),
       providesTags: ['TotalActivity'],
+      transformResponse: (data: ITotalActivity[] | undefined, _, arg) =>
+        transformTotalActivity(data, arg.slices, arg.timeframe),
     }),
     getTopAAbyTvl: build.query<topAAbyTvlRes[], IAAStatsTopAAbyTvlReq>({
       query: (request) => ({
