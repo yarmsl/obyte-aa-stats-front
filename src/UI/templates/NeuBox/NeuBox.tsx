@@ -1,10 +1,11 @@
 import { Box } from '@mui/material';
 import { FC, forwardRef, memo } from 'react';
 import { useAppSelector } from 'store';
+import { darkModeSelector } from 'store/UI';
 
 const NeuBox: FC<INeuBoxProps> = forwardRef(
   ({ children, style, className, ...props }, ref) => {
-    const { darkMode } = useAppSelector((st) => st.ui);
+    const darkMode = useAppSelector(darkModeSelector);
     return (
       <Box
         style={style}

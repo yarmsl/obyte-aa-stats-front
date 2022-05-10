@@ -1,18 +1,16 @@
-import { addDays, startOfHour } from 'date-fns';
-import { FC, memo, useCallback, useMemo } from 'react';
+import { addDays, endOfDay, startOfHour } from 'date-fns';
+import { FC, memo, useCallback, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
-import {
-  useGetTotalActivityOverTimeQuery,
-  useGetTotalTvlOverTimeQuery,
-} from 'store/AAstats';
+import { useGetTotalActivityOverTimeQuery } from 'store/AAstats';
 import { handleGraphControl, graphControlValue } from 'store/UI';
 import TotalGraph from './TotalGraph';
 
 const TotalGraphConnected: FC = () => {
+  const [timeframe] = useState<tfTypes>('daily');
   const dispatch = useAppDispatch();
   const selectedPeriod = useAppSelector(graphControlValue);
   const handlePeriod = useCallback(
-    (ctrls: IUiControls) => dispatch(handleGraphControl(ctrls)),
+    (ctrls: IUiControls) => () => dispatch(handleGraphControl(ctrls)),
     [dispatch]
   );
 
@@ -21,81 +19,45 @@ const TotalGraphConnected: FC = () => {
     [selectedPeriod]
   );
 
-  const to = useMemo(() => startOfHour(new Date()).getTime() / 1000 / 3600, []);
+  const thisHour = startOfHour(new Date()).getTime();
+
+  const to = useMemo(() => {
+    switch (timeframe) {
+      case 'daily':
+        return Math.ceil(endOfDay(thisHour).getTime() / 1000 / 3600 / 24);
+      default:
+        return thisHour / 1000 / 3600;
+    }
+  }, [thisHour, timeframe]);
 
   const from = useMemo(() => {
     if (selectedPeriod === 0) {
       return 0;
     }
-    return (
-      addDays(startOfHour(new Date()).getTime(), -selectedPeriod).getTime() /
-      1000 /
-      3600
-    );
-  }, [selectedPeriod]);
+    switch (timeframe) {
+      case 'daily':
+        return Math.floor(
+          endOfDay(addDays(thisHour, -selectedPeriod)).getTime() /
+            1000 /
+            3600 /
+            24
+        );
+      default:
+        return addDays(thisHour, -selectedPeriod).getTime() / 1000 / 3600;
+    }
+  }, [selectedPeriod, thisHour, timeframe]);
 
-  const { data: activity } = useGetTotalActivityOverTimeQuery({
+  const { data } = useGetTotalActivityOverTimeQuery({
     from,
     to,
     asset: null,
-    timeframe: 'hourly',
+    timeframe,
+    slices: ['usd_amount_in', 'usd_amount_out'],
   });
-
-  const { data: tvl } = useGetTotalTvlOverTimeQuery({
-    from,
-    to,
-    asset: null,
-  });
-
-  console.log(tvl);
-
-  const activityData = useMemo(
-    () => (Array.isArray(activity) ? activity : []),
-    [activity]
-  );
-
-  console.log(
-    [...activityData]
-      .sort((a, b) => a.period - b.period)
-      .map((a) => ({
-        ...a,
-        period: new Date(a.period * 3600 * 1000).toLocaleDateString('RU'),
-        old_period: a.period,
-      }))
-  );
-
-  const processData = useCallback(
-    (data: keyof ITotalActivity, title: string) => ({
-      id: title,
-      data: [...activityData]
-        .sort((a, b) => a.period - b.period)
-        .map((d) => ({
-          x: new Date(d.period * 1000 * 3600),
-          y: d[data],
-        })),
-    }),
-    [activityData]
-  );
-
-  const totalData = useMemo(
-    () => [
-      // processData('balance', 'Balance'),
-      // processData('usd_balance', 'USD Balance'),
-      processData('amount_in', 'USD in'),
-      processData('amount_out', 'USD out'),
-      // processData('usd_amount_in', 'USD Amount in'),
-      // processData('usd_amount_out', 'USD Amount out'),
-      // processData('triggers_count', 'Triggers'),
-      // processData('num_users', 'Users'),
-    ],
-    [processData]
-  );
-
-  console.log(totalData);
 
   return (
     <TotalGraph
-      data={totalData}
+      data={data || []}
       handlePeriod={handlePeriod}
       isSelected={isSelected}
     />

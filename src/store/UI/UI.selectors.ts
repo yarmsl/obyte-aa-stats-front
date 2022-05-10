@@ -3,6 +3,8 @@ import { TRootState } from 'store';
 
 const uiSelector = (state: TRootState): UIState => state.ui;
 
+export const darkModeSelector = createSelector(uiSelector, (ui) => ui.darkMode);
+
 export const homeLayoutsSelector = createSelector(
   uiSelector,
   (ui) => ui.homeLayouts

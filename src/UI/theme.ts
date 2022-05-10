@@ -46,7 +46,7 @@ export const theme = (darkMode: boolean): Theme =>
             dark: '#ff8c6f',
             main: '#ffa16f',
             light: '#fff1cc',
-            contrastText: '#4f4f4f',
+            contrastText: '#fff',
           },
           background: {
             paper: '#1a223f',

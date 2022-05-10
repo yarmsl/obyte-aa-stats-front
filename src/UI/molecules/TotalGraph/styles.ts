@@ -7,7 +7,7 @@ export const styles: Record<string, SxProps> = {
     position: 'relative',
   },
   header: {
-    width: 'calc(100% - 120px)',
+    width: 'calc(100% - 20px)',
     display: 'flex',
     justifyContent: 'space-between',
   },
