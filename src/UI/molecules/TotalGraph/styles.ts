@@ -11,6 +11,12 @@ export const styles: Record<string, SxProps> = {
     display: 'flex',
     justifyContent: 'space-between',
   },
+  headerLeft: {
+    display: 'flex',
+    '&>p': {
+      mr: '10px',
+    },
+  },
   wrapper: {
     width: '100%',
     height: '100%',
@@ -19,6 +25,7 @@ export const styles: Record<string, SxProps> = {
   title: {
     fontSize: '18px',
     fontWeight: 300,
+    userSelect: 'none',
   },
   skeleton: {
     width: 'calc(100% + 20px)',

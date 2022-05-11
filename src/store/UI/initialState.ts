@@ -36,6 +36,7 @@ const mdSmLt = [
     w: 3,
     h: 2,
     minW: 2,
+    minH: 2,
     maxW: 3,
     moved: false,
     static: false,
@@ -169,5 +170,8 @@ export const initialState: UIState = {
     ],
   },
   homeLayoutsCache: {},
-  graphControls: { label: '30 days', value: 30 },
+  totalGraphPeriodControls: { label: '30 days', value: 30 },
+  totalGraphActivitiesControls: [
+    { label: 'USD in', value: 'usd_amount_in', color: '#ffa16f' },
+  ],
 };

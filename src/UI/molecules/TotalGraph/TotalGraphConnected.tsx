@@ -2,21 +2,58 @@ import { addDays, endOfDay, startOfHour } from 'date-fns';
 import { FC, memo, useCallback, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 import { useGetTotalActivityOverTimeQuery } from 'store/AAstats';
-import { handleGraphControl, graphControlValue } from 'store/UI';
+import {
+  handleTotalGraphPeriodControl,
+  totalGraphControlValue,
+  totalGraphActivityControl,
+  handleTotalGraphActivitiesControls,
+} from 'store/UI';
+import { totalGraphActivitiesUiControls } from 'conf/uiControls';
 import TotalGraph from './TotalGraph';
 
 const TotalGraphConnected: FC = () => {
   const [timeframe] = useState<tfTypes>('daily');
   const dispatch = useAppDispatch();
-  const selectedPeriod = useAppSelector(graphControlValue);
+  const selectedPeriod = useAppSelector(totalGraphControlValue);
+  const selectedActivities = useAppSelector(totalGraphActivityControl);
+
   const handlePeriod = useCallback(
-    (ctrls: IUiControls) => () => dispatch(handleGraphControl(ctrls)),
+    (value: number) => () => dispatch(handleTotalGraphPeriodControl(value)),
     [dispatch]
   );
 
-  const isSelected = useCallback(
+  const isSelectedPeriod = useCallback(
     (value: number) => selectedPeriod === value,
     [selectedPeriod]
+  );
+
+  const handleActivities = useCallback(
+    (value: keyof ITotalActivity) => () => {
+      const isSelected = selectedActivities.some((a) => a.value === value);
+      const conf = totalGraphActivitiesUiControls.find(
+        (c) => c.value === value
+      );
+      if (conf) {
+        if (!isSelected) {
+          dispatch(
+            handleTotalGraphActivitiesControls([...selectedActivities, conf])
+          );
+        } else if (selectedActivities.length > 1) {
+          dispatch(
+            handleTotalGraphActivitiesControls(
+              selectedActivities.filter((a) => a.value !== value)
+            )
+          );
+        }
+      }
+    },
+    [dispatch, selectedActivities]
+  );
+
+  const isSelectedActivities = useCallback(
+    (value: keyof ITotalActivity) =>
+      selectedActivities.some((a) => a.value === value),
+    [selectedActivities]
   );
 
   const thisHour = startOfHour(new Date()).getTime();
@@ -52,14 +89,16 @@ const TotalGraphConnected: FC = () => {
     to,
     asset: null,
     timeframe,
-    slices: ['usd_amount_in', 'usd_amount_out'],
+    slices: selectedActivities,
   });
 
   return (
     <TotalGraph
       data={data || []}
       handlePeriod={handlePeriod}
-      isSelected={isSelected}
+      isSelectedPeriod={isSelectedPeriod}
+      handleActivities={handleActivities}
+      isSelectedActivities={isSelectedActivities}
       isLoading={isFetching}
     />
   );

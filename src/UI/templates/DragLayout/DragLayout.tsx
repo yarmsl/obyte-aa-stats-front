@@ -11,10 +11,10 @@ const DragLayout: FC<IDragLayoutTypes> = ({ children, ...props }) => {
       sx={{
         '& .react-grid-item.react-grid-placeholder': {
           backgroundColor: 'transparent',
-          borderWidth: '3px',
+          borderWidth: '2px',
           borderStyle: 'dashed',
           borderColor: 'primary.main',
-          borderRadius: '20px',
+          borderRadius: '10px',
         },
       }}
     >

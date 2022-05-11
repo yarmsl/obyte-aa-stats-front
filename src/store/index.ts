@@ -16,7 +16,12 @@ import { aastatsAPI } from './AAstats';
 const UIPersistConfig = {
   key: 'ui',
   storage,
-  whitelist: ['darkMode', 'homeLayouts'],
+  whitelist: [
+    'darkMode',
+    'homeLayouts',
+    'totalGraphPeriodControls',
+    'totalGraphActivitiesControls',
+  ],
 };
 
 const rootReducer = combineReducers({
