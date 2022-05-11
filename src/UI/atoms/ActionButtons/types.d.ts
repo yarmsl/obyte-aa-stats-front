@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 interface IActionButtonsProps {
   config: IUiControls[];
-  handler: (ctrls: IUiControls) => () => void;
+  handler: (value: number) => () => void;
   isSelected: (value: number) => boolean;
 }

@@ -49,7 +49,7 @@ type IAAStatsTotalTvl = Pick<IAAStatsReq, 'asset' | 'from' | 'to'>;
 type IAAStatsTotalActivity = Pick<
   IAAStatsReq,
   'asset' | 'from' | 'to' | 'timeframe'
-> & { slices: (keyof ITotalActivity)[] };
+> & { slices: IUiSelects<ITotalActivity>[] };
 type IAAStatsTopAAbyTvlReq = Pick<IAAStatsReq, 'asset' | 'period'>;
 type IAAStatsTopAAbyTypeReq = Omit<IAAStatsReq, 'address' | 'period'> & {
   type: topAATypes;

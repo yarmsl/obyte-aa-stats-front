@@ -1,16 +1,22 @@
 import { Box, Skeleton, Typography } from '@mui/material';
 import { FC, memo, MouseEvent, TouchEvent, useCallback } from 'react';
 import WaterMark from 'UI/atoms/WaterMark/WaterMark';
-import { graphUiControls } from 'conf/uiControls';
+import {
+  totalGraphActivitiesUiControls,
+  totalGraphPeriodUiControls,
+} from 'conf/uiControls';
 import LineChart from 'UI/atoms/LineChart/LineChart';
 import ActionButtons from 'UI/atoms/ActionButtons/ActionButtons';
+import SelectButtons from 'UI/atoms/SelectButtons/SelectButtons';
 import { styles } from './styles';
 import { ITotalGraphProps } from './types';
 
 const TotalGraph: FC<ITotalGraphProps> = ({
   data,
   handlePeriod,
-  isSelected,
+  isSelectedPeriod,
+  handleActivities,
+  isSelectedActivities,
   isLoading,
 }) => {
   const stopPropagate = useCallback(
@@ -20,10 +26,17 @@ const TotalGraph: FC<ITotalGraphProps> = ({
   return (
     <Box sx={styles.root}>
       <Box sx={styles.header}>
-        <Typography sx={styles.title}>Chart Title</Typography>
+        <Box sx={styles.headerLeft}>
+          <Typography sx={styles.title}>Activities</Typography>
+          <SelectButtons<ITotalActivity>
+            config={totalGraphActivitiesUiControls}
+            isSelected={isSelectedActivities}
+            handler={handleActivities}
+          />
+        </Box>
         <ActionButtons
-          config={graphUiControls}
-          isSelected={isSelected}
+          config={totalGraphPeriodUiControls}
+          isSelected={isSelectedPeriod}
           handler={handlePeriod}
         />
       </Box>

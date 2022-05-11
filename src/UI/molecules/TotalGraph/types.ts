@@ -13,7 +13,9 @@ export interface IMockData {
 
 export interface ITotalGraphProps {
   data: Serie[];
-  handlePeriod: (ctrls: IUiControls) => () => void;
-  isSelected: (value: number) => boolean;
+  handlePeriod: (value: number) => () => void;
+  isSelectedPeriod: (value: number) => boolean;
+  handleActivities: (value: keyof ITotalActivity) => () => void;
+  isSelectedActivities: (value: keyof ITotalActivity) => boolean;
   isLoading: boolean;
 }

@@ -1,11 +1,11 @@
 import { Button, ButtonGroup } from '@mui/material';
-import { FC, memo, MouseEvent, TouchEvent, useCallback } from 'react';
+import { memo, MouseEvent, TouchEvent, useCallback } from 'react';
 
-const ActionButtons: FC<IActionButtonsProps> = ({
+const SelectButtons = <V,>({
   config,
   isSelected,
   handler,
-}) => {
+}: ISelectButtonsProps<V>): JSX.Element => {
   const stopPropagate = useCallback(
     (e: MouseEvent | TouchEvent) => e.stopPropagation(),
     []
@@ -21,7 +21,7 @@ const ActionButtons: FC<IActionButtonsProps> = ({
       {config.map(({ label, value }) => (
         <Button
           variant={isSelected(value) ? 'contained' : 'text'}
-          key={value}
+          key={String(value)}
           onClick={handler(value)}
         >
           {label}
@@ -31,4 +31,4 @@ const ActionButtons: FC<IActionButtonsProps> = ({
   );
 };
 
-export default memo(ActionButtons);
+export default memo(SelectButtons) as typeof SelectButtons;

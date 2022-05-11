@@ -9,11 +9,9 @@ import LineChartTooltip from '../LineChartTooltip/LineChartTooltip';
 const LineChart: FC<ILineChartProps> = ({ data, mini, lineWidth }) => {
   const { isMobile } = useMedia();
   const darkMode = useAppSelector(darkModeSelector);
-  const dataLength = useMemo(() => data.length, [data.length]);
-  const isMultipleCharts = useMemo(() => dataLength > 1, [dataLength]);
   const serieLength = useMemo(
-    () => (dataLength > 0 ? data[0].data.length : 0),
-    [data, dataLength]
+    () => (data.length > 0 ? data[0].data.length : 0),
+    [data]
   );
   const formatDatesX = useMemo(() => {
     if (serieLength <= 30) {
@@ -54,9 +52,23 @@ const LineChart: FC<ILineChartProps> = ({ data, mini, lineWidth }) => {
     [darkMode]
   );
 
+  const colors = useMemo(() => {
+    const cls = data.map((d) => {
+      if ('color' in d) {
+        return d.color;
+      }
+      return undefined;
+    });
+    if (cls.some((c) => c == null)) {
+      return undefined;
+    }
+    return cls;
+  }, [data]);
+
   return (
     <ResponsiveLineCanvas
       data={data}
+      colors={colors}
       theme={theme}
       margin={
         mini
@@ -64,7 +76,7 @@ const LineChart: FC<ILineChartProps> = ({ data, mini, lineWidth }) => {
           : {
               top: 20,
               right: 20,
-              bottom: isMultipleCharts ? 40 : 20,
+              bottom: 20,
               left: 50,
             }
       }
@@ -94,37 +106,19 @@ const LineChart: FC<ILineChartProps> = ({ data, mini, lineWidth }) => {
           ? null
           : {
               tickSize: 0,
-              tickPadding: 2,
+              tickPadding: 5,
               tickRotation: 0,
-              format: '>-$.2s',
+              format: '<-$.2s',
+              tickValues: 6,
             }
       }
+      gridYValues={6}
       enableGridX={false}
       enableGridY={!mini}
       isInteractive
-      // eslint-disable-next-line react/no-unstable-nested-components
       tooltip={LineChartTooltip}
-      colors={{ scheme: 'category10' }}
       lineWidth={lineWidth || 1.5}
       enablePoints={false}
-      legends={
-        !mini && isMultipleCharts
-          ? [
-              {
-                anchor: 'bottom',
-                direction: 'row',
-                justify: false,
-                translateX: 0,
-                translateY: 40,
-                itemsSpacing: 10,
-                itemDirection: 'left-to-right',
-                itemWidth: 140,
-                itemHeight: 20,
-                symbolSize: 10,
-              },
-            ]
-          : undefined
-      }
     />
   );
 };

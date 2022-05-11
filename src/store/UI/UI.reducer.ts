@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { totalGraphPeriodUiControls } from 'conf/uiControls';
 import { initialState } from './initialState';
 
 const UISlice = createSlice({
@@ -23,8 +24,17 @@ const UISlice = createSlice({
         state.homeLayoutsCache = {};
       }
     },
-    handleGraphControl: (state, action: PayloadAction<IUiControls>) => {
-      state.graphControls = action.payload;
+    handleTotalGraphPeriodControl: (state, action: PayloadAction<number>) => {
+      state.totalGraphPeriodControls =
+        totalGraphPeriodUiControls.find(
+          (ctrl) => ctrl.value === action.payload
+        ) || initialState.totalGraphPeriodControls;
+    },
+    handleTotalGraphActivitiesControls: (
+      state,
+      action: PayloadAction<IUiSelects<ITotalActivity>[]>
+    ) => {
+      state.totalGraphActivitiesControls = action.payload;
     },
   },
 });
@@ -34,6 +44,7 @@ export const {
   cacheHomeLayout,
   saveHomeLayout,
   clearCacheHomeLayout,
-  handleGraphControl,
+  handleTotalGraphPeriodControl,
+  handleTotalGraphActivitiesControls,
 } = UISlice.actions;
 export const { reducer: UIReducer } = UISlice;
