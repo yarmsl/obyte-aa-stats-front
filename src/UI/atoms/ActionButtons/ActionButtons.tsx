@@ -1,5 +1,6 @@
 import { Button, ButtonGroup } from '@mui/material';
 import { FC, memo, MouseEvent, TouchEvent, useCallback } from 'react';
+import { styles } from './styles';
 
 const ActionButtons: FC<IActionButtonsProps> = ({
   config,
@@ -17,12 +18,14 @@ const ActionButtons: FC<IActionButtonsProps> = ({
       onMouseDown={stopPropagate}
       size='small'
       color='secondary'
+      sx={styles.root}
     >
       {config.map(({ label, value }) => (
         <Button
           variant={isSelected(value) ? 'contained' : 'text'}
           key={value}
           onClick={handler(value)}
+          sx={styles.button}
         >
           {label}
         </Button>

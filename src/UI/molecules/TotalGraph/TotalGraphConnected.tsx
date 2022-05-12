@@ -36,7 +36,11 @@ const TotalGraphConnected: FC = () => {
       if (conf) {
         if (!isSelected) {
           dispatch(
-            handleTotalGraphActivitiesControls([...selectedActivities, conf])
+            handleTotalGraphActivitiesControls(
+              [...selectedActivities, conf].sort((a, b) =>
+                a.value.localeCompare(b.value)
+              )
+            )
           );
         } else if (selectedActivities.length > 1) {
           dispatch(
