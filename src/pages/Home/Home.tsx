@@ -1,7 +1,4 @@
-import {
-  FC,
-  memo /* useCallback, useEffect, useRef, useState  */,
-} from 'react';
+import { FC, memo /* useCallback, useEffect, useRef, useState */ } from 'react';
 import HomeDashboard from 'UI/organisms/HomeDashboard/HomeDashboard';
 // import obyte, { Client } from 'obyte';
 // import { useAppDispatch } from 'store';
@@ -14,10 +11,6 @@ const Home: FC = () => {
   // const socket = useRef<Client | null>(null);
   // const [data, setData] = useState<unknown>('');
   // const dispatch = useAppDispatch();
-
-  // const ts = 448531 * 1000 * 3600;
-  // console.log(new Date(ts));
-  // console.log(+Math.floor(Date.now() / 3600 / 1000).toFixed());
 
   // const getData = useCallback(
   //   async (obyteClient: Client, address: string) => {
@@ -47,7 +40,7 @@ const Home: FC = () => {
   // useEffect(() => {
   //   socket.current = new obyte.Client();
   //   if (socket.current != null) {
-  //     getData(socket.current, 'UH6SNZMZKHWMRM7IQZGFPD5PQULZZSBI');
+  //     getData(socket.current, 'FU3N6IQCX3D6IB6HA2QP65YHMZQEKEXJ');
   //   }
   //   return () => {
   //     if (socket.current != null) {

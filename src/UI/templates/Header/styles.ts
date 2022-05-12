@@ -19,7 +19,9 @@ export const stylesByMode = (darkMode: boolean): Record<string, SxProps> => ({
     maxWidth: '1366px',
   },
   actions: {
-    '&>*:not(:last-of-type)': {
+    display: 'flex',
+    alignItems: 'center',
+    '&>*:not(:last-child)': {
       mr: '5px',
     },
   },

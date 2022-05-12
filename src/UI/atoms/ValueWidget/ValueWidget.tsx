@@ -1,4 +1,5 @@
 import { Box, Divider, Typography } from '@mui/material';
+import { usd } from 'lib/currency';
 import { FC, memo, useMemo } from 'react';
 import WaterMark from '../WaterMark/WaterMark';
 import { styles } from './styles';
@@ -6,12 +7,7 @@ import { styles } from './styles';
 const ValueWidget: FC<IValueWidgetProps> = ({ title, value, unit }) => {
   const printValue = useMemo(() => {
     if (unit === '$') {
-      return value.toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
+      return usd(value, 2);
     }
     return `${value.toLocaleString('en-US', {
       minimumFractionDigits: 2,

@@ -91,7 +91,6 @@ const TotalGraphConnected: FC = () => {
   const { data, isFetching } = useGetTotalActivityOverTimeQuery({
     from,
     to,
-    asset: null,
     timeframe,
     slices: selectedActivities,
   });

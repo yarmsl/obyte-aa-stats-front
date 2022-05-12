@@ -5,6 +5,7 @@ export const styles: Record<string, SxProps> = {
     width: '100%',
     height: 'calc(100% - 31px)',
     position: 'relative',
+    fontSize: '14px',
     '& .rs-table': {
       border: 'none',
       borderRadius: 1,

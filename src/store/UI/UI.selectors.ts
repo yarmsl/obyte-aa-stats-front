@@ -10,7 +10,7 @@ export const homeLayoutsSelector = createSelector(
   (ui) => ui.homeLayouts
 );
 
-const homeLayoutsCacheSelector = createSelector(
+export const homeLayoutsCacheSelector = createSelector(
   uiSelector,
   (ui) => ui.homeLayoutsCache
 );
@@ -28,4 +28,21 @@ export const totalGraphControlValue = createSelector(
 export const totalGraphActivityControl = createSelector(
   uiSelector,
   (ui) => ui.totalGraphActivitiesControls
+);
+
+export const assetSelector = createSelector(uiSelector, (ui) => ui.asset);
+
+export const aaTopTableSortTypeSelector = createSelector(
+  uiSelector,
+  (ui) => ui.aaTopTableSortType
+);
+
+export const agentLayoutsSelector = createSelector(
+  uiSelector,
+  (ui) => ui.agentLayouts
+);
+
+export const agentLayoutsCacheSelector = createSelector(
+  uiSelector,
+  (ui) => ui.agentLayoutsCache
 );
