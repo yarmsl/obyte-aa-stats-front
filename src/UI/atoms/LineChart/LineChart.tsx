@@ -7,7 +7,7 @@ import { ILineChartProps } from './types';
 import LineChartTooltip from '../LineChartTooltip/LineChartTooltip';
 
 const LineChart: FC<ILineChartProps> = ({ data, mini, lineWidth }) => {
-  const { isMobile } = useMedia();
+  const { isMobile, isTablet } = useMedia();
   const darkMode = useAppSelector(darkModeSelector);
   const serieLength = useMemo(
     () => (data.length > 0 ? data[0].data.length : 0),
@@ -15,6 +15,9 @@ const LineChart: FC<ILineChartProps> = ({ data, mini, lineWidth }) => {
   );
   const formatDatesX = useMemo(() => {
     if (serieLength <= 30) {
+      if (isTablet) {
+        return { tickValues: 'every 5 day', format: '%b %d' };
+      }
       if (isMobile) {
         return { tickValues: 'every 10 day', format: '%b %d' };
       }
@@ -28,7 +31,7 @@ const LineChart: FC<ILineChartProps> = ({ data, mini, lineWidth }) => {
     }
 
     return { tickValues: 'every year', format: '%Y' };
-  }, [isMobile, serieLength]);
+  }, [isMobile, isTablet, serieLength]);
 
   const theme = useMemo(
     () => ({
@@ -85,7 +88,7 @@ const LineChart: FC<ILineChartProps> = ({ data, mini, lineWidth }) => {
         precision: 'day',
       }}
       yScale={{ type: 'linear', stacked: false, min: 'auto', max: 'auto' }}
-      yFormat='>-$.2f'
+      yFormat='>-$.0f'
       xFormat='time:%x'
       curve='linear'
       axisTop={null}

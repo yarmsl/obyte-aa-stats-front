@@ -3,16 +3,20 @@ import { SxProps } from '@mui/material';
 export const styles: Record<string, SxProps> = {
   root: {
     width: '100%',
-    height: 'calc(100% - 31px)',
+    height: { xs: 'calc(100% - 49px)', sm: 'calc(100% - 31px)' },
     position: 'relative',
   },
   header: {
     width: '100%',
     display: 'flex',
+    flexDirection: { xs: 'column', sm: 'row' },
     justifyContent: 'space-between',
+    alignItems: { xs: 'flex-end', sm: 'center' },
   },
   headerLeft: {
     display: 'flex',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
     '&>p': {
       mr: '10px',
     },
