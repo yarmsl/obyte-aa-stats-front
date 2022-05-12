@@ -1,59 +1,70 @@
-import { Box, Button, ButtonGroup, Typography } from '@mui/material';
-import { FC, memo, useMemo } from 'react';
+import { Box, Typography } from '@mui/material';
+import { FC, memo, MouseEvent, TouchEvent, useCallback } from 'react';
 import { Cell, Column, HeaderCell, Table } from 'rsuite-table';
 import WaterMark from 'UI/atoms/WaterMark/WaterMark';
-import mock from '../../../mock/MOCK_DATA.json';
+import Loading from 'UI/atoms/Loading/Loading';
 import { styles } from './styles';
 import 'rsuite-table/dist/css/rsuite-table.min.css';
-import { IMockData } from '../TotalGraph/types';
 
-const AgentsTable: FC = () => {
-  const data = useMemo(() => mock as IMockData[], []);
-
+const AgentsTable: FC<IAgentsTableProps> = ({
+  data,
+  isLoading,
+  onChangeSortType,
+  onNavigate,
+}) => {
+  const stopPropagate = useCallback(
+    (e: MouseEvent | TouchEvent) => e.stopPropagation(),
+    []
+  );
   return (
     <Box sx={styles.root}>
       <Box sx={styles.header}>
-        <Typography sx={styles.title}>Table Title</Typography>
-        <ButtonGroup size='small' color='secondary'>
-          <Button>some</Button>
-          <Button>controls</Button>
-        </ButtonGroup>
+        <Typography sx={styles.title}>Autonomous Agents Top</Typography>
       </Box>
       <Table
-        onTouchStart={(e) => e.stopPropagation()}
-        onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={stopPropagate}
+        onMouseDown={stopPropagate}
         fillHeight
         virtualized
         data={data}
+        loading={isLoading}
+        onSortColumn={onChangeSortType}
+        onRowClick={onNavigate}
+        renderLoading={() => <Loading fullscreen />}
       >
-        <Column width={70} align='center' fixed>
-          <HeaderCell>Id</HeaderCell>
-          <Cell dataKey='id' />
+        <Column width={200} align='center' fixed>
+          <HeaderCell>Address</HeaderCell>
+          <Cell dataKey='address' />
         </Column>
 
-        <Column width={130}>
-          <HeaderCell>Amount In</HeaderCell>
+        <Column width={160}>
+          <HeaderCell>Bytes In</HeaderCell>
           <Cell dataKey='amount_in' />
         </Column>
 
-        <Column width={130}>
-          <HeaderCell>Amount Out</HeaderCell>
+        <Column width={160}>
+          <HeaderCell>Bytes Out</HeaderCell>
           <Cell dataKey='amount_out' />
         </Column>
 
-        <Column width={200}>
-          <HeaderCell>Triggers</HeaderCell>
-          <Cell dataKey='triggers_count' />
-        </Column>
-
-        <Column width={200}>
+        <Column sortable width={130}>
           <HeaderCell>USD in</HeaderCell>
           <Cell dataKey='usd_amount_in' />
         </Column>
 
-        <Column minWidth={200} flexGrow={1}>
+        <Column sortable minWidth={130} flexGrow={1}>
           <HeaderCell>USD out</HeaderCell>
           <Cell dataKey='usd_amount_out' />
+        </Column>
+
+        <Column sortable width={100}>
+          <HeaderCell>Users</HeaderCell>
+          <Cell dataKey='num_users' />
+        </Column>
+
+        <Column sortable width={100}>
+          <HeaderCell>Triggers</HeaderCell>
+          <Cell dataKey='triggers_count' />
         </Column>
       </Table>
       <WaterMark />

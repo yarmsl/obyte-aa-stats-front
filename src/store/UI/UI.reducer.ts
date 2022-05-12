@@ -6,35 +6,65 @@ const UISlice = createSlice({
   name: 'UI',
   initialState,
   reducers: {
-    toggleDarkMode: (state) => {
+    toggleDarkMode: (state: UIState) => {
       state.darkMode = !state.darkMode;
     },
     cacheHomeLayout: (
-      state,
+      state: UIState,
       action: PayloadAction<ReactGridLayout.Layouts>
     ) => {
       state.homeLayoutsCache = action.payload;
     },
-    clearCacheHomeLayout: (state) => {
+    clearCacheHomeLayout: (state: UIState) => {
       state.homeLayoutsCache = {};
     },
-    saveHomeLayout: (state) => {
+    saveHomeLayout: (state: UIState) => {
       if ('sm' in state.homeLayoutsCache) {
         state.homeLayouts = state.homeLayoutsCache;
         state.homeLayoutsCache = {};
       }
     },
-    handleTotalGraphPeriodControl: (state, action: PayloadAction<number>) => {
+    cacheAgentLayout: (
+      state: UIState,
+      action: PayloadAction<ReactGridLayout.Layouts>
+    ) => {
+      state.agentLayoutsCache = action.payload;
+    },
+    clearCacheAgentLayout: (state: UIState) => {
+      state.agentLayoutsCache = {};
+    },
+    saveAgentLayout: (state: UIState) => {
+      if ('sm' in state.agentLayoutsCache) {
+        state.agentLayouts = state.agentLayoutsCache;
+        state.agentLayoutsCache = {};
+      }
+    },
+    handleTotalGraphPeriodControl: (
+      state: UIState,
+      action: PayloadAction<number>
+    ) => {
       state.totalGraphPeriodControls =
         totalGraphPeriodUiControls.find(
           (ctrl) => ctrl.value === action.payload
         ) || initialState.totalGraphPeriodControls;
     },
     handleTotalGraphActivitiesControls: (
-      state,
+      state: UIState,
       action: PayloadAction<IUiSelects<ITotalActivity>[]>
     ) => {
       state.totalGraphActivitiesControls = action.payload;
+    },
+    handleAsset: (
+      state: UIState,
+      action: PayloadAction<assetsTypes | null>
+    ) => {
+      state.asset = action.payload;
+    },
+    handleAAtopTableSortType: (
+      state: UIState,
+      action: PayloadAction<topAATypes>
+    ) => {
+      state.aaTopTableSortType = action.payload;
     },
   },
 });
@@ -44,7 +74,12 @@ export const {
   cacheHomeLayout,
   saveHomeLayout,
   clearCacheHomeLayout,
+  cacheAgentLayout,
+  saveAgentLayout,
+  clearCacheAgentLayout,
   handleTotalGraphPeriodControl,
   handleTotalGraphActivitiesControls,
+  handleAsset,
+  handleAAtopTableSortType,
 } = UISlice.actions;
 export const { reducer: UIReducer } = UISlice;

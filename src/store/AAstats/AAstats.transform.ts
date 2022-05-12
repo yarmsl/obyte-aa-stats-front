@@ -1,4 +1,5 @@
 import { Serie } from '@nivo/line';
+import { usd } from 'lib/currency';
 
 export const transformTotalActivity = (
   data: ITotalActivity[] | undefined,
@@ -23,6 +24,19 @@ export const transformTotalActivity = (
         x: new Date(d.period * 3600 * 1000),
         y: d[slice.value],
       })),
+    }));
+  }
+  return [];
+};
+
+export const transformTopAA = (
+  data: IAddress[] | undefined
+): IRenderAddress[] => {
+  if (Array.isArray(data) && data.length > 0) {
+    return data.map((address) => ({
+      ...address,
+      usd_amount_in: usd(address.usd_amount_in),
+      usd_amount_out: usd(address.usd_amount_out),
     }));
   }
   return [];

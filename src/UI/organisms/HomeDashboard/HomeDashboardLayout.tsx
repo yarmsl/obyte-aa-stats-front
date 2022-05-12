@@ -1,6 +1,6 @@
 import { FC, memo } from 'react';
 import ValueWidget from 'UI/atoms/ValueWidget/ValueWidget';
-import AgentsTable from 'UI/molecules/AgentsTable/AgentsTable';
+import AgentsTableConnected from 'UI/molecules/AgentsTable/AgentsTableConnected';
 import TotalGraphConnected from 'UI/molecules/TotalGraph/TotalGraphConnected';
 import DragLayout from 'UI/templates/DragLayout/DragLayout';
 import NeuBox from 'UI/templates/NeuBox/NeuBox';
@@ -12,7 +12,7 @@ const HomeDashboardLayout: FC<IHomeDashboardLayoutProps> = ({
   <DragLayout
     cols={{ xxs: 1, xs: 2, sm: 3, md: 3, lg: 4 }}
     margin={[30, 30]}
-    rowHeight={175}
+    rowHeight={150}
     isBounded
     layouts={layouts}
     onLayoutChange={handleLayouts}
@@ -31,7 +31,7 @@ const HomeDashboardLayout: FC<IHomeDashboardLayoutProps> = ({
       <TotalGraphConnected />
     </NeuBox>
     <NeuBox key='widget-table'>
-      <AgentsTable />
+      <AgentsTableConnected />
     </NeuBox>
   </DragLayout>
 );

@@ -4,11 +4,10 @@ type topAATypes =
   | 'usd_amount_out'
   | 'triggers_count'
   | 'num_users';
-type topAssetsTypes = 'amount_in' | 'tvl';
 
 interface IAAStatsReq {
   address: string;
-  asset?: string | null;
+  asset?: assetsTypes | null;
   timeframe: tfTypes;
   from: number;
   to: number;
@@ -54,6 +53,9 @@ type IAAStatsTopAAbyTvlReq = Pick<IAAStatsReq, 'asset' | 'period'>;
 type IAAStatsTopAAbyTypeReq = Omit<IAAStatsReq, 'address' | 'period'> & {
   type: topAATypes;
 };
-type IAAStatsTopAssetsReq = Pick<IAAStatsReq, 'limit' | 'period'> & {
-  type: topAssetsTypes;
+type IAAStatsTopAssetsReq = Pick<IAAStatsReq, 'limit' | 'period'>;
+
+type IRenderAddress = Omit<IAddress, 'usd_amount_in' | 'usd_amount_out'> & {
+  usd_amount_in: string;
+  usd_amount_out: string;
 };

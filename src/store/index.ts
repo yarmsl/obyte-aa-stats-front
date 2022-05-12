@@ -19,8 +19,11 @@ const UIPersistConfig = {
   whitelist: [
     'darkMode',
     'homeLayouts',
+    'agentLayouts',
     'totalGraphPeriodControls',
     'totalGraphActivitiesControls',
+    'aaTopTableSortType',
+    'asset',
   ],
 };
 

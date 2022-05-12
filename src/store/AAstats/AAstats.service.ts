@@ -1,7 +1,7 @@
 import { Serie } from '@nivo/line';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { apiKey } from 'conf/constants';
-import { transformTotalActivity } from './AAstats.transform';
+import { transformTopAA, transformTotalActivity } from './AAstats.transform';
 
 export const aastatsAPI = createApi({
   reducerPath: 'aastatsAPI',
@@ -48,10 +48,10 @@ export const aastatsAPI = createApi({
       providesTags: ['TotalTvl'],
     }),
     getTotalActivityOverTime: build.query<Serie[], IAAStatsTotalActivity>({
-      query: (request) => ({
+      query: ({ asset, from, to, timeframe }) => ({
         url: 'total/activity',
         method: 'POST',
-        body: request,
+        body: { asset, from, to, timeframe },
       }),
       providesTags: ['TotalActivity'],
       transformResponse: (data: ITotalActivity[] | undefined, _, arg) =>
@@ -65,19 +65,20 @@ export const aastatsAPI = createApi({
       }),
       providesTags: ['TopAAbyTvl'],
     }),
-    getTopAAbyType: build.query<IAddress[], IAAStatsTopAAbyTypeReq>({
+    getTopAAbyType: build.query<IRenderAddress[], IAAStatsTopAAbyTypeReq>({
       query: ({ asset, from, to, timeframe, limit, type }) => ({
         url: `top/aa/${type}`,
         method: 'POST',
         body: { asset, from, to, timeframe, limit },
       }),
       providesTags: ['TopAA'],
+      transformResponse: (data: IAddress[] | undefined) => transformTopAA(data),
     }),
     getTopAssets: build.query<IAsset[], IAAStatsTopAssetsReq>({
-      query: ({ limit, period, type }) => ({
-        url: `top/asset/${type}`,
+      query: (request) => ({
+        url: 'top/asset/tvl',
         method: 'POST',
-        body: { limit, period },
+        body: request,
       }),
       providesTags: ['TopAssets'],
     }),
