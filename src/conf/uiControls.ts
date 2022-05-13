@@ -7,6 +7,13 @@ export const totalGraphPeriodUiControls: IUiControls[] = [
   { label: 'All period', value: 0 },
 ];
 
+export const agentTopTablePeriodControls: IUiControls[] = [
+  { label: 'Today', value: 1, timeframe: 'hourly' },
+  { label: 'Yesterday', value: 2, timeframe: 'hourly' },
+  { label: '7 Days', value: 7, timeframe: 'daily' },
+  { label: '30 Days', value: 30, timeframe: 'daily' },
+];
+
 export const totalGraphActivitiesUiControls: IUiSelects<ITotalActivity>[] = [
   { label: 'USD in', value: 'usd_amount_in', color: '#ffa16f' },
   { label: 'USD out', value: 'usd_amount_out', color: '#2c3e50' },

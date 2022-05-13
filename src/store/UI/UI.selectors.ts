@@ -15,11 +15,6 @@ export const homeLayoutsCacheSelector = createSelector(
   (ui) => ui.homeLayoutsCache
 );
 
-export const ishomeLayoutsCache = createSelector(
-  homeLayoutsCacheSelector,
-  (cache) => 'sm' in cache
-);
-
 export const totalGraphControlValue = createSelector(
   uiSelector,
   (ui) => ui.totalGraphPeriodControls.value
@@ -28,6 +23,11 @@ export const totalGraphControlValue = createSelector(
 export const totalGraphActivityControl = createSelector(
   uiSelector,
   (ui) => ui.totalGraphActivitiesControls
+);
+
+export const agentsTableControl = createSelector(
+  uiSelector,
+  (ui) => ui.agentsTablePeriodControls
 );
 
 export const assetSelector = createSelector(uiSelector, (ui) => ui.asset);

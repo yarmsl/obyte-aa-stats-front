@@ -1,5 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { totalGraphPeriodUiControls } from 'conf/uiControls';
+import {
+  agentTopTablePeriodControls,
+  totalGraphPeriodUiControls,
+} from 'conf/uiControls';
 import { initialState } from './initialState';
 
 const UISlice = createSlice({
@@ -54,6 +57,15 @@ const UISlice = createSlice({
     ) => {
       state.totalGraphActivitiesControls = action.payload;
     },
+    handleAgentsTablePeriodControl: (
+      state: UIState,
+      action: PayloadAction<number>
+    ) => {
+      state.agentsTablePeriodControls =
+        agentTopTablePeriodControls.find(
+          (ctrl) => ctrl.value === action.payload
+        ) || initialState.agentsTablePeriodControls;
+    },
     handleAsset: (
       state: UIState,
       action: PayloadAction<assetsTypes | null>
@@ -79,6 +91,7 @@ export const {
   clearCacheAgentLayout,
   handleTotalGraphPeriodControl,
   handleTotalGraphActivitiesControls,
+  handleAgentsTablePeriodControl,
   handleAsset,
   handleAAtopTableSortType,
 } = UISlice.actions;

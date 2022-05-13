@@ -1,8 +1,12 @@
 /* eslint-disable no-unused-vars */
 interface IAgentsTableProps {
-  data: IRenderAddress[];
+  data: IMergedTopAA[];
   isLoading: boolean;
   onChangeSortType: (dataKey: string) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onNavigate: (rowData: any) => void;
+  handlePeriod: (value: number) => () => void;
+  isSelectedPeriod: (value: number) => boolean;
 }
+
+type IMergedTopAA = Pick<IRenderAATvl, 'usd_balance'> & IRenderAddress;

@@ -22,6 +22,7 @@ const UIPersistConfig = {
     'agentLayouts',
     'totalGraphPeriodControls',
     'totalGraphActivitiesControls',
+    'agentsTablePeriodControls',
     'aaTopTableSortType',
     'asset',
   ],

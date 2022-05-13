@@ -1,7 +1,11 @@
 import { Serie } from '@nivo/line';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { apiKey } from 'conf/constants';
-import { transformTopAA, transformTotalActivity } from './AAstats.transform';
+import {
+  transformTopAA,
+  transformTopAAByTvl,
+  transformTotalActivity,
+} from './AAstats.transform';
 
 export const aastatsAPI = createApi({
   reducerPath: 'aastatsAPI',
@@ -57,13 +61,15 @@ export const aastatsAPI = createApi({
       transformResponse: (data: ITotalActivity[] | undefined, _, arg) =>
         transformTotalActivity(data, arg.slices, arg.timeframe),
     }),
-    getTopAAbyTvl: build.query<topAAbyTvlRes[], IAAStatsTopAAbyTvlReq>({
+    getTopAAbyTvl: build.query<IRenderAATvl[], IAAStatsTopAAbyTvlReq>({
       query: (request) => ({
         url: 'top/aa/tvl',
         method: 'POST',
         body: request,
       }),
       providesTags: ['TopAAbyTvl'],
+      transformResponse: (data: topAAbyTvlRes[] | undefined) =>
+        transformTopAAByTvl(data),
     }),
     getTopAAbyType: build.query<IRenderAddress[], IAAStatsTopAAbyTypeReq>({
       query: ({ asset, from, to, timeframe, limit, type }) => ({

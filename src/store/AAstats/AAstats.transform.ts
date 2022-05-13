@@ -34,9 +34,21 @@ export const transformTopAA = (
 ): IRenderAddress[] => {
   if (Array.isArray(data) && data.length > 0) {
     return data.map((address) => ({
-      ...address,
+      address: address.address,
       usd_amount_in: usd(address.usd_amount_in),
       usd_amount_out: usd(address.usd_amount_out),
+    }));
+  }
+  return [];
+};
+
+export const transformTopAAByTvl = (
+  data: topAAbyTvlRes[] | undefined
+): IRenderAATvl[] => {
+  if (Array.isArray(data) && data.length > 0) {
+    return data.map((address) => ({
+      address: address.address,
+      usd_balance: usd(address.usd_balance),
     }));
   }
   return [];

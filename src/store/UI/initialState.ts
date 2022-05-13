@@ -282,6 +282,7 @@ export const initialState: UIState = {
   totalGraphActivitiesControls: [
     { label: 'USD in', value: 'usd_amount_in', color: '#ffa16f' },
   ],
+  agentsTablePeriodControls: { label: 'Today', value: 1, timeframe: 'hourly' },
   asset: null,
   aaTopTableSortType: 'usd_amount_in',
 };

@@ -88,7 +88,7 @@ const LineChart: FC<ILineChartProps> = ({ data, mini, lineWidth }) => {
         precision: 'day',
       }}
       yScale={{ type: 'linear', stacked: false, min: 'auto', max: 'auto' }}
-      yFormat='>-$.0f'
+      yFormat='<-$.4s'
       xFormat='time:%x'
       curve='linear'
       axisTop={null}
