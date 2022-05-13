@@ -6,6 +6,7 @@ interface UIState {
   agentLayoutsCache: ReactGridLayout.Layouts;
   totalGraphPeriodControls: IUiControls;
   totalGraphActivitiesControls: IUiSelects<ITotalActivity>[];
+  agentsTablePeriodControls: IUiControls;
   asset: assetsTypes | null;
   aaTopTableSortType: topAATypes;
 }
@@ -13,6 +14,7 @@ interface UIState {
 interface IUiControls {
   label: string;
   value: number;
+  timeframe?: tfTypes;
 }
 
 interface IUiSelects<V> {

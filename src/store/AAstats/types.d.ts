@@ -30,8 +30,8 @@ type ITotalActivity = Omit<IAddress, 'address'> & { period: number };
 
 type ITotalTvl = Pick<topAAbyTvlRes, 'period' | 'balance' | 'usd_balance'>;
 
-type topAAbyTvlRes = Pick<IAddress, 'period' | 'address' | 'asset'> & {
-  balance: number;
+type topAAbyTvlRes = Pick<IAddress, 'period' | 'address'> & {
+  balance?: number;
   usd_balance: number;
 };
 
@@ -55,7 +55,11 @@ type IAAStatsTopAAbyTypeReq = Omit<IAAStatsReq, 'address' | 'period'> & {
 };
 type IAAStatsTopAssetsReq = Pick<IAAStatsReq, 'limit' | 'period'>;
 
-type IRenderAddress = Omit<IAddress, 'usd_amount_in' | 'usd_amount_out'> & {
+type IRenderAddress = Pick<IAddress, 'address'> & {
   usd_amount_in: string;
   usd_amount_out: string;
+};
+
+type IRenderAATvl = Pick<topAAbyTvlRes, 'address'> & {
+  usd_balance: string;
 };
