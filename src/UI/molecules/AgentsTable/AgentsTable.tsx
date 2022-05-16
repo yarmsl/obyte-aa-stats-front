@@ -41,9 +41,14 @@ const AgentsTable: FC<IAgentsTableProps> = ({
         onRowClick={onNavigate}
         renderLoading={() => <Loading fullscreen />}
       >
-        <Column width={200} align='center' fixed>
-          <HeaderCell>Address</HeaderCell>
+        <Column width={0}>
+          <HeaderCell>Agents</HeaderCell>
           <Cell dataKey='address' />
+        </Column>
+
+        <Column width={300} fixed>
+          <HeaderCell>Agents</HeaderCell>
+          <Cell dataKey='agent' />
         </Column>
 
         <Column sortable width={130}>

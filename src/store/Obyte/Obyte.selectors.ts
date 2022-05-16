@@ -17,3 +17,13 @@ export const definitionByAddressSelector = createSelector(
       description: address,
     }
 );
+
+export const descriptionByAddressSelector = createSelector(
+  definitionByAddressSelector,
+  (definition) => (address: string) => definition(address).description
+);
+
+export const addressesSelector = createSelector(
+  obyteSelector,
+  (obyte) => obyte.addresses
+);

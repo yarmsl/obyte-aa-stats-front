@@ -1,7 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { aastatsAPI } from 'store/AAstats';
 
 const initialState: IObyteSlice = {
   definedData: {},
+  addresses: [],
 };
 
 export const ObyteSlice = createSlice({
@@ -28,6 +30,17 @@ export const ObyteSlice = createSlice({
         }
       });
     },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      aastatsAPI.endpoints.getTopAAbyType.matchFulfilled,
+      (state, action) => {
+        const addresses = action.payload.map((ap) => ap.address);
+        state.addresses = Array.from(
+          new Set(state.addresses.concat(addresses))
+        );
+      }
+    );
   },
 });
 
