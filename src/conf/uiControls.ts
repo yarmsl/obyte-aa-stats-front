@@ -12,6 +12,7 @@ export const agentTopTablePeriodControls: IUiControls[] = [
   { label: 'Yesterday', value: 2, timeframe: 'hourly' },
   { label: '7 Days', value: 7, timeframe: 'daily' },
   { label: '30 Days', value: 30, timeframe: 'daily' },
+  { label: '90 Days', value: 90, timeframe: 'daily' },
 ];
 
 export const totalGraphActivitiesUiControls: IUiSelects<ITotalActivity>[] = [

@@ -1,8 +1,10 @@
-import { addDays, endOfDay, startOfDay, startOfHour } from 'date-fns';
+import { useTimeframe } from 'lib/useTimeframe';
 import { FC, memo, useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 import { useGetTopAAbyTvlQuery, useGetTopAAbyTypeQuery } from 'store/AAstats';
+import { definitionByAddressSelector } from 'store/Obyte';
+import { useGetDefinitionsQuery } from 'store/Obyte/Obyte.service';
 import {
   aaTopTableSortTypeSelector,
   agentsTableControl,
@@ -19,7 +21,7 @@ const AgentsTableConnected: FC = () => {
   const [limit] = useState(250);
   const type = useAppSelector(aaTopTableSortTypeSelector);
   const [sortByTvl, setSortByTvl] = useState(false);
-  const thisHour = startOfHour(new Date()).getTime();
+  const { from, to } = useTimeframe(selectedPeriod, timeframe);
 
   const handlePeriod = useCallback(
     (value: number) => () => dispatch(handleAgentsTablePeriodControl(value)),
@@ -30,47 +32,6 @@ const AgentsTableConnected: FC = () => {
     (value: number) => selectedPeriod === value,
     [selectedPeriod]
   );
-
-  const to = useMemo(() => {
-    if (selectedPeriod === 2) {
-      return Math.floor(
-        endOfDay(addDays(thisHour, -1)).getTime() / 1000 / 3600
-      );
-    }
-    switch (timeframe) {
-      case 'daily':
-        return Math.floor(endOfDay(thisHour).getTime() / 1000 / 3600 / 24);
-      default:
-        return Math.floor(thisHour / 1000 / 3600);
-    }
-  }, [selectedPeriod, thisHour, timeframe]);
-
-  const from = useMemo(() => {
-    if (selectedPeriod === 0) {
-      return 0;
-    }
-    if (selectedPeriod === 1) {
-      return Math.ceil(startOfDay(thisHour).getTime() / 1000 / 3600);
-    }
-    if (selectedPeriod === 2) {
-      return Math.ceil(
-        startOfDay(addDays(thisHour, -1)).getTime() / 1000 / 3600
-      );
-    }
-    switch (timeframe) {
-      case 'daily':
-        return Math.ceil(
-          endOfDay(addDays(thisHour, -selectedPeriod)).getTime() /
-            1000 /
-            3600 /
-            24
-        );
-      default:
-        return Math.ceil(
-          addDays(thisHour, -selectedPeriod).getTime() / 1000 / 3600
-        );
-    }
-  }, [selectedPeriod, thisHour, timeframe]);
 
   const onChangeSortType = useCallback(
     (dataKey: string) => {
@@ -102,6 +63,11 @@ const AgentsTableConnected: FC = () => {
   //   [timeframe, to]
   // );
 
+  const dd = useAppSelector(definitionByAddressSelector);
+
+  const getDef = useCallback((address: string) => dd(address), [dd]);
+  console.log('----> ', getDef('SLFG3AFZQNCLYDXFT4L3CIE7XSIMHEAK'));
+
   const { data: tvl } = useGetTopAAbyTvlQuery({});
 
   const aaTop = useMemo(() => {
@@ -130,6 +96,14 @@ const AgentsTableConnected: FC = () => {
     }
     return [];
   }, [data, sortByTvl, tvl]);
+
+  const addresses = useMemo(() => aaTop.map((aa) => aa.address), [aaTop]);
+
+  const { data: defs } = useGetDefinitionsQuery(addresses, {
+    skip: addresses.length === 0,
+  });
+
+  console.log(defs);
 
   return (
     <AgentsTable

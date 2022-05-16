@@ -7,13 +7,16 @@ export const ModalStackSlice = createSlice({
   name: 'modalStack',
   initialState,
   reducers: {
-    openModal: (state, action: PayloadAction<ModalStackTypes>) => {
+    openModal: (
+      state: IModalStack[],
+      action: PayloadAction<ModalStackTypes>
+    ) => {
       state.push({ open: true, window: action.payload });
     },
-    closeModal: (state) => {
+    closeModal: (state: IModalStack[]) => {
       state[state.length - 1].open = false;
     },
-    removeModal: (state) => {
+    removeModal: (state: IModalStack[]) => {
       state.pop();
     },
   },

@@ -12,6 +12,7 @@ import { UIReducer } from './UI';
 import { TokenMiddleware } from './Auth/Auth.middleware';
 import { SnackStackReducer } from './SnackStack';
 import { aastatsAPI } from './AAstats';
+import { obyteApi, ObyteReducer } from './Obyte';
 
 const UIPersistConfig = {
   key: 'ui',
@@ -28,11 +29,19 @@ const UIPersistConfig = {
   ],
 };
 
+const ObytePersistConfig = {
+  key: 'obyte',
+  storage,
+  whitelist: ['definedData'],
+};
+
 const rootReducer = combineReducers({
   modalStack: ModalStackReducer,
   snackStack: SnackStackReducer,
   ui: persistReducer(UIPersistConfig, UIReducer),
+  obyte: persistReducer(ObytePersistConfig, ObyteReducer),
   [aastatsAPI.reducerPath]: aastatsAPI.reducer,
+  [obyteApi.reducerPath]: obyteApi.reducer,
 });
 
 const appStore = configureStore({
@@ -40,7 +49,8 @@ const appStore = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat(
       TokenMiddleware,
-      aastatsAPI.middleware
+      aastatsAPI.middleware,
+      obyteApi.middleware
     ),
 });
 
