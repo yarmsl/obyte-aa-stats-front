@@ -1,10 +1,13 @@
 import { useTimeframe } from 'lib/useTimeframe';
-import { FC, memo, useCallback, useMemo, useState } from 'react';
+import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 import { useGetTopAAbyTvlQuery, useGetTopAAbyTypeQuery } from 'store/AAstats';
-import { definitionByAddressSelector } from 'store/Obyte';
-import { useGetDefinitionsQuery } from 'store/Obyte/Obyte.service';
+import {
+  addressesSelector,
+  descriptionByAddressSelector,
+  obyteApi,
+} from 'store/Obyte';
 import {
   aaTopTableSortTypeSelector,
   agentsTableControl,
@@ -22,6 +25,8 @@ const AgentsTableConnected: FC = () => {
   const type = useAppSelector(aaTopTableSortTypeSelector);
   const [sortByTvl, setSortByTvl] = useState(false);
   const { from, to } = useTimeframe(selectedPeriod, timeframe);
+  const dd = useAppSelector(descriptionByAddressSelector);
+  const addresses = useAppSelector(addressesSelector);
 
   const handlePeriod = useCallback(
     (value: number) => () => dispatch(handleAgentsTablePeriodControl(value)),
@@ -63,10 +68,7 @@ const AgentsTableConnected: FC = () => {
   //   [timeframe, to]
   // );
 
-  const dd = useAppSelector(definitionByAddressSelector);
-
   const getDef = useCallback((address: string) => dd(address), [dd]);
-  console.log('----> ', getDef('SLFG3AFZQNCLYDXFT4L3CIE7XSIMHEAK'));
 
   const { data: tvl } = useGetTopAAbyTvlQuery({});
 
@@ -78,10 +80,15 @@ const AgentsTableConnected: FC = () => {
           if (tvlData) {
             return accu.concat({
               ...curr,
+              agent: getDef(curr.address),
               usd_balance: tvlData.usd_balance,
             });
           }
-          return accu.concat({ ...curr, usd_balance: 'no data' });
+          return accu.concat({
+            ...curr,
+            agent: getDef(curr.address),
+            usd_balance: 'no data',
+          });
         }
         return accu;
       }, []);
@@ -95,15 +102,13 @@ const AgentsTableConnected: FC = () => {
       return res;
     }
     return [];
-  }, [data, sortByTvl, tvl]);
+  }, [data, getDef, sortByTvl, tvl]);
 
-  const addresses = useMemo(() => aaTop.map((aa) => aa.address), [aaTop]);
-
-  const { data: defs } = useGetDefinitionsQuery(addresses, {
-    skip: addresses.length === 0,
-  });
-
-  console.log(defs);
+  useEffect(() => {
+    if (addresses.length > 0) {
+      dispatch(obyteApi.util.prefetch('getDefinitions', addresses, {}));
+    }
+  }, [addresses, dispatch]);
 
   return (
     <AgentsTable

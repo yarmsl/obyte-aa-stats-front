@@ -9,4 +9,5 @@ interface IAgentsTableProps {
   isSelectedPeriod: (value: number) => boolean;
 }
 
-type IMergedTopAA = Pick<IRenderAATvl, 'usd_balance'> & IRenderAddress;
+type IMergedTopAA = Pick<IRenderAATvl, 'usd_balance'> &
+  IRenderAddress & { agent: string };
