@@ -1,5 +1,4 @@
-import { addDays, endOfDay, startOfHour } from 'date-fns';
-import { FC, memo, useCallback, useMemo, useState } from 'react';
+import { FC, memo, useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 import { useGetTotalActivityOverTimeQuery } from 'store/AAstats';
 import {
@@ -9,6 +8,7 @@ import {
   handleTotalGraphActivitiesControls,
 } from 'store/UI';
 import { totalGraphActivitiesUiControls } from 'conf/uiControls';
+import { useTimeframe } from 'lib/useTimeframe';
 import TotalGraph from './TotalGraph';
 
 const TotalGraphConnected: FC = () => {
@@ -16,6 +16,7 @@ const TotalGraphConnected: FC = () => {
   const dispatch = useAppDispatch();
   const selectedPeriod = useAppSelector(totalGraphControlValue);
   const selectedActivities = useAppSelector(totalGraphActivityControl);
+  const { from, to } = useTimeframe(selectedPeriod, timeframe);
 
   const handlePeriod = useCallback(
     (value: number) => () => dispatch(handleTotalGraphPeriodControl(value)),
@@ -59,34 +60,6 @@ const TotalGraphConnected: FC = () => {
       selectedActivities.some((a) => a.value === value),
     [selectedActivities]
   );
-
-  const thisHour = startOfHour(new Date()).getTime();
-
-  const to = useMemo(() => {
-    switch (timeframe) {
-      case 'daily':
-        return Math.ceil(endOfDay(thisHour).getTime() / 1000 / 3600 / 24);
-      default:
-        return thisHour / 1000 / 3600;
-    }
-  }, [thisHour, timeframe]);
-
-  const from = useMemo(() => {
-    if (selectedPeriod === 0) {
-      return 0;
-    }
-    switch (timeframe) {
-      case 'daily':
-        return Math.floor(
-          endOfDay(addDays(thisHour, -selectedPeriod)).getTime() /
-            1000 /
-            3600 /
-            24
-        );
-      default:
-        return addDays(thisHour, -selectedPeriod).getTime() / 1000 / 3600;
-    }
-  }, [selectedPeriod, thisHour, timeframe]);
 
   const { data, isFetching } = useGetTotalActivityOverTimeQuery({
     from,
