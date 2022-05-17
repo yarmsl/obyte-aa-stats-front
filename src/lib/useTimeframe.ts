@@ -1,4 +1,4 @@
-import { addDays, endOfDay, startOfDay, startOfHour } from 'date-fns';
+import { addDays, endOfDay, endOfHour, startOfDay } from 'date-fns';
 import { useMemo } from 'react';
 
 interface IUseTimeframeOutput {
@@ -10,7 +10,7 @@ export const useTimeframe = (
   selectedPeriod: number,
   timeframe: tfTypes
 ): IUseTimeframeOutput => {
-  const thisHour = startOfHour(new Date()).getTime();
+  const thisHour = endOfHour(new Date()).getTime();
 
   const from = useMemo(() => {
     if (selectedPeriod === 0) {
@@ -42,7 +42,7 @@ export const useTimeframe = (
   const to = useMemo(() => {
     if (selectedPeriod === 2) {
       return Math.floor(
-        endOfDay(addDays(thisHour, -1)).getTime() / 1000 / 3600
+        addDays(endOfDay(thisHour), -1).getTime() / 1000 / 3600
       );
     }
     switch (timeframe) {

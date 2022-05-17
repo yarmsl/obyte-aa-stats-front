@@ -11,12 +11,13 @@ const HomeDashboardLayout: FC<IHomeDashboardLayoutProps> = ({
 }) => (
   <DragLayout
     cols={{ xxs: 1, xs: 2, sm: 3, md: 3, lg: 4 }}
-    margin={[30, 30]}
-    rowHeight={150}
+    margin={[25, 25]}
+    rowHeight={145}
     isBounded
     layouts={layouts}
     onLayoutChange={handleLayouts}
     measureBeforeMount
+    compactType='vertical'
   >
     <NeuBox key='widget-1'>
       <ValueWidget title='Widget title' value={1277} unit='$' />

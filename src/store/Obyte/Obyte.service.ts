@@ -52,8 +52,8 @@ export const obyteApi = createApi({
     mode: 'cors',
   }),
   endpoints: (build) => ({
-    getDefinition: build.query<IDefinition, string>({
-      queryFn: () => ({ data: { description: 'no query' } }),
+    getDefinition: build.query<IDefinition | undefined, string>({
+      queryFn: () => ({ data: undefined }),
       async onCacheEntryAdded(
         arg,
         { cacheDataLoaded, cacheEntryRemoved, updateCachedData, dispatch }
