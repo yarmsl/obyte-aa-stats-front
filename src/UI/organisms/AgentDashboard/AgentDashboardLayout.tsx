@@ -9,8 +9,8 @@ const AgentDashboardLayout: FC<IAgentDashboardLayoutProps> = ({
 }) => (
   <DragLayout
     cols={{ xxs: 1, xs: 2, sm: 3, md: 3, lg: 4 }}
-    margin={[30, 30]}
-    rowHeight={150}
+    margin={[25, 25]}
+    rowHeight={145}
     isBounded
     layouts={layouts}
     onLayoutChange={handleLayouts}

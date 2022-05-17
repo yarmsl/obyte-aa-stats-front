@@ -12,6 +12,7 @@ import HomeDashboardLayout from './HomeDashboardLayout';
 const HomeDashboard: FC = () => {
   const dispatch = useAppDispatch();
   const homeLayouts = useAppSelector(homeLayoutsSelector);
+
   const handleLayouts = useCallback(
     (curr, allLayouts: ReactGridLayout.Layouts) => {
       cleanUndef(allLayouts);

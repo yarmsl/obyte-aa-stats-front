@@ -7,6 +7,8 @@ interface IDefinition {
   description: string;
   homepage_url?: string;
   source_url?: string;
+  version?: string;
+  field_descriptions?: Record<string, string>;
 }
 
 interface IBaseAAData {
