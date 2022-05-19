@@ -10,6 +10,7 @@ export const styles: Record<string, SxProps> = {
     borderRadius: 1,
   },
   logo: {
+    minWidth: '46px',
     width: '46px',
     height: '46px',
     borderRadius: '50%',

@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 interface IUseTimeframeOutput {
   from: number;
   to: number;
+  now: number;
 }
 
 export const useTimeframe = (
@@ -11,6 +12,14 @@ export const useTimeframe = (
   timeframe: tfTypes
 ): IUseTimeframeOutput => {
   const thisHour = endOfHour(new Date()).getTime();
+
+  const now = useMemo(
+    () =>
+      timeframe === 'daily'
+        ? thisHour / 1000 / 3600 / 24
+        : thisHour / 1000 / 3600,
+    [thisHour, timeframe]
+  );
 
   const from = useMemo(() => {
     if (selectedPeriod === 0) {
@@ -53,5 +62,5 @@ export const useTimeframe = (
     }
   }, [selectedPeriod, thisHour, timeframe]);
 
-  return { from, to };
+  return { from, to, now };
 };

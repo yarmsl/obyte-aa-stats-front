@@ -4,7 +4,7 @@ interface IAgentsTableProps {
   isLoading: boolean;
   onChangeSortType: (dataKey: string) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onNavigate: (rowData: any) => void;
+  onNavigate: (address: string) => () => void;
   handlePeriod: (value: number) => () => void;
   isSelectedPeriod: (value: number) => boolean;
 }

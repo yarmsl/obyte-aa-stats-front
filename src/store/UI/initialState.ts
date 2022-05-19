@@ -280,7 +280,13 @@ export const initialState: UIState = {
   agentLayoutsCache: {},
   totalGraphPeriodControls: { label: '30 days', value: 30 },
   totalGraphActivitiesControls: [
-    { label: 'USD in', value: 'usd_amount_in', color: '#ffa16f' },
+    {
+      label: 'USD in',
+      value: 'usd_amount_in',
+      color: '#ffa16f',
+      timeframe: 'daily',
+      group: 'usd',
+    },
   ],
   agentsTablePeriodControls: { label: 'Today', value: 1, timeframe: 'hourly' },
   asset: null,

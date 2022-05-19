@@ -11,10 +11,11 @@ const AgentInfoWidget: FC = () => {
   const { address = '' } = useParams<{ address: string }>();
   const { to } = useTimeframe(0, 'daily');
   const dd = useAppSelector(definitionByAddressSelector);
-  const { description, homepage_url = '' } = useMemo(
-    () => dd(address),
-    [address, dd]
-  );
+  const {
+    description,
+    homepage_url = '',
+    field_descriptions,
+  } = useMemo(() => dd(address), [address, dd]);
   const { data } = useGetStatsForOneAddressQuery(
     {
       address,
@@ -26,6 +27,19 @@ const AgentInfoWidget: FC = () => {
   );
 
   console.log(data);
+
+  const about = useMemo(
+    () =>
+      field_descriptions != null
+        ? Object.keys(field_descriptions).map((key) => ({
+            field: key,
+            value: field_descriptions[key],
+          }))
+        : [{ field: '', value: 'no data' }],
+    [field_descriptions]
+  );
+
+  console.log(about);
 
   return (
     <Box>

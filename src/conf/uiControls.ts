@@ -1,24 +1,43 @@
 import { coinIcon } from './constants';
 
-export const totalGraphPeriodUiControls: IUiControls[] = [
-  { label: '30 Days', value: 30 },
-  { label: '90 Days', value: 90 },
-  { label: '1 Year', value: 365 },
-  { label: 'All period', value: 0 },
+export const longPeriodsUiControls: IUiControls[] = [
+  { label: '30 Days', value: 30, timeframe: 'daily' },
+  { label: '90 Days', value: 90, timeframe: 'daily' },
+  { label: '1 Year', value: 365, timeframe: 'daily' },
+  { label: 'All period', value: 0, timeframe: 'daily' },
 ];
 
-export const agentTopTablePeriodControls: IUiControls[] = [
+export const shortPeriodsUiControls: IUiControls[] = [
   { label: 'Today', value: 1, timeframe: 'hourly' },
   { label: 'Yesterday', value: 2, timeframe: 'hourly' },
   { label: '7 Days', value: 7, timeframe: 'daily' },
   { label: '30 Days', value: 30, timeframe: 'daily' },
-  { label: '90 Days', value: 90, timeframe: 'daily' },
 ];
 
-export const totalGraphActivitiesUiControls: IUiSelects<ITotalActivity>[] = [
-  { label: 'USD in', value: 'usd_amount_in', color: '#ffa16f' },
-  { label: 'USD out', value: 'usd_amount_out', color: '#2c3e50' },
-];
+export const totalGraphActivitiesUiControls: IUiSelects<ITotalWithTvlActivity>[] =
+  [
+    {
+      label: 'USD in',
+      value: 'usd_amount_in',
+      color: '#ffa16f',
+      timeframe: 'daily',
+      group: 'usd',
+    },
+    {
+      label: 'USD out',
+      value: 'usd_amount_out',
+      color: '#2c3e50',
+      timeframe: 'daily',
+      group: 'usd',
+    },
+    {
+      label: 'TVL',
+      value: 'usd_balance',
+      color: 'red',
+      timeframe: 'hourly',
+      group: null,
+    },
+  ];
 
 export const assetsConf: assetUiControl[] = [
   { value: null, icon: 'GBYTE.svg' },

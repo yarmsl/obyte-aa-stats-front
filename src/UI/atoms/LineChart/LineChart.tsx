@@ -6,7 +6,12 @@ import { useAppSelector } from 'store';
 import { ILineChartProps } from './types';
 import LineChartTooltip from '../LineChartTooltip/LineChartTooltip';
 
-const LineChart: FC<ILineChartProps> = ({ data, mini, lineWidth }) => {
+const LineChart: FC<ILineChartProps> = ({
+  data,
+  lineWidth,
+  small,
+  precision,
+}) => {
   const { isMobile, isTablet } = useMedia();
   const darkMode = useAppSelector(darkModeSelector);
   const serieLength = useMemo(
@@ -14,6 +19,9 @@ const LineChart: FC<ILineChartProps> = ({ data, mini, lineWidth }) => {
     [data]
   );
   const formatDatesX = useMemo(() => {
+    if (precision === 'hour') {
+      return { tickValues: 'every 3 day', format: '%b %d' };
+    }
     if (serieLength <= 30) {
       if (isTablet) {
         return { tickValues: 'every 5 day', format: '%b %d' };
@@ -21,7 +29,7 @@ const LineChart: FC<ILineChartProps> = ({ data, mini, lineWidth }) => {
       if (isMobile) {
         return { tickValues: 'every 10 day', format: '%b %d' };
       }
-      return { tickValues: 'every 3 day', format: '%b %d' };
+      return { tickValues: 'every 4 day', format: '%b %d' };
     }
     if (serieLength > 30 && serieLength <= 365) {
       if (isMobile) {
@@ -31,7 +39,7 @@ const LineChart: FC<ILineChartProps> = ({ data, mini, lineWidth }) => {
     }
 
     return { tickValues: 'every year', format: '%Y' };
-  }, [isMobile, isTablet, serieLength]);
+  }, [isMobile, isTablet, precision, serieLength]);
 
   const theme = useMemo(
     () => ({
@@ -74,7 +82,7 @@ const LineChart: FC<ILineChartProps> = ({ data, mini, lineWidth }) => {
       colors={colors}
       theme={theme}
       margin={
-        mini
+        small
           ? undefined
           : {
               top: 20,
@@ -85,16 +93,16 @@ const LineChart: FC<ILineChartProps> = ({ data, mini, lineWidth }) => {
       }
       xScale={{
         type: 'time',
-        precision: 'day',
+        precision: precision || 'day',
       }}
       yScale={{ type: 'linear', stacked: false, min: 'auto', max: 'auto' }}
-      yFormat='<-$.4s'
+      yFormat='<-$2.4s'
       xFormat='time:%x'
       curve='linear'
       axisTop={null}
       axisRight={null}
       axisBottom={
-        mini
+        small
           ? null
           : {
               tickValues: formatDatesX.tickValues,
@@ -105,19 +113,19 @@ const LineChart: FC<ILineChartProps> = ({ data, mini, lineWidth }) => {
             }
       }
       axisLeft={
-        mini
+        small
           ? null
           : {
               tickSize: 0,
               tickPadding: 5,
               tickRotation: 0,
               format: '<-$.2s',
-              tickValues: 6,
+              tickValues: 3,
             }
       }
       gridYValues={6}
       enableGridX={false}
-      enableGridY={!mini}
+      enableGridY={!small}
       isInteractive
       tooltip={LineChartTooltip}
       lineWidth={lineWidth || 1.5}

@@ -1,7 +1,22 @@
-export const usd = (value: number, fraction = 0): string =>
-  value.toLocaleString('en-US', {
+import { shortenNumber } from './shortenNumber';
+
+export const usd = (
+  value: number,
+  fraction?: number,
+  shorten?: boolean
+): string => {
+  if (shorten) {
+    if (value > 0) {
+      return `$${shortenNumber(value, fraction || 2)}`;
+    }
+    if (value < 0) {
+      return `-$${shortenNumber(Math.abs(value), fraction || 2)}`;
+    }
+  }
+  return value.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
-    minimumFractionDigits: fraction,
-    maximumFractionDigits: fraction,
+    minimumFractionDigits: fraction || 0,
+    maximumFractionDigits: fraction || 0,
   });
+};

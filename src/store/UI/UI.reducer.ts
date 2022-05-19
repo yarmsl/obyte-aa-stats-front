@@ -1,8 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  agentTopTablePeriodControls,
-  totalGraphPeriodUiControls,
-} from 'conf/uiControls';
+import { shortPeriodsUiControls, longPeriodsUiControls } from 'conf/uiControls';
 import { initialState } from './initialState';
 
 const UISlice = createSlice({
@@ -47,13 +44,13 @@ const UISlice = createSlice({
       action: PayloadAction<number>
     ) => {
       state.totalGraphPeriodControls =
-        totalGraphPeriodUiControls.find(
+        [...longPeriodsUiControls, ...shortPeriodsUiControls].find(
           (ctrl) => ctrl.value === action.payload
         ) || initialState.totalGraphPeriodControls;
     },
     handleTotalGraphActivitiesControls: (
       state: UIState,
-      action: PayloadAction<IUiSelects<ITotalActivity>[]>
+      action: PayloadAction<IUiSelects<ITotalWithTvlActivity>[]>
     ) => {
       state.totalGraphActivitiesControls = action.payload;
     },
@@ -62,9 +59,8 @@ const UISlice = createSlice({
       action: PayloadAction<number>
     ) => {
       state.agentsTablePeriodControls =
-        agentTopTablePeriodControls.find(
-          (ctrl) => ctrl.value === action.payload
-        ) || initialState.agentsTablePeriodControls;
+        shortPeriodsUiControls.find((ctrl) => ctrl.value === action.payload) ||
+        initialState.agentsTablePeriodControls;
     },
     handleAsset: (
       state: UIState,

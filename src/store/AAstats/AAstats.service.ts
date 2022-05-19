@@ -5,6 +5,8 @@ import {
   transformTopAA,
   transformTopAAByTvl,
   transformTotalActivity,
+  transformTotalTvl,
+  transformTvlValues,
 } from './AAstats.transform';
 
 export const aastatsAPI = createApi({
@@ -43,13 +45,28 @@ export const aastatsAPI = createApi({
       }),
       providesTags: ['TvlForAddress'],
     }),
-    getTotalTvlOverTime: build.query<ITotalTvl[], IAAStatsTotalTvl>({
+    getTotalTvlOverTime: build.query<Serie[], IAAStatsTotalTvl>({
+      query: ({ from, to, asset, timeframe }) => ({
+        url: 'total/tvl',
+        method: 'POST',
+        body:
+          timeframe === 'daily'
+            ? { from: from * 24, to: to * 24, asset }
+            : { from, to, asset },
+      }),
+      providesTags: ['TotalTvl'],
+      transformResponse: (data: ITotalTvl[] | undefined, _, arg) =>
+        transformTotalTvl(data, arg.timeframe, arg.conf),
+    }),
+    getTotalTvlValues: build.query<ITotalTvl[], IAAStatsTotalTvlValuesReq>({
       query: (request) => ({
         url: 'total/tvl',
         method: 'POST',
         body: request,
       }),
       providesTags: ['TotalTvl'],
+      transformResponse: (data: ITotalTvl[] | undefined) =>
+        transformTvlValues(data),
     }),
     getTotalActivityOverTime: build.query<Serie[], IAAStatsTotalActivity>({
       query: ({ asset, from, to, timeframe }) => ({
@@ -95,6 +112,7 @@ export const {
   useGetStatsForOneAddressQuery,
   useGetTvlOverTimeForOneAddressQuery,
   useGetTotalTvlOverTimeQuery,
+  useGetTotalTvlValuesQuery,
   useGetTotalActivityOverTimeQuery,
   useGetTopAAbyTvlQuery,
   useGetTopAAbyTypeQuery,

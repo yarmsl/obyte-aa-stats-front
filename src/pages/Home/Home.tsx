@@ -5,7 +5,7 @@ import HelmetTitle from '../../UI/atoms/Helmet/Helmet';
 
 const Home: FC = () => (
   <>
-    <HelmetTitle title='Home' />
+    <HelmetTitle title='Obyte | Autonomous Agents Statistics' />
     <HomeDashboard />
   </>
 );

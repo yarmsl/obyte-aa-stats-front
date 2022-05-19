@@ -36,6 +36,12 @@ export const theme = (darkMode: boolean): Theme =>
             black: '#fff',
             white: '#252527',
           },
+          success: {
+            main: '#00fa9a',
+          },
+          error: {
+            main: '#d9275c',
+          },
           primary: {
             dark: '#008cf0',
             main: '#fff',
@@ -62,6 +68,12 @@ export const theme = (darkMode: boolean): Theme =>
           common: {
             black: 'rgba(0,0,0,.6)',
             white: '#fff',
+          },
+          success: {
+            main: '#00c77b',
+          },
+          error: {
+            main: '#d5265b',
           },
           primary: {
             dark: '#1d1e33',

@@ -25,6 +25,14 @@ export const totalGraphActivityControl = createSelector(
   (ui) => ui.totalGraphActivitiesControls
 );
 
+export const totalGraphTimeframeSelector = createSelector(
+  totalGraphActivityControl,
+  (ctrls) =>
+    Array.isArray(ctrls) && ctrls.length > 0
+      ? ctrls[0].timeframe || 'daily'
+      : 'daily'
+);
+
 export const agentsTableControl = createSelector(
   uiSelector,
   (ui) => ui.agentsTablePeriodControls
