@@ -1,4 +1,5 @@
 import { FC, memo } from 'react';
+import TvlValueWidget from 'UI/atoms/TvlValueWidget/TvlValueWidget';
 import ValueWidget from 'UI/atoms/ValueWidget/ValueWidget';
 import AgentsTableConnected from 'UI/molecules/AgentsTable/AgentsTableConnected';
 import TotalGraphConnected from 'UI/molecules/TotalGraph/TotalGraphConnected';
@@ -20,7 +21,7 @@ const HomeDashboardLayout: FC<IHomeDashboardLayoutProps> = ({
     compactType='vertical'
   >
     <NeuBox key='widget-1'>
-      <ValueWidget title='Widget title' value={1277} unit='$' />
+      <TvlValueWidget />
     </NeuBox>
     <NeuBox key='widget-2'>
       <ValueWidget title='Widget title' value={44} unit='B' />

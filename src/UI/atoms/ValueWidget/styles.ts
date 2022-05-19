@@ -4,6 +4,7 @@ export const styles: Record<string, SxProps> = {
   root: {
     width: '100%',
     height: '100%',
+    pr: '20px',
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
@@ -21,11 +22,28 @@ export const styles: Record<string, SxProps> = {
     width: '100%',
     height: '100%',
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   value: {
     fontSize: '30px',
     fontWeight: 700,
+  },
+  trend: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  trendIcon: {
+    mr: '5px',
+  },
+  skeleton: {
+    width: 'calc(100% + 20px)',
+    height: 'calc(100% + 20px)',
+    position: 'absolute',
+    borderRadius: 2,
+    top: -10,
+    left: -10,
+    bottom: 0,
+    right: 0,
   },
 };

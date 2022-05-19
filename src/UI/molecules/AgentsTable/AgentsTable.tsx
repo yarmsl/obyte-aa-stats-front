@@ -5,8 +5,9 @@ import WaterMark from 'UI/atoms/WaterMark/WaterMark';
 import Loading from 'UI/atoms/Loading/Loading';
 import 'rsuite-table/dist/css/rsuite-table.min.css';
 import ActionButtons from 'UI/atoms/ActionButtons/ActionButtons';
-import { agentTopTablePeriodControls } from 'conf/uiControls';
+import { shortPeriodsUiControls } from 'conf/uiControls';
 import { styles } from './styles';
+import AddressCell from './AddressCell';
 
 const AgentsTable: FC<IAgentsTableProps> = ({
   data,
@@ -25,7 +26,7 @@ const AgentsTable: FC<IAgentsTableProps> = ({
       <Box sx={styles.header}>
         <Typography sx={styles.title}>Autonomous Agents Top</Typography>
         <ActionButtons
-          config={agentTopTablePeriodControls}
+          config={shortPeriodsUiControls}
           handler={handlePeriod}
           isSelected={isSelectedPeriod}
         />
@@ -38,29 +39,42 @@ const AgentsTable: FC<IAgentsTableProps> = ({
         data={data}
         loading={isLoading}
         onSortColumn={onChangeSortType}
-        onRowClick={onNavigate}
-        renderLoading={() => <Loading fullscreen />}
+        renderLoading={() => <Loading />}
+        rowHeight={60}
       >
-        <Column width={0}>
-          <HeaderCell>Agents</HeaderCell>
-          <Cell dataKey='address' />
+        <Column verticalAlign='middle' width={300}>
+          <HeaderCell align='center'>Agents</HeaderCell>
+          <AddressCell rowData={data} onNavigate={onNavigate} />
         </Column>
 
-        <Column width={300} fixed>
-          <HeaderCell>Agents</HeaderCell>
-          <Cell dataKey='agent' />
-        </Column>
-
-        <Column sortable width={130}>
+        <Column
+          verticalAlign='middle'
+          align='center'
+          sortable
+          width={130}
+          flexGrow={1}
+        >
           <HeaderCell>USD in</HeaderCell>
           <Cell dataKey='usd_amount_in' />
         </Column>
 
-        <Column sortable minWidth={130} flexGrow={1}>
+        <Column
+          verticalAlign='middle'
+          align='center'
+          sortable
+          minWidth={130}
+          flexGrow={1}
+        >
           <HeaderCell>USD out</HeaderCell>
           <Cell dataKey='usd_amount_out' />
         </Column>
-        <Column sortable minWidth={130} flexGrow={1}>
+        <Column
+          verticalAlign='middle'
+          align='center'
+          sortable
+          minWidth={130}
+          flexGrow={1}
+        >
           <HeaderCell>TVL</HeaderCell>
           <Cell dataKey='usd_balance' />
         </Column>
