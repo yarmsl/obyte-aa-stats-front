@@ -134,6 +134,30 @@ export const theme = (darkMode: boolean): Theme =>
           },
         },
       },
+      MuiListItemText: {
+        styleOverrides: {
+          root: {
+            width: '200px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          },
+          primary: {
+            fontSize: '13px',
+            letterSpacing: -0.1,
+            lineHeight: 1.2,
+            width: '100%',
+            maxWidth: '100%',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+          },
+          secondary: {
+            fontSize: '10px',
+            fontWeight: 300,
+          },
+        },
+      },
       MuiCssBaseline: {
         styleOverrides: {
           '::-webkit-scrollbar': {
