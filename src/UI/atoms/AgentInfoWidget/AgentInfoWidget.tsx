@@ -4,12 +4,15 @@ import { useTimeframe } from 'lib/useTimeframe';
 import { FC, memo, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'store';
-import { useGetStatsForOneAddressQuery } from 'store/AAstats';
+import {
+  useGetStatsForOneAddressQuery,
+  useGetTvlOverTimeForOneAddressQuery,
+} from 'store/AAstats';
 import { definitionByAddressSelector } from 'store/Obyte';
 
 const AgentInfoWidget: FC = () => {
   const { address = '' } = useParams<{ address: string }>();
-  const { to } = useTimeframe(0, 'daily');
+  const { from, to } = useTimeframe(0, 'hourly');
   const dd = useAppSelector(definitionByAddressSelector);
   const {
     description,
@@ -19,14 +22,21 @@ const AgentInfoWidget: FC = () => {
   const { data } = useGetStatsForOneAddressQuery(
     {
       address,
-      timeframe: 'daily',
+      timeframe: 'hourly',
       from: 0,
       to,
     },
     { skip: address == null }
   );
 
+  const { data: tvl } = useGetTvlOverTimeForOneAddressQuery({
+    address,
+    from,
+    to,
+  });
+
   console.log(data);
+  console.log('tvl', tvl);
 
   const about = useMemo(
     () =>

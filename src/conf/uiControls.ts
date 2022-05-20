@@ -26,7 +26,7 @@ export const totalGraphActivitiesUiControls: IUiSelects<ITotalWithTvlActivity>[]
     {
       label: 'USD out',
       value: 'usd_amount_out',
-      color: '#2c3e50',
+      color: '#03809c',
       timeframe: 'daily',
       group: 'usd',
     },

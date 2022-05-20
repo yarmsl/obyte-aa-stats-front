@@ -1,5 +1,5 @@
 import { ListItemText, MenuItem } from '@mui/material';
-import { FC, memo } from 'react';
+import { FC, memo, useMemo } from 'react';
 import { Cell, RowDataType } from 'rsuite-table';
 
 interface IAddressCellProps {
@@ -12,12 +12,21 @@ const AddressCell: FC<IAddressCellProps> = ({
   rowData,
   onNavigate,
   ...props
-}) => (
-  <Cell {...props}>
-    <MenuItem onClick={onNavigate(rowData.address)}>
-      <ListItemText primary={rowData.agent} secondary={rowData.address} />
-    </MenuItem>
-  </Cell>
-);
+}) => {
+  const isAgent = useMemo(
+    () => rowData.agent !== rowData.address,
+    [rowData.address, rowData.agent]
+  );
+  return (
+    <Cell {...props}>
+      <MenuItem sx={{ borderRadius: 2 }} onClick={onNavigate(rowData.address)}>
+        <ListItemText
+          primary={rowData.agent}
+          secondary={isAgent ? rowData.address : undefined}
+        />
+      </MenuItem>
+    </Cell>
+  );
+};
 
 export default memo(AddressCell);
