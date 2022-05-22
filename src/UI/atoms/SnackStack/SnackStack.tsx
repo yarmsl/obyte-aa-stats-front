@@ -1,7 +1,7 @@
 import { SnackbarCloseReason } from '@mui/material';
 import { FC, memo, useCallback, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
-import { closeSnackAction } from 'store/SnackStack';
+import { closeSnackAction, snackBarsStackSelector } from 'store/SnackStack';
 import { ISnackStackProps } from './types';
 import SnackStackLayout from './SnackStackLayout';
 
@@ -10,7 +10,7 @@ const SnackStack: FC<ISnackStackProps> = ({
   spacing = 1,
   maxSnack = 5,
 }) => {
-  const { snackBarsStack } = useAppSelector((st) => st.snackStack);
+  const snackBarsStack = useAppSelector(snackBarsStackSelector);
   const dispatch = useAppDispatch();
 
   const handleClose = useCallback(
