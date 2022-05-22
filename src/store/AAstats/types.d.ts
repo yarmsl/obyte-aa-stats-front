@@ -24,6 +24,7 @@ interface IAddress {
   triggers_count: number;
   bounced_count: number;
   num_users: number;
+  period: number;
 }
 
 type ITotalActivity = Omit<IAddress, 'address'> & { period: number };

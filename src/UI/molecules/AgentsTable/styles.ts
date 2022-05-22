@@ -3,47 +3,7 @@ import { SxProps } from '@mui/material';
 export const styles: Record<string, SxProps> = {
   root: {
     width: '100%',
-    height: 'calc(100% - 31px)',
-    position: 'relative',
-    fontSize: '14px',
-    '& .rs-table': {
-      border: 'none',
-      borderRadius: 1,
-      pr: '15px',
-    },
-    '& .rs-table-cell-group-fixed-left': {
-      background: 'none',
-      bgcolor: 'background.default',
-    },
-    '& .rs-table-row-header': {
-      background: 'none',
-      bgcolor: 'background.paper',
-      '& .rs-table-cell': {
-        background: 'none',
-      },
-      '& .rs-table-cell-group': {
-        bgcolor: 'background.paper',
-      },
-    },
-    '& .rs-table-hover': {
-      '& .rs-table-row': {
-        transition: 'background-color 250ms ease-in-out',
-        '&:hover': {
-          background: 'none',
-          bgcolor: 'background.paper',
-          '& .rs-table-cell': {
-            background: 'none',
-          },
-          '& .rs-table-cell-group': {
-            background: 'none',
-            bgcolor: 'background.default',
-          },
-        },
-      },
-    },
-    '& .rs-table-cell': {
-      background: 'none',
-    },
+    px: '30px',
   },
   header: {
     width: '100%',
@@ -54,5 +14,31 @@ export const styles: Record<string, SxProps> = {
   title: {
     fontSize: '18px',
     fontWeight: 300,
+  },
+  tableHead: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    height: '42px',
+  },
+  table: {
+    '&>div': {
+      display: 'flex',
+      justifyContent: 'space-evenly',
+      height: '42px',
+      borderRadius: 2,
+      transition: 'background-color 250ms ease-in-out',
+      fontSize: '14px',
+      fontWeight: 300,
+      '&:hover': {
+        bgcolor: 'primary.light',
+      },
+      '&>*': {
+        display: 'flex',
+        alignItems: 'center',
+      },
+    },
+  },
+  loading: {
+    my: '10px',
   },
 };

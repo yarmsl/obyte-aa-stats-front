@@ -41,15 +41,6 @@ const mdSmHomeLt = [
     moved: false,
     static: false,
   },
-  {
-    i: 'widget-table',
-    x: 0,
-    y: 3,
-    w: 3,
-    h: 2,
-    moved: false,
-    static: false,
-  },
 ];
 
 const mdSmAgentLt = [
@@ -141,16 +132,6 @@ export const initialState: UIState = {
         moved: false,
         static: false,
       },
-      {
-        i: 'widget-table',
-        x: 0,
-        y: 4,
-        w: 2,
-        h: 2,
-        maxW: 2,
-        moved: false,
-        static: false,
-      },
     ],
     xxs: [
       {
@@ -187,16 +168,6 @@ export const initialState: UIState = {
         i: 'widget-chart',
         x: 0,
         y: 3,
-        w: 1,
-        h: 2,
-        maxW: 1,
-        moved: false,
-        static: false,
-      },
-      {
-        i: 'widget-table',
-        x: 0,
-        y: 5,
         w: 1,
         h: 2,
         maxW: 1,
@@ -289,6 +260,7 @@ export const initialState: UIState = {
     },
   ],
   agentsTablePeriodControls: { label: 'Today', value: 1, timeframe: 'hourly' },
-  asset: null,
+  agentsTableDataLimit: 10,
   aaTopTableSortType: 'usd_amount_in',
+  asset: null,
 };

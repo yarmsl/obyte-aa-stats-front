@@ -58,14 +58,12 @@ const TotalGraphConnected: FC = () => {
             dispatch(
               handleTotalGraphActivitiesControls(
                 [
-                  ...selectedActivities.filter(
-                    (sa) => sa.value !== 'usd_balance'
-                  ),
+                  ...selectedActivities.filter((sa) => sa.group != null),
                   conf,
                 ].sort((a, b) => a.value.localeCompare(b.value))
               )
             );
-            if (selectedPeriod < 30) {
+            if (selectedPeriod < 30 && selectedPeriod > 0) {
               dispatch(handleTotalGraphPeriodControl(30));
             }
           }

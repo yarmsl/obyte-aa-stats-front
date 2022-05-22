@@ -45,7 +45,7 @@ export const theme = (darkMode: boolean): Theme =>
           primary: {
             dark: '#008cf0',
             main: '#fff',
-            light: '#FF1C26',
+            light: 'rgba(225,225,225,.2)',
             contrastText: '#fff',
           },
           secondary: {
@@ -78,7 +78,7 @@ export const theme = (darkMode: boolean): Theme =>
           primary: {
             dark: '#1d1e33',
             main: '#2c3e50',
-            light: '#4e77ad',
+            light: '#d8e5f0',
             contrastText: 'rgba(0,0,0,.6)',
           },
           secondary: {

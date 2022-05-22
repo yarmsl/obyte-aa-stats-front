@@ -8,12 +8,12 @@ import {
   useGetStatsForOneAddressQuery,
   useGetTvlOverTimeForOneAddressQuery,
 } from 'store/AAstats';
-import { definitionByAddressSelector } from 'store/Obyte';
+import { safetyDefinitionByAddressSelector } from 'store/Obyte';
 
 const AgentInfoWidget: FC = () => {
   const { address = '' } = useParams<{ address: string }>();
   const { from, to } = useTimeframe(0, 'hourly');
-  const dd = useAppSelector(definitionByAddressSelector);
+  const dd = useAppSelector(safetyDefinitionByAddressSelector);
   const {
     description,
     homepage_url = '',
@@ -22,9 +22,9 @@ const AgentInfoWidget: FC = () => {
   const { data } = useGetStatsForOneAddressQuery(
     {
       address,
-      timeframe: 'hourly',
+      timeframe: 'daily',
       from: 0,
-      to,
+      to: to / 24,
     },
     { skip: address == null }
   );
@@ -35,8 +35,7 @@ const AgentInfoWidget: FC = () => {
     to,
   });
 
-  console.log(data);
-  console.log('tvl', tvl);
+  console.log(data, tvl);
 
   const about = useMemo(
     () =>

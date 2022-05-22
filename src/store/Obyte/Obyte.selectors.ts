@@ -13,17 +13,33 @@ export const definitionByAddressSelector = createSelector(
   (definedData) => (address: string) =>
     Object.keys(definedData)
       .map((baseaa) => definedData[baseaa])
-      .find((def) => def.addresses.some((a) => a === address))?.definition || {
-      description: address,
+      .find((def) => def.addresses.some((a) => a === address))
+);
+
+export const safetyDefinitionByAddressSelector = createSelector(
+  definitionByAddressSelector,
+  (def) => (address: string) => {
+    const defData = def(address);
+    if (defData) {
+      return defData.definition;
     }
+    return { description: address };
+  }
 );
 
 export const descriptionByAddressSelector = createSelector(
-  definitionByAddressSelector,
+  safetyDefinitionByAddressSelector,
   (definition) => (address: string) => definition(address).description
 );
 
 export const addressesSelector = createSelector(
   obyteSelector,
   (obyte) => obyte.addresses
+);
+
+export const isAddressesInCacheSelector = createSelector(
+  definitionByAddressSelector,
+  addressesSelector,
+  (getDef, addresses) =>
+    addresses.length > 0 ? addresses.every((address) => getDef(address)) : true
 );
