@@ -2,10 +2,13 @@ import { Dialog } from '@mui/material';
 import { memo } from 'react';
 import { v4 } from 'uuid';
 import { useAppDispatch, useAppSelector } from '../../../store';
-import { closeModalAction } from '../../../store/ModalStack';
+import {
+  closeModalAction,
+  modalStackSelector,
+} from '../../../store/ModalStack';
 
 const ModalStack: React.FC = () => {
-  const { modalStack } = useAppSelector((st) => st);
+  const modalStack = useAppSelector(modalStackSelector);
   const dispatch = useAppDispatch();
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment

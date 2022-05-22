@@ -7,11 +7,12 @@ import SaveLayoutButton from 'UI/atoms/SaveLayoutButton/SaveLayoutButton';
 import DarkModeSwitcher from 'UI/atoms/DarkModeSwitcher/DarkModeSwitcher';
 import { usePage } from 'lib/usePage';
 import AssetSelect from 'UI/atoms/AssetSelect/AssetSelect';
+import { darkModeSelector } from 'store/UI';
 import { stylesByMode } from './styles';
 
 const Header: React.FC = () => {
   const scrollTop = useScroll();
-  const { darkMode } = useAppSelector((st) => st.ui);
+  const darkMode = useAppSelector(darkModeSelector);
   const styles = useMemo(() => stylesByMode(darkMode), [darkMode]);
   const shadow = useMemo(
     () => ({
