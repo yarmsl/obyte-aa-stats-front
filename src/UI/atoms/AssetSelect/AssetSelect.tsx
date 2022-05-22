@@ -16,8 +16,9 @@ const AssetSelect: FC = () => {
   );
   return (
     <TextField
+      label='Asset'
       size='small'
-      variant='standard'
+      variant='outlined'
       color='secondary'
       select
       autoComplete='off'

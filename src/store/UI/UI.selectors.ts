@@ -54,3 +54,8 @@ export const agentLayoutsCacheSelector = createSelector(
   uiSelector,
   (ui) => ui.agentLayoutsCache
 );
+
+export const agentsTableDataLimitSelector = createSelector(
+  uiSelector,
+  (ui) => ui.agentsTableDataLimit
+);

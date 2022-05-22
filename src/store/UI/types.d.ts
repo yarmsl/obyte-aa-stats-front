@@ -7,8 +7,9 @@ interface UIState {
   totalGraphPeriodControls: IUiControls;
   totalGraphActivitiesControls: IUiSelects<ITotalWithTvlActivity>[];
   agentsTablePeriodControls: IUiControls;
-  asset: assetsTypes | null;
+  agentsTableDataLimit: number;
   aaTopTableSortType: topAATypes;
+  asset: assetsTypes | null;
 }
 
 interface IUiControls {

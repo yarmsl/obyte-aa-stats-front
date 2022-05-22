@@ -1,18 +1,29 @@
 import { useTimeframe } from 'lib/useTimeframe';
-import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  FC,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 import { useGetTopAAbyTvlQuery, useGetTopAAbyTypeQuery } from 'store/AAstats';
 import {
   addressesSelector,
   descriptionByAddressSelector,
+  isAddressesInCacheSelector,
   obyteApi,
 } from 'store/Obyte';
 import {
   aaTopTableSortTypeSelector,
   agentsTableControl,
+  agentsTableDataLimitSelector,
   handleAAtopTableSortType,
   handleAgentsTablePeriodControl,
+  increaseAgentsTableDataLimit,
 } from 'store/UI';
 import AgentsTable from './AgentsTable';
 
@@ -21,12 +32,14 @@ const AgentsTableConnected: FC = () => {
   const nav = useNavigate();
   const { value: selectedPeriod, timeframe = 'daily' } =
     useAppSelector(agentsTableControl);
-  const [limit] = useState(250);
+  const limit = useAppSelector(agentsTableDataLimitSelector);
   const type = useAppSelector(aaTopTableSortTypeSelector);
   const [sortByTvl, setSortByTvl] = useState(false);
   const { from, to } = useTimeframe(selectedPeriod, timeframe);
   const dd = useAppSelector(descriptionByAddressSelector);
   const addresses = useAppSelector(addressesSelector);
+  const loaderRef = useRef(null);
+  const isAddressesInCache = useAppSelector(isAddressesInCacheSelector);
 
   const handlePeriod = useCallback(
     (value: number) => () => dispatch(handleAgentsTablePeriodControl(value)),
@@ -39,7 +52,7 @@ const AgentsTableConnected: FC = () => {
   );
 
   const onChangeSortType = useCallback(
-    (dataKey: string) => {
+    (dataKey: string) => () => {
       if (dataKey === 'usd_balance') {
         setSortByTvl(true);
         return;
@@ -62,11 +75,6 @@ const AgentsTableConnected: FC = () => {
     limit,
     type,
   });
-
-  // const period = useMemo(
-  //   () => (timeframe === 'daily' ? to * 24 : to),
-  //   [timeframe, to]
-  // );
 
   const getDef = useCallback((address: string) => dd(address), [dd]);
 
@@ -104,11 +112,61 @@ const AgentsTableConnected: FC = () => {
     return [];
   }, [data, getDef, sortByTvl, tvl]);
 
+  const isSortSelected = useCallback(
+    (dataKey: keyof IMergedTopAA) => {
+      if (dataKey === 'usd_balance' && sortByTvl) {
+        return true;
+      }
+      if (!sortByTvl) {
+        return type === dataKey;
+      }
+      return false;
+    },
+    [sortByTvl, type]
+  );
+
   useEffect(() => {
-    if (addresses.length > 0) {
+    if (!isAddressesInCache) {
       dispatch(obyteApi.util.prefetch('getDefinitions', addresses, {}));
     }
-  }, [addresses, dispatch]);
+  }, [addresses, dispatch, isAddressesInCache]);
+
+  const skipQueryData = useMemo(() => {
+    if (data && data.length >= 10) {
+      return data.length % 10 !== 0;
+    }
+    return true;
+  }, [data]);
+
+  const handleObserver: IntersectionObserverCallback = useCallback(
+    (entries) => {
+      if (
+        Array.isArray(entries) &&
+        entries[0].isIntersecting &&
+        !skipQueryData
+      ) {
+        dispatch(increaseAgentsTableDataLimit(10));
+      }
+    },
+    [dispatch, skipQueryData]
+  );
+
+  const observer = useMemo(
+    () =>
+      new IntersectionObserver(handleObserver, {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0,
+      }),
+    [handleObserver]
+  );
+
+  useEffect(() => {
+    if (loaderRef.current) {
+      observer.observe(loaderRef.current);
+    }
+    return () => observer.disconnect();
+  }, [handleObserver, observer]);
 
   return (
     <AgentsTable
@@ -118,6 +176,8 @@ const AgentsTableConnected: FC = () => {
       onNavigate={onNavigate}
       handlePeriod={handlePeriod}
       isSelectedPeriod={isSelectedPeriod}
+      isSortSelected={isSortSelected}
+      loaderRef={loaderRef}
     />
   );
 };

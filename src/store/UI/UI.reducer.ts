@@ -62,17 +62,23 @@ const UISlice = createSlice({
         shortPeriodsUiControls.find((ctrl) => ctrl.value === action.payload) ||
         initialState.agentsTablePeriodControls;
     },
-    handleAsset: (
+    increaseAgentsTableDataLimit: (
       state: UIState,
-      action: PayloadAction<assetsTypes | null>
+      action: PayloadAction<number>
     ) => {
-      state.asset = action.payload;
+      state.agentsTableDataLimit += action.payload;
     },
     handleAAtopTableSortType: (
       state: UIState,
       action: PayloadAction<topAATypes>
     ) => {
       state.aaTopTableSortType = action.payload;
+    },
+    handleAsset: (
+      state: UIState,
+      action: PayloadAction<assetsTypes | null>
+    ) => {
+      state.asset = action.payload;
     },
   },
 });
@@ -88,7 +94,8 @@ export const {
   handleTotalGraphPeriodControl,
   handleTotalGraphActivitiesControls,
   handleAgentsTablePeriodControl,
-  handleAsset,
+  increaseAgentsTableDataLimit,
   handleAAtopTableSortType,
+  handleAsset,
 } = UISlice.actions;
 export const { reducer: UIReducer } = UISlice;
