@@ -66,17 +66,6 @@ const mdSmAgentLt = [
     moved: false,
     static: false,
   },
-  {
-    i: 'widget-table',
-    x: 0,
-    y: 2,
-    w: 3,
-    h: 2,
-    minW: 2,
-    minH: 2,
-    moved: false,
-    static: false,
-  },
 ];
 
 export const initialState: UIState = {
@@ -203,16 +192,6 @@ export const initialState: UIState = {
         moved: false,
         static: false,
       },
-      {
-        i: 'widget-table',
-        x: 0,
-        y: 4,
-        w: 2,
-        h: 2,
-        maxW: 2,
-        moved: false,
-        static: false,
-      },
     ],
     xxs: [
       {
@@ -235,21 +214,11 @@ export const initialState: UIState = {
         moved: false,
         static: false,
       },
-      {
-        i: 'widget-table',
-        x: 0,
-        y: 5,
-        w: 1,
-        h: 2,
-        maxW: 1,
-        moved: false,
-        static: false,
-      },
     ],
   },
   homeLayoutsCache: {},
   agentLayoutsCache: {},
-  totalGraphPeriodControls: { label: '30 days', value: 30 },
+  totalGraphPeriodControls: { label: '30 Days', value: 30 },
   totalGraphActivitiesControls: [
     {
       label: 'USD in',
@@ -257,10 +226,23 @@ export const initialState: UIState = {
       color: '#ffa16f',
       timeframe: 'daily',
       group: 'usd',
+      type: 'currency',
     },
   ],
   agentsTablePeriodControls: { label: 'Today', value: 1, timeframe: 'hourly' },
   agentsTableDataLimit: 10,
-  aaTopTableSortType: 'usd_amount_in',
+  agentsTableSortType: 'usd_amount_in',
+  agentsTableSortByTvl: false,
   asset: null,
+  agentGraphActivitiesControls: [
+    {
+      label: 'USD in',
+      value: 'usd_amount_in',
+      color: '#ffa16f',
+      timeframe: 'daily',
+      group: 'usd',
+      type: 'currency',
+    },
+  ],
+  agentGraphPeriodControl: { label: '30 Days', value: 30 },
 };

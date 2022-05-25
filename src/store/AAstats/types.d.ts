@@ -26,10 +26,19 @@ interface IAddress {
   num_users: number;
   period: number;
 }
-
-type ITotalActivity = Omit<IAddress, 'address'> & { period: number };
+type IAddressTvl = Pick<IAddress, 'address', 'period'> & {
+  usd_balance: number;
+  balance: number;
+  asset: assetsTypes | null;
+};
+type ITotalActivity = Omit<IAddress, 'address'>;
 type ITotalWithTvlActivity = ITotalActivity & { usd_balance: number };
 type ITotalTvl = Pick<topAAbyTvlRes, 'period' | 'balance' | 'usd_balance'>;
+
+type IAddressGraphData = Omit<IAddress, 'address'> & {
+  usd_balance: number;
+  asset: assetsTypes | null;
+};
 
 type topAAbyTvlRes = Pick<IAddress, 'address'> & {
   period: number;
@@ -44,8 +53,13 @@ interface IAsset {
   total_usd_balance: number;
 }
 
-type IAAStatsAddressReq = Omit<IAAStatsReq, 'period' | 'limit'>;
-type IAAStatsTvlReq = Omit<IAAStatsReq, 'timeframe' | 'period' | 'limit'>;
+type IAAStatsAddressReq = Omit<IAAStatsReq, 'period' | 'limit'> & {
+  slices: IUiSelects<IAddressGraphData>[];
+};
+type IAAStatsTvlReq = Omit<IAAStatsReq, 'period' | 'limit'> & {
+  conf: IUiSelects<IAddressGraphData>;
+};
+
 type IAAStatsTotalTvl = Pick<
   IAAStatsReq,
   'asset' | 'from' | 'to' | 'timeframe'

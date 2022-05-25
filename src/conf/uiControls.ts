@@ -22,6 +22,7 @@ export const totalGraphActivitiesUiControls: IUiSelects<ITotalWithTvlActivity>[]
       color: '#ffa16f',
       timeframe: 'daily',
       group: 'usd',
+      type: 'currency',
     },
     {
       label: 'USD out',
@@ -29,6 +30,7 @@ export const totalGraphActivitiesUiControls: IUiSelects<ITotalWithTvlActivity>[]
       color: '#03809c',
       timeframe: 'daily',
       group: 'usd',
+      type: 'currency',
     },
     {
       label: 'TVL',
@@ -36,6 +38,7 @@ export const totalGraphActivitiesUiControls: IUiSelects<ITotalWithTvlActivity>[]
       color: 'red',
       timeframe: 'hourly',
       group: null,
+      type: 'currency',
     },
   ];
 
@@ -62,3 +65,46 @@ export const assetsConf: assetUiControl[] = [
   label: asset.value?.replaceAll('-', ' ') || 'bytes',
   icon: `${coinIcon}${asset.icon}`,
 }));
+
+export const agentGraphUiControls: IUiSelects<IAddressGraphData>[] = [
+  {
+    label: 'USD in',
+    value: 'usd_amount_in',
+    color: '#ffa16f',
+    timeframe: 'daily',
+    group: 'usd',
+    type: 'currency',
+  },
+  {
+    label: 'USD out',
+    value: 'usd_amount_out',
+    color: '#03809c',
+    timeframe: 'daily',
+    group: 'usd',
+    type: 'currency',
+  },
+  {
+    label: 'TVL',
+    value: 'usd_balance',
+    color: '#d5265b',
+    timeframe: 'hourly',
+    group: null,
+    type: 'currency',
+  },
+  {
+    label: 'Users',
+    value: 'num_users',
+    color: 'blue',
+    timeframe: 'daily',
+    group: null,
+    type: 'amount',
+  },
+  {
+    label: 'Triggers',
+    value: 'triggers_count',
+    color: 'teal',
+    timeframe: 'daily',
+    group: null,
+    type: 'amount',
+  },
+];

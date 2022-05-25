@@ -2,10 +2,12 @@ import { Serie } from '@nivo/line';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { apiKey } from 'conf/constants';
 import {
+  transformStatsForOneAddressResponse,
   transformTopAA,
   transformTopAAByTvl,
   transformTotalActivity,
   transformTotalTvl,
+  transformTvlOverTimeForOneAddressResponse,
   transformTvlValues,
 } from './AAstats.transform';
 
@@ -29,21 +31,26 @@ export const aastatsAPI = createApi({
   refetchOnFocus: true,
   refetchOnReconnect: true,
   endpoints: (build) => ({
-    getStatsForOneAddress: build.query<IAddress[], IAAStatsAddressReq>({
-      query: (request) => ({
+    getStatsForOneAddress: build.query<Serie[], IAAStatsAddressReq>({
+      query: ({ address, asset, from, to, timeframe }) => ({
         url: 'address',
         method: 'POST',
-        body: request,
+        body: { address, asset, from, to, timeframe },
       }),
       providesTags: ['Address'],
+      transformResponse: transformStatsForOneAddressResponse,
     }),
-    getTvlOverTimeForOneAddress: build.query<IAddress[], IAAStatsTvlReq>({
-      query: (request) => ({
+    getTvlOverTimeForOneAddress: build.query<Serie[], IAAStatsTvlReq>({
+      query: ({ from, to, asset, address, timeframe }) => ({
         url: 'address/tvl',
         method: 'POST',
-        body: request,
+        body:
+          timeframe === 'daily'
+            ? { from: from * 24, to: to * 24, asset, address }
+            : { from, to, asset, address },
       }),
       providesTags: ['TvlForAddress'],
+      transformResponse: transformTvlOverTimeForOneAddressResponse,
     }),
     getTotalTvlOverTime: build.query<Serie[], IAAStatsTotalTvl>({
       query: ({ from, to, asset, timeframe }) => ({
@@ -54,9 +61,9 @@ export const aastatsAPI = createApi({
             ? { from: from * 24, to: to * 24, asset }
             : { from, to, asset },
       }),
+      keepUnusedDataFor: 60 * 30,
       providesTags: ['TotalTvl'],
-      transformResponse: (data: ITotalTvl[] | undefined, _, arg) =>
-        transformTotalTvl(data, arg.timeframe, arg.conf),
+      transformResponse: transformTotalTvl,
     }),
     getTotalTvlValues: build.query<ITotalTvl[], IAAStatsTotalTvlValuesReq>({
       query: (request) => ({
@@ -65,8 +72,8 @@ export const aastatsAPI = createApi({
         body: request,
       }),
       providesTags: ['TotalTvl'],
-      transformResponse: (data: ITotalTvl[] | undefined) =>
-        transformTvlValues(data),
+      keepUnusedDataFor: 60 * 30,
+      transformResponse: transformTvlValues,
     }),
     getTotalActivityOverTime: build.query<Serie[], IAAStatsTotalActivity>({
       query: ({ asset, from, to, timeframe }) => ({
@@ -75,8 +82,8 @@ export const aastatsAPI = createApi({
         body: { asset, from, to, timeframe },
       }),
       providesTags: ['TotalActivity'],
-      transformResponse: (data: ITotalActivity[] | undefined, _, arg) =>
-        transformTotalActivity(data, arg.slices, arg.timeframe),
+      keepUnusedDataFor: 60 * 30,
+      transformResponse: transformTotalActivity,
     }),
     getTopAAbyTvl: build.query<IRenderAATvl[], IAAStatsTopAAbyTvlReq>({
       query: (request) => ({
@@ -84,9 +91,9 @@ export const aastatsAPI = createApi({
         method: 'POST',
         body: request,
       }),
+      keepUnusedDataFor: 60 * 10,
       providesTags: ['TopAAbyTvl'],
-      transformResponse: (data: topAAbyTvlRes[] | undefined) =>
-        transformTopAAByTvl(data),
+      transformResponse: transformTopAAByTvl,
     }),
     getTopAAbyType: build.query<IRenderAddress[], IAAStatsTopAAbyTypeReq>({
       query: ({ asset, from, to, timeframe, limit, type }) => ({
@@ -95,7 +102,7 @@ export const aastatsAPI = createApi({
         body: { asset, from, to, timeframe, limit },
       }),
       providesTags: ['TopAA'],
-      transformResponse: (data: IAddress[] | undefined) => transformTopAA(data),
+      transformResponse: transformTopAA,
     }),
     getTopAssets: build.query<IAsset[], IAAStatsTopAssetsReq>({
       query: (request) => ({

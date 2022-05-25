@@ -1,13 +1,6 @@
 import { useTimeframe } from 'lib/useTimeframe';
-import {
-  FC,
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { FC, memo, useCallback, useEffect, useMemo, useRef } from 'react';
+import { batch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 import { useGetTopAAbyTvlQuery, useGetTopAAbyTypeQuery } from 'store/AAstats';
@@ -18,10 +11,12 @@ import {
   obyteApi,
 } from 'store/Obyte';
 import {
-  aaTopTableSortTypeSelector,
+  agentsTableSortTypeSelector,
+  agentsTableSortByTvlSelector,
   agentsTableControl,
   agentsTableDataLimitSelector,
-  handleAAtopTableSortType,
+  handleAgentsTableSortType,
+  handleAgentsTableSortByTvl,
   handleAgentsTablePeriodControl,
   increaseAgentsTableDataLimit,
 } from 'store/UI';
@@ -33,8 +28,8 @@ const AgentsTableConnected: FC = () => {
   const { value: selectedPeriod, timeframe = 'daily' } =
     useAppSelector(agentsTableControl);
   const limit = useAppSelector(agentsTableDataLimitSelector);
-  const type = useAppSelector(aaTopTableSortTypeSelector);
-  const [sortByTvl, setSortByTvl] = useState(false);
+  const type = useAppSelector(agentsTableSortTypeSelector);
+  const isSortByTvl = useAppSelector(agentsTableSortByTvlSelector);
   const { from, to } = useTimeframe(selectedPeriod, timeframe);
   const dd = useAppSelector(descriptionByAddressSelector);
   const addresses = useAppSelector(addressesSelector);
@@ -54,11 +49,13 @@ const AgentsTableConnected: FC = () => {
   const onChangeSortType = useCallback(
     (dataKey: string) => () => {
       if (dataKey === 'usd_balance') {
-        setSortByTvl(true);
+        dispatch(handleAgentsTableSortByTvl(true));
         return;
       }
-      setSortByTvl(false);
-      dispatch(handleAAtopTableSortType(dataKey as topAATypes));
+      batch(() => {
+        dispatch(handleAgentsTableSortByTvl(false));
+        dispatch(handleAgentsTableSortType(dataKey as topAATypes));
+      });
     },
     [dispatch]
   );
@@ -100,7 +97,7 @@ const AgentsTableConnected: FC = () => {
         }
         return accu;
       }, []);
-      if (sortByTvl) {
+      if (isSortByTvl) {
         return res.sort(
           (a, b) =>
             +b.usd_balance.replace(/\D/g, '') -
@@ -110,19 +107,19 @@ const AgentsTableConnected: FC = () => {
       return res;
     }
     return [];
-  }, [data, getDef, sortByTvl, tvl]);
+  }, [data, getDef, isSortByTvl, tvl]);
 
   const isSortSelected = useCallback(
     (dataKey: keyof IMergedTopAA) => {
-      if (dataKey === 'usd_balance' && sortByTvl) {
+      if (dataKey === 'usd_balance' && isSortByTvl) {
         return true;
       }
-      if (!sortByTvl) {
+      if (!isSortByTvl) {
         return type === dataKey;
       }
       return false;
     },
-    [sortByTvl, type]
+    [isSortByTvl, type]
   );
 
   useEffect(() => {

@@ -36,6 +36,23 @@ const SelectButtons = <V,>({
     [config]
   );
 
+  const groupColor = useCallback(
+    (i: number) => ((i + 1) % 2 === 0 ? 'primary' : 'secondary'),
+    []
+  );
+
+  const singleColor = useCallback((i: number) => {
+    const switcher = i + 1 < 3 ? i + 1 : (i + 1) % 3;
+    switch (switcher) {
+      case 1:
+        return 'error';
+      case 2:
+        return 'info';
+      default:
+        return 'success';
+    }
+  }, []);
+
   return (
     <Box
       sx={styles.root}
@@ -43,11 +60,11 @@ const SelectButtons = <V,>({
       onMouseDown={stopPropagate}
     >
       {isGroups &&
-        groupsKeys.map((key) => (
+        groupsKeys.map((key, i) => (
           <ButtonGroup
             key={key}
             size='small'
-            color='secondary'
+            color={groupColor(i)}
             sx={styles.group}
           >
             {groups[key].map(({ value, label }) => (
@@ -63,12 +80,12 @@ const SelectButtons = <V,>({
           </ButtonGroup>
         ))}
 
-      {buttons.map(({ label, value }) => (
+      {buttons.map(({ label, value }, i) => (
         <Button
           key={String(value)}
           variant={isSelected(value) ? 'contained' : 'text'}
           onClick={handler(value)}
-          color='error'
+          color={singleColor(i)}
           sx={styles.button}
         >
           {label}

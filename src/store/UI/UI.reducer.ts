@@ -68,17 +68,38 @@ const UISlice = createSlice({
     ) => {
       state.agentsTableDataLimit += action.payload;
     },
-    handleAAtopTableSortType: (
+    handleAgentsTableSortType: (
       state: UIState,
       action: PayloadAction<topAATypes>
     ) => {
-      state.aaTopTableSortType = action.payload;
+      state.agentsTableSortType = action.payload;
+    },
+    handleAgentsTableSortByTvl: (
+      state: UIState,
+      action: PayloadAction<boolean>
+    ) => {
+      state.agentsTableSortByTvl = action.payload;
     },
     handleAsset: (
       state: UIState,
       action: PayloadAction<assetsTypes | null>
     ) => {
       state.asset = action.payload;
+    },
+    handleAgentGraphActivitiesControls: (
+      state: UIState,
+      action: PayloadAction<IUiSelects<IAddressGraphData>[]>
+    ) => {
+      state.agentGraphActivitiesControls = action.payload;
+    },
+    handleAgentGraphPeriodControl: (
+      state: UIState,
+      action: PayloadAction<number>
+    ) => {
+      state.agentGraphPeriodControl =
+        [...longPeriodsUiControls, ...shortPeriodsUiControls].find(
+          (ctrl) => ctrl.value === action.payload
+        ) || initialState.totalGraphPeriodControls;
     },
   },
 });
@@ -95,7 +116,10 @@ export const {
   handleTotalGraphActivitiesControls,
   handleAgentsTablePeriodControl,
   increaseAgentsTableDataLimit,
-  handleAAtopTableSortType,
+  handleAgentsTableSortType,
+  handleAgentsTableSortByTvl,
   handleAsset,
+  handleAgentGraphActivitiesControls,
+  handleAgentGraphPeriodControl,
 } = UISlice.actions;
 export const { reducer: UIReducer } = UISlice;
