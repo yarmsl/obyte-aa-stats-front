@@ -79,7 +79,7 @@ export const theme = (darkMode: boolean): Theme =>
             dark: '#1d1e33',
             main: '#2c3e50',
             light: '#d8e5f0',
-            contrastText: 'rgba(0,0,0,.6)',
+            contrastText: '#fff',
           },
           secondary: {
             dark: '#ff8c6f',

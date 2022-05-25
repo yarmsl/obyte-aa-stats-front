@@ -12,4 +12,9 @@ export interface ILineChartProps {
     | 'minute'
     | 'month'
     | 'year';
+  xType?: xAxisTypes;
+  yType?: yAxisTypes;
 }
+
+export type xAxisTypes = 'time' | 'linear';
+export type yAxisTypes = 'currency' | 'amount';

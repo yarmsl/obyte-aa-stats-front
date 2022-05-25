@@ -8,8 +8,11 @@ interface UIState {
   totalGraphActivitiesControls: IUiSelects<ITotalWithTvlActivity>[];
   agentsTablePeriodControls: IUiControls;
   agentsTableDataLimit: number;
-  aaTopTableSortType: topAATypes;
+  agentsTableSortType: topAATypes;
+  agentsTableSortByTvl: boolean;
   asset: assetsTypes | null;
+  agentGraphActivitiesControls: IUiSelects<IAddressGraphData>[];
+  agentGraphPeriodControl: IUiControls;
 }
 
 interface IUiControls {
@@ -24,4 +27,5 @@ interface IUiSelects<V> {
   color: string;
   timeframe?: tfTypes;
   group: string | null;
+  type: 'currency' | 'amount';
 }

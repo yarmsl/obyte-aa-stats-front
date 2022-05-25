@@ -25,6 +25,7 @@ const UIPersistConfig = {
     'totalGraphActivitiesControls',
     'agentsTablePeriodControls',
     'aaTopTableSortType',
+    'agentsTableSortByTvl',
     'asset',
   ],
 };

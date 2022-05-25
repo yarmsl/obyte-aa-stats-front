@@ -105,12 +105,15 @@ const TotalGraphConnected: FC = () => {
     return longPeriodsUiControls;
   }, [tvlConf]);
 
-  const { data, isFetching } = useGetTotalActivityOverTimeQuery({
-    from,
-    to,
-    timeframe,
-    slices,
-  });
+  const { data, isFetching } = useGetTotalActivityOverTimeQuery(
+    {
+      from,
+      to,
+      timeframe,
+      slices,
+    },
+    { skip: !!tvlConf }
+  );
 
   const { data: tvl, isFetching: isTvlFetching } = useGetTotalTvlOverTimeQuery(
     {
@@ -119,7 +122,7 @@ const TotalGraphConnected: FC = () => {
       timeframe,
       conf: tvlConf as IUiSelects<ITotalWithTvlActivity>,
     },
-    { skip: timeframe === 'daily' || !tvlConf }
+    { skip: !tvlConf }
   );
 
   const isLoading = useMemo(

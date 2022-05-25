@@ -27,10 +27,7 @@ export const totalGraphActivityControl = createSelector(
 
 export const totalGraphTimeframeSelector = createSelector(
   totalGraphActivityControl,
-  (ctrls) =>
-    Array.isArray(ctrls) && ctrls.length > 0
-      ? ctrls[0].timeframe || 'daily'
-      : 'daily'
+  ([control]) => control.timeframe || 'daily'
 );
 
 export const agentsTableControl = createSelector(
@@ -40,9 +37,14 @@ export const agentsTableControl = createSelector(
 
 export const assetSelector = createSelector(uiSelector, (ui) => ui.asset);
 
-export const aaTopTableSortTypeSelector = createSelector(
+export const agentsTableSortTypeSelector = createSelector(
   uiSelector,
-  (ui) => ui.aaTopTableSortType
+  (ui) => ui.agentsTableSortType
+);
+
+export const agentsTableSortByTvlSelector = createSelector(
+  uiSelector,
+  (ui) => ui.agentsTableSortByTvl
 );
 
 export const agentLayoutsSelector = createSelector(
@@ -58,4 +60,24 @@ export const agentLayoutsCacheSelector = createSelector(
 export const agentsTableDataLimitSelector = createSelector(
   uiSelector,
   (ui) => ui.agentsTableDataLimit
+);
+
+export const agentGraphActivitiesControlsSelector = createSelector(
+  uiSelector,
+  (ui) => ui.agentGraphActivitiesControls
+);
+
+export const agentGraphTimeframeSelector = createSelector(
+  agentGraphActivitiesControlsSelector,
+  ([control]) => control.timeframe || 'daily'
+);
+
+export const agentGraphPeriodControlValueSelector = createSelector(
+  uiSelector,
+  (ui) => ui.agentGraphPeriodControl.value
+);
+
+export const agentGraphTypeSelector = createSelector(
+  agentGraphActivitiesControlsSelector,
+  ([control]) => control.type
 );

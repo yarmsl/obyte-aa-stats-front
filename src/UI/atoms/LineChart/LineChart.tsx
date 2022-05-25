@@ -10,7 +10,9 @@ const LineChart: FC<ILineChartProps> = ({
   data,
   lineWidth,
   small,
-  precision,
+  precision = 'day',
+  xType = 'time',
+  yType = 'currency',
 }) => {
   const { isMobile, isTablet } = useMedia();
   const darkMode = useAppSelector(darkModeSelector);
@@ -19,9 +21,12 @@ const LineChart: FC<ILineChartProps> = ({
     [data]
   );
   const formatDatesX = useMemo(() => {
-    if (precision === 'hour') {
-      return { tickValues: 'every 3 day', format: '%b %d' };
+    if (xType === 'linear') {
+      return { tickValues: undefined, format: undefined };
     }
+    // if (precision === 'hour') {
+    //   return { tickValues: 'every 3 day', format: '%b %d' };
+    // }
     if (serieLength <= 30) {
       if (isTablet) {
         return { tickValues: 'every 5 day', format: '%b %d' };
@@ -39,7 +44,7 @@ const LineChart: FC<ILineChartProps> = ({
     }
 
     return { tickValues: 'every year', format: '%Y' };
-  }, [isMobile, isTablet, precision, serieLength]);
+  }, [isMobile, isTablet, serieLength, xType]);
 
   const theme = useMemo(
     () => ({
@@ -92,12 +97,12 @@ const LineChart: FC<ILineChartProps> = ({
             }
       }
       xScale={{
-        type: 'time',
-        precision: precision || 'day',
+        type: xType,
+        precision,
       }}
       yScale={{ type: 'linear', stacked: false, min: 'auto', max: 'auto' }}
-      yFormat='<-$2.4s'
-      xFormat='time:%x'
+      yFormat={yType === 'currency' ? '<-$2.4s' : ' >-.2f'}
+      xFormat={xType === 'time' ? 'time:%x' : undefined}
       curve='linear'
       axisTop={null}
       axisRight={null}
@@ -119,7 +124,7 @@ const LineChart: FC<ILineChartProps> = ({
               tickSize: 0,
               tickPadding: 5,
               tickRotation: 0,
-              format: '<-$.2s',
+              format: yType === 'currency' ? '<-$.2s' : undefined,
               tickValues: 3,
             }
       }
