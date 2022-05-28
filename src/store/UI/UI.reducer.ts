@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { shortPeriodsUiControls, longPeriodsUiControls } from 'conf/uiControls';
+import { equals } from 'ramda';
+import { aastatsAPI } from 'store/AAstats';
 import { initialState } from './initialState';
 
 const UISlice = createSlice({
@@ -80,10 +82,7 @@ const UISlice = createSlice({
     ) => {
       state.agentsTableSortByTvl = action.payload;
     },
-    handleAsset: (
-      state: UIState,
-      action: PayloadAction<assetsTypes | null>
-    ) => {
+    handleAsset: (state: UIState, action: PayloadAction<UiAssetTypes>) => {
       state.asset = action.payload;
     },
     handleAgentGraphActivitiesControls: (
@@ -101,6 +100,44 @@ const UISlice = createSlice({
           (ctrl) => ctrl.value === action.payload
         ) || initialState.totalGraphPeriodControls;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      aastatsAPI.endpoints.getStatsForOneAddress.matchFulfilled,
+      (state, action) => {
+        const incomeAssets = Array.from(
+          new Set(action.payload.map((ap) => ap.asset).filter((a) => a != null))
+        );
+        if (!equals(state.assets, incomeAssets)) {
+          state.assets = incomeAssets;
+        }
+        if (
+          !incomeAssets.some((asset) => asset === state.asset) &&
+          state.asset !== 'all' &&
+          state.asset !== null
+        ) {
+          state.asset = 'all';
+        }
+      }
+    );
+    builder.addMatcher(
+      aastatsAPI.endpoints.getTvlOverTimeForOneAddress.matchFulfilled,
+      (state, action) => {
+        const incomeAssets = Array.from(
+          new Set(action.payload.map((ap) => ap.asset).filter((a) => a != null))
+        );
+        if (!equals(state.assets, incomeAssets)) {
+          state.assets = incomeAssets;
+        }
+        if (
+          !incomeAssets.some((asset) => asset === state.asset) &&
+          state.asset !== 'all' &&
+          state.asset !== null
+        ) {
+          state.asset = 'all';
+        }
+      }
+    );
   },
 });
 

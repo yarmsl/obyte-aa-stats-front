@@ -233,7 +233,8 @@ export const initialState: UIState = {
   agentsTableDataLimit: 10,
   agentsTableSortType: 'usd_amount_in',
   agentsTableSortByTvl: false,
-  asset: null,
+  asset: 'all',
+  assets: [],
   agentGraphActivitiesControls: [
     {
       label: 'USD in',

@@ -7,7 +7,7 @@ type topAATypes =
 
 interface IAAStatsReq {
   address: string;
-  asset?: assetsTypes | null;
+  asset?: assetsTypes;
   timeframe: tfTypes;
   from: number;
   to: number;
@@ -25,11 +25,11 @@ interface IAddress {
   bounced_count: number;
   num_users: number;
   period: number;
+  asset: assetsTypes;
 }
-type IAddressTvl = Pick<IAddress, 'address', 'period'> & {
+type IAddressTvl = Pick<IAddress, 'address' | 'period' | 'asset'> & {
   usd_balance: number;
   balance: number;
-  asset: assetsTypes | null;
 };
 type ITotalActivity = Omit<IAddress, 'address'>;
 type ITotalWithTvlActivity = ITotalActivity & { usd_balance: number };
@@ -37,7 +37,6 @@ type ITotalTvl = Pick<topAAbyTvlRes, 'period' | 'balance' | 'usd_balance'>;
 
 type IAddressGraphData = Omit<IAddress, 'address'> & {
   usd_balance: number;
-  asset: assetsTypes | null;
 };
 
 type topAAbyTvlRes = Pick<IAddress, 'address'> & {
@@ -53,12 +52,8 @@ interface IAsset {
   total_usd_balance: number;
 }
 
-type IAAStatsAddressReq = Omit<IAAStatsReq, 'period' | 'limit'> & {
-  slices: IUiSelects<IAddressGraphData>[];
-};
-type IAAStatsTvlReq = Omit<IAAStatsReq, 'period' | 'limit'> & {
-  conf: IUiSelects<IAddressGraphData>;
-};
+type IAAStatsAddressReq = Omit<IAAStatsReq, 'period' | 'limit' | 'asset'>;
+type IAAStatsTvlReq = Omit<IAAStatsReq, 'period' | 'limit'>;
 
 type IAAStatsTotalTvl = Pick<
   IAAStatsReq,

@@ -24,9 +24,9 @@ const LineChart: FC<ILineChartProps> = ({
     if (xType === 'linear') {
       return { tickValues: undefined, format: undefined };
     }
-    // if (precision === 'hour') {
-    //   return { tickValues: 'every 3 day', format: '%b %d' };
-    // }
+    if (precision === 'hour') {
+      return { tickValues: 'every 3 day', format: '%b %d' };
+    }
     if (serieLength <= 30) {
       if (isTablet) {
         return { tickValues: 'every 5 day', format: '%b %d' };
@@ -44,7 +44,7 @@ const LineChart: FC<ILineChartProps> = ({
     }
 
     return { tickValues: 'every year', format: '%Y' };
-  }, [isMobile, isTablet, serieLength, xType]);
+  }, [isMobile, isTablet, precision, serieLength, xType]);
 
   const theme = useMemo(
     () => ({

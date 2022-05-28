@@ -4,7 +4,7 @@ export const longPeriodsUiControls: IUiControls[] = [
   { label: '30 Days', value: 30, timeframe: 'daily' },
   { label: '90 Days', value: 90, timeframe: 'daily' },
   { label: '1 Year', value: 365, timeframe: 'daily' },
-  { label: 'All period', value: 0, timeframe: 'daily' },
+  { label: 'All', value: 0, timeframe: 'daily' },
 ];
 
 export const shortPeriodsUiControls: IUiControls[] = [
@@ -65,6 +65,24 @@ export const assetsConf: assetUiControl[] = [
   label: asset.value?.replaceAll('-', ' ') || 'bytes',
   icon: `${coinIcon}${asset.icon}`,
 }));
+
+export const assetsIconsConf: IAssetsIconsConf[] = [
+  { icon: 'OETH.svg', assets: ['O-GBYTE-ETH', 'O-OETH-ETH', 'OETH', 'OETHV1'] },
+  { icon: 'OBIT.svg', assets: ['O-GBYTE-WBTC', 'OBIT', 'OBITV1'] },
+  { icon: 'GRD.svg', assets: ['GRDV2', 'GRD'] },
+  {
+    icon: 'OUSD.svg',
+    assets: ['O-GBYTE-USDC', 'O-OUSD-USDC', 'OUSD', 'OUSDV1'],
+  },
+  { icon: 'GRB.svg', assets: ['GRGBV2', 'GRBV2', 'GRGB', 'GRB'] },
+  { icon: 'ETH.svg', assets: ['ETH'] },
+  { icon: 'USDC.svg', assets: ['USDC'] },
+  { icon: 'SFETH.svg', assets: ['GRETHV2'] },
+  { icon: 'WBTC.svg', assets: ['WBTC'] },
+  { icon: 'ITH.svg', assets: ['ITH'] },
+  { icon: 'IUSD.svg', assets: ['IUSD'] },
+  { icon: 'IBIT.svg', assets: ['IBIT'] },
+];
 
 export const agentGraphUiControls: IUiSelects<IAddressGraphData>[] = [
   {

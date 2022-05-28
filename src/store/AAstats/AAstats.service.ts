@@ -2,12 +2,10 @@ import { Serie } from '@nivo/line';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { apiKey } from 'conf/constants';
 import {
-  transformStatsForOneAddressResponse,
   transformTopAA,
   transformTopAAByTvl,
   transformTotalActivity,
   transformTotalTvl,
-  transformTvlOverTimeForOneAddressResponse,
   transformTvlValues,
 } from './AAstats.transform';
 
@@ -31,16 +29,15 @@ export const aastatsAPI = createApi({
   refetchOnFocus: true,
   refetchOnReconnect: true,
   endpoints: (build) => ({
-    getStatsForOneAddress: build.query<Serie[], IAAStatsAddressReq>({
-      query: ({ address, asset, from, to, timeframe }) => ({
+    getStatsForOneAddress: build.query<IAddress[], IAAStatsAddressReq>({
+      query: (request) => ({
         url: 'address',
         method: 'POST',
-        body: { address, asset, from, to, timeframe },
+        body: request,
       }),
       providesTags: ['Address'],
-      transformResponse: transformStatsForOneAddressResponse,
     }),
-    getTvlOverTimeForOneAddress: build.query<Serie[], IAAStatsTvlReq>({
+    getTvlOverTimeForOneAddress: build.query<IAddressTvl[], IAAStatsTvlReq>({
       query: ({ from, to, asset, address, timeframe }) => ({
         url: 'address/tvl',
         method: 'POST',
@@ -50,7 +47,6 @@ export const aastatsAPI = createApi({
             : { from, to, asset, address },
       }),
       providesTags: ['TvlForAddress'],
-      transformResponse: transformTvlOverTimeForOneAddressResponse,
     }),
     getTotalTvlOverTime: build.query<Serie[], IAAStatsTotalTvl>({
       query: ({ from, to, asset, timeframe }) => ({

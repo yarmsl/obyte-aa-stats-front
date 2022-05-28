@@ -1,37 +1,72 @@
 import { Box, MenuItem, TextField, Typography } from '@mui/material';
-import { assetsConf } from 'conf/uiControls';
+import { coinIcon } from 'conf/constants';
+import { assetsIconsConf } from 'conf/uiControls';
 import { ChangeEventHandler, FC, memo, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
-import { assetSelector, handleAsset } from 'store/UI';
+import { assetSelector, assetsSelector, handleAsset } from 'store/UI';
 import { styles } from './styles';
 
 const AssetSelect: FC = () => {
   const dispatch = useAppDispatch();
   const asset = useAppSelector(assetSelector);
+  const assets = useAppSelector(assetsSelector);
   const onAssetChange: ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
   > = useCallback(
-    (e) => dispatch(handleAsset(e.target.value as assetsTypes)),
+    (e) =>
+      dispatch(
+        handleAsset(
+          e.target.value === 'null' ? null : (e.target.value as assetsTypes)
+        )
+      ),
     [dispatch]
   );
+
+  const getAssetIcon = useCallback(
+    (assetValue: assetsTypes) =>
+      assetsIconsConf.find((aic) => aic.assets.some((a) => a === assetValue))
+        ?.icon || 'GBYTE.svg',
+    []
+  );
+
   return (
     <TextField
-      label='Asset'
       size='small'
-      variant='outlined'
+      variant='standard'
       color='secondary'
       select
       autoComplete='off'
       value={asset || 'null'}
       onChange={onAssetChange}
     >
-      {assetsConf.map(({ value, label, icon }) => (
-        <MenuItem key={value} value={value}>
+      <MenuItem value='all'>
+        <Box sx={styles.item}>
+          <Box sx={styles.icon}>
+            <img src={`${coinIcon}GBYTE.svg`} alt='all assets' />
+          </Box>
+          <Typography sx={styles.label}>all assets</Typography>
+        </Box>
+      </MenuItem>
+      <MenuItem value='null'>
+        <Box sx={styles.item}>
+          <Box sx={styles.icon}>
+            <img src={`${coinIcon}GBYTE.svg`} alt='bytes' />
+          </Box>
+          <Typography sx={styles.label}>bytes</Typography>
+        </Box>
+      </MenuItem>
+      {assets.map((ast) => (
+        <MenuItem key={ast} value={ast || 'null'}>
           <Box sx={styles.item}>
             <Box sx={styles.icon}>
-              <img src={icon} alt={label} />
+              <img
+                src={`${coinIcon}${getAssetIcon(ast)}`}
+                alt={ast || undefined}
+              />
             </Box>
-            <Typography sx={styles.label}>{label}</Typography>
+            <Typography sx={styles.label}>
+              {ast?.replaceAll('-', ' ') || ''}
+            </Typography>
           </Box>
         </MenuItem>
       ))}

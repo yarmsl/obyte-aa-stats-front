@@ -4,6 +4,7 @@ interface IAADefinition {
 }
 
 type assetsTypes =
+  | null
   | 'O-GBYTE-ETH'
   | 'O-GBYTE-WBTC'
   | 'GRDV2'
@@ -175,4 +176,9 @@ interface assetUiControl {
   value: assetsTypes;
   label: string;
   icon: string;
+}
+
+interface IAssetsIconsConf {
+  icon: string;
+  assets: assetsTypes[];
 }
