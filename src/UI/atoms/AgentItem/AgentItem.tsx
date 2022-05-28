@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
-import { Box, Divider, ListItemText, MenuItem } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { FC, memo, useMemo } from 'react';
+import { styles } from './styles';
 
 const AgentItem: FC<IAgentItemProps> = ({
   address,
@@ -13,23 +14,18 @@ const AgentItem: FC<IAgentItemProps> = ({
   const isAgent = useMemo(() => agent !== address, [address, agent]);
   return (
     <>
-      <Box>
-        <Box sx={{ width: '260px' }}>
-          <MenuItem
-            sx={{ borderRadius: 2, height: '100%', width: '100%' }}
-            onClick={onNavigate(address)}
-          >
-            <ListItemText
-              primary={agent}
-              secondary={isAgent ? address : undefined}
-            />
-          </MenuItem>
+      <Box sx={styles.root} onClick={onNavigate(address)}>
+        <Box sx={styles.agent}>
+          <Typography sx={styles.title}>{agent}</Typography>
+          <Typography sx={styles.address}>
+            {isAgent ? address : undefined}
+          </Typography>
         </Box>
-        <Box sx={{ width: '150px' }}>{usd_amount_in}</Box>
-        <Box sx={{ width: '150px' }}>{usd_amount_out}</Box>
-        <Box sx={{ width: '150px' }}>{usd_balance}</Box>
+        <Box sx={styles.cell}>{usd_amount_in}</Box>
+        <Box sx={styles.cell}>{usd_amount_out}</Box>
+        <Box sx={styles.cell}>{usd_balance}</Box>
       </Box>
-      <Divider sx={{ mx: '10px' }} />
+      <Divider sx={styles.divider} />
     </>
   );
 };

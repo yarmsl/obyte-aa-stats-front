@@ -10,7 +10,8 @@ interface UIState {
   agentsTableDataLimit: number;
   agentsTableSortType: topAATypes;
   agentsTableSortByTvl: boolean;
-  asset: assetsTypes | null;
+  asset: UiAssetTypes;
+  assets: assetsTypes[];
   agentGraphActivitiesControls: IUiSelects<IAddressGraphData>[];
   agentGraphPeriodControl: IUiControls;
 }
@@ -29,3 +30,5 @@ interface IUiSelects<V> {
   group: string | null;
   type: 'currency' | 'amount';
 }
+
+type UiAssetTypes = assetsTypes | 'all';

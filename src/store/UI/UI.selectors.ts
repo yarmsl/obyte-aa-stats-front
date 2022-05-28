@@ -81,3 +81,5 @@ export const agentGraphTypeSelector = createSelector(
   agentGraphActivitiesControlsSelector,
   ([control]) => control.type
 );
+
+export const assetsSelector = createSelector(uiSelector, (ui) => ui.assets);
