@@ -67,12 +67,43 @@ export const assetsConf: assetUiControl[] = [
 }));
 
 export const assetsIconsConf: IAssetsIconsConf[] = [
-  { icon: 'OETH.svg', assets: ['O-GBYTE-ETH', 'O-OETH-ETH', 'OETH', 'OETHV1'] },
-  { icon: 'OBIT.svg', assets: ['O-GBYTE-WBTC', 'OBIT', 'OBITV1'] },
+  {
+    icon: 'OETH.svg',
+    assets: [
+      'O-GBYTE-ETH',
+      'O-OETH-ETH',
+      'OETH',
+      'OETHV1',
+      'O2-OETH-ETH',
+      'O2-GBYTE-ETH',
+      'OPT-GBYTE-ETH',
+      'OPT-GBYTE-OETH',
+      'OPT-ETH-OETH',
+    ],
+  },
+  {
+    icon: 'OBIT.svg',
+    assets: [
+      'O-GBYTE-WBTC',
+      'OBIT',
+      'OBITV1',
+      'O2-GBYTE-WBTC',
+      'O2-OBIT-WBTC',
+      'OPT-GBYTE-WBTC',
+    ],
+  },
   { icon: 'GRD.svg', assets: ['GRDV2', 'GRD'] },
   {
     icon: 'OUSD.svg',
-    assets: ['O-GBYTE-USDC', 'O-OUSD-USDC', 'OUSD', 'OUSDV1'],
+    assets: [
+      'O-GBYTE-USDC',
+      'O-OUSD-USDC',
+      'OUSD',
+      'OUSDV1',
+      'OPT-GBYTE-OUSD',
+      'OPT-GBYTE-USDC',
+      'O2-GBYTE-USDC',
+    ],
   },
   { icon: 'GRB.svg', assets: ['GRGBV2', 'GRBV2', 'GRGB', 'GRB'] },
   { icon: 'ETH.svg', assets: ['ETH'] },
@@ -118,7 +149,7 @@ export const agentGraphUiControls: IUiSelects<IAddressGraphData>[] = [
     type: 'amount',
   },
   {
-    label: 'Triggers',
+    label: 'Requests',
     value: 'triggers_count',
     color: 'teal',
     timeframe: 'daily',

@@ -33,4 +33,7 @@ export const styles: Record<string, SxProps> = {
   divider: {
     mx: '10px',
   },
+  selected: {
+    color: 'secondary.main',
+  },
 };
