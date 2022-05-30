@@ -61,7 +61,7 @@ const AgentsTableConnected: FC = () => {
   );
 
   const onNavigate = useCallback(
-    (address: string) => () => nav(`aa/${address}`),
+    (address: string) => () => nav(`/aa/${address}`),
     [nav]
   );
 

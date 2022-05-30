@@ -4,7 +4,8 @@ import {
   shortPeriodsUiControls,
 } from 'conf/uiControls';
 import { useTimeframe } from 'lib/useTimeframe';
-import { FC, memo, useCallback, useMemo } from 'react';
+import { equals } from 'ramda';
+import { FC, memo, useCallback, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 import {
@@ -17,8 +18,11 @@ import {
   agentGraphTimeframeSelector,
   agentGraphTypeSelector,
   assetSelector,
+  assetsSelector,
   handleAgentGraphActivitiesControls,
   handleAgentGraphPeriodControl,
+  handleAsset,
+  handleAssets,
 } from 'store/UI';
 import AgentGraph from './AgentGraph';
 
@@ -26,6 +30,7 @@ const AgentGraphConnected: FC = () => {
   const dispatch = useAppDispatch();
   const { address = '' } = useParams<{ address: string }>();
   const asset = useAppSelector(assetSelector);
+  const selectedAssets = useAppSelector(assetsSelector);
   const timeframe = useAppSelector(agentGraphTimeframeSelector);
   const selectedPeriod = useAppSelector(agentGraphPeriodControlValueSelector);
   const selectedActivities = useAppSelector(
@@ -264,6 +269,38 @@ const AgentGraphConnected: FC = () => {
     }
     return graphData;
   }, [graphData, tvlConf, tvlGraphData]);
+
+  useEffect(() => {
+    if (tvlConf && tvlData) {
+      const assets = Array.from(new Set(tvlData.map((t) => t.asset))).filter(
+        (a) => a != null
+      );
+      if (!equals(selectedAssets, assets)) {
+        dispatch(handleAssets(assets));
+      }
+      if (
+        !assets.some((a) => a === asset) &&
+        asset !== 'all' &&
+        asset !== null
+      ) {
+        dispatch(handleAsset('all'));
+      }
+    } else if (data) {
+      const assets = Array.from(new Set(data.map((d) => d.asset))).filter(
+        (a) => a != null
+      );
+      if (!equals(selectedAssets, assets)) {
+        dispatch(handleAssets(assets));
+      }
+      if (
+        !assets.some((a) => a === asset) &&
+        asset !== 'all' &&
+        asset !== null
+      ) {
+        dispatch(handleAsset('all'));
+      }
+    }
+  }, [asset, data, dispatch, selectedAssets, tvlConf, tvlData]);
 
   return (
     <AgentGraph
