@@ -110,3 +110,16 @@ export const transformTvlValues = (
   }
   return [];
 };
+
+export const transformUSDInValues = (
+  data: ITotalActivity[] | undefined
+): number[] => {
+  if (Array.isArray(data) && data.length > 0) {
+    if (data.length < 2) {
+      return [0, ...data.map((d) => d.usd_amount_in)];
+    }
+
+    return data.map((d) => d.usd_amount_in);
+  }
+  return [0, 0];
+};

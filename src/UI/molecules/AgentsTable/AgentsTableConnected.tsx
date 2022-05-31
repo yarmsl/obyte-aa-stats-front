@@ -1,3 +1,4 @@
+import { usePage } from 'lib/usePage';
 import { useTimeframe } from 'lib/useTimeframe';
 import { FC, memo, useCallback, useEffect, useMemo, useRef } from 'react';
 import { batch } from 'react-redux';
@@ -19,12 +20,15 @@ import {
   handleAgentsTableSortByTvl,
   handleAgentsTablePeriodControl,
   increaseAgentsTableDataLimit,
+  assetSelector,
 } from 'store/UI';
 import AgentsTable from './AgentsTable';
 
 const AgentsTableConnected: FC = () => {
   const dispatch = useAppDispatch();
   const nav = useNavigate();
+  const { isAgentPage } = usePage();
+  const asset = useAppSelector(assetSelector);
   const { value: selectedPeriod, timeframe = 'daily' } =
     useAppSelector(agentsTableControl);
   const limit = useAppSelector(agentsTableDataLimitSelector);
@@ -65,13 +69,27 @@ const AgentsTableConnected: FC = () => {
     [nav]
   );
 
-  const { data, isFetching } = useGetTopAAbyTypeQuery({
-    from,
-    to,
-    timeframe,
-    limit,
-    type,
-  });
+  const { data, isFetching } = useGetTopAAbyTypeQuery(
+    useMemo(() => {
+      if (isAgentPage && asset !== 'all') {
+        return {
+          from,
+          to,
+          timeframe,
+          limit,
+          type,
+          asset,
+        };
+      }
+      return {
+        from,
+        to,
+        timeframe,
+        limit,
+        type,
+      };
+    }, [asset, from, isAgentPage, limit, timeframe, to, type])
+  );
 
   const getDef = useCallback((address: string) => dd(address), [dd]);
 

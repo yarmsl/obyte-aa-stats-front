@@ -16,8 +16,8 @@ export const useTimeframe = (
   const now = useMemo(
     () =>
       timeframe === 'daily'
-        ? thisHour / 1000 / 3600 / 24
-        : thisHour / 1000 / 3600,
+        ? Math.floor(thisHour / 1000 / 3600 / 24)
+        : Math.floor(thisHour / 1000 / 3600),
     [thisHour, timeframe]
   );
 
@@ -29,6 +29,11 @@ export const useTimeframe = (
       return Math.ceil(startOfDay(thisHour).getTime() / 1000 / 3600);
     }
     if (selectedPeriod === 2) {
+      if (timeframe === 'daily') {
+        return Math.ceil(
+          startOfDay(addDays(thisHour, -1)).getTime() / 1000 / 3600 / 24
+        );
+      }
       return Math.ceil(
         startOfDay(addDays(thisHour, -1)).getTime() / 1000 / 3600
       );

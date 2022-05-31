@@ -78,9 +78,9 @@ const AgentGraphConnected: FC = () => {
                 ].sort((a, b) => a.value.localeCompare(b.value))
               )
             );
-            if (selectedPeriod < 30 && selectedPeriod > 0) {
-              dispatch(handleAgentGraphPeriodControl(30));
-            }
+          }
+          if (selectedPeriod < 30 && selectedPeriod > 0) {
+            dispatch(handleAgentGraphPeriodControl(30));
           }
         } else if (selectedActivities.length > 1) {
           dispatch(
