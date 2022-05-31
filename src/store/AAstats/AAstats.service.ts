@@ -7,6 +7,7 @@ import {
   transformTotalActivity,
   transformTotalTvl,
   transformTvlValues,
+  transformUSDInValues,
 } from './AAstats.transform';
 
 export const aastatsAPI = createApi({
@@ -81,6 +82,16 @@ export const aastatsAPI = createApi({
       keepUnusedDataFor: 60 * 30,
       transformResponse: transformTotalActivity,
     }),
+    getTotalUsdInValues: build.query<number[], IAAStatsUSDInValuesReq>({
+      query: (request) => ({
+        url: 'total/activity',
+        method: 'POST',
+        body: request,
+      }),
+      providesTags: ['TotalActivity'],
+      keepUnusedDataFor: 60 * 30,
+      transformResponse: transformUSDInValues,
+    }),
     getTopAAbyTvl: build.query<IRenderAATvl[], IAAStatsTopAAbyTvlReq>({
       query: (request) => ({
         url: 'top/aa/tvl',
@@ -117,6 +128,7 @@ export const {
   useGetTotalTvlOverTimeQuery,
   useGetTotalTvlValuesQuery,
   useGetTotalActivityOverTimeQuery,
+  useGetTotalUsdInValuesQuery,
   useGetTopAAbyTvlQuery,
   useGetTopAAbyTypeQuery,
   useGetTopAssetsQuery,

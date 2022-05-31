@@ -1,4 +1,5 @@
 import { FC, memo } from 'react';
+import TurnoverValueWidget from 'UI/atoms/TurnoverValueWidget/TurnoverValueWidget';
 import TvlValueWidget from 'UI/atoms/TvlValueWidget/TvlValueWidget';
 import ValueWidget from 'UI/atoms/ValueWidget/ValueWidget';
 import AgentsTableConnected from 'UI/molecules/AgentsTable/AgentsTableConnected';
@@ -25,7 +26,7 @@ const HomeDashboardLayout: FC<IHomeDashboardLayoutProps> = ({
         <TvlValueWidget />
       </NeuBox>
       <NeuBox key='widget-2'>
-        <ValueWidget title='Widget title' value={44} unit='B' />
+        <TurnoverValueWidget />
       </NeuBox>
       <NeuBox key='widget-3'>
         <ValueWidget title='Widget title' value={32.324} unit='%' />
