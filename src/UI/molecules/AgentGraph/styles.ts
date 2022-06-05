@@ -1,25 +1,30 @@
 import { SxProps } from '@mui/material';
 
-export const styles: Record<string, SxProps> = {
+export const getStylesByArg = (
+  isDownThan1160: boolean
+): Record<string, SxProps> => ({
   root: {
     width: '100%',
-    height: { xs: 'calc(100% - 49px)', sm: 'calc(100% - 31px)' },
+    height: isDownThan1160
+      ? { xs: 'calc(100% - 77px)', sm: 'calc(100% - 50px)' }
+      : 'calc(100% - 23px)',
     position: 'relative',
   },
   header: {
     width: '100%',
     display: 'flex',
-    flexDirection: { xs: 'column', sm: 'row' },
+    flexDirection: isDownThan1160 ? 'column' : 'row',
     justifyContent: 'space-between',
-    alignItems: { xs: 'flex-end', sm: 'center' },
+    alignItems: isDownThan1160 ? 'flex-end' : 'center',
+    gap: '5px',
   },
   headerLeft: {
+    width: '100%',
     display: 'flex',
-    alignItems: 'center',
+    alignItems: { xs: 'flex-end', sm: 'center' },
+    flexDirection: { xs: 'column', sm: 'row' },
     alignSelf: 'flex-start',
-    '&>p': {
-      mr: '10px',
-    },
+    gap: '5px',
   },
   wrapper: {
     width: '100%',
@@ -41,4 +46,4 @@ export const styles: Record<string, SxProps> = {
     left: -10,
     borderRadius: 2,
   },
-};
+});

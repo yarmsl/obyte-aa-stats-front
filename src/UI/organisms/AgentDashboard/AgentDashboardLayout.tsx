@@ -1,5 +1,7 @@
 import { FC, memo } from 'react';
 import AgentInfoWidget from 'UI/atoms/AgentInfoWidget/AgentInfoWidget';
+import AgentTurnoverValueWidget from 'UI/atoms/AgentTurnoverValueWidget/AgentTurnoverValueWidget';
+import AgentTvlValueWidget from 'UI/atoms/AgentTvlValueWidget/AgentTvlValueWidget';
 import AgentGraphConnected from 'UI/molecules/AgentGraph/AgentGraphConnected';
 import AgentsTableConnected from 'UI/molecules/AgentsTable/AgentsTableConnected';
 import DragLayout from 'UI/templates/DragLayout/DragLayout';
@@ -10,6 +12,7 @@ const AgentDashboardLayout: FC<IAgentDashboardLayoutProps> = ({
   handleLayouts,
 }) => (
   <>
+    <AgentInfoWidget />
     <DragLayout
       cols={{ xxs: 1, xs: 2, sm: 3, md: 3, lg: 4 }}
       margin={[25, 25]}
@@ -20,7 +23,10 @@ const AgentDashboardLayout: FC<IAgentDashboardLayoutProps> = ({
       measureBeforeMount
     >
       <NeuBox key='widget-1'>
-        <AgentInfoWidget />
+        <AgentTvlValueWidget />
+      </NeuBox>
+      <NeuBox key='widget-2'>
+        <AgentTurnoverValueWidget />
       </NeuBox>
       <NeuBox key='widget-chart'>
         <AgentGraphConnected />

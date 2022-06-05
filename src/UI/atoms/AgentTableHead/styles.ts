@@ -7,7 +7,9 @@ export const styles: Record<string, SxProps> = {
     height: '42px',
   },
   label: {
+    fontSize: { xs: '14px', sm: '16px' },
     fontWeight: 300,
+    whiteSpace: 'nowrap',
     mr: '5px',
   },
   column: {

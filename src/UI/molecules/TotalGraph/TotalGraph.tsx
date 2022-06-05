@@ -1,5 +1,5 @@
 import { Box, Skeleton, Typography } from '@mui/material';
-import { FC, memo, MouseEvent, TouchEvent, useCallback } from 'react';
+import { FC, memo, MouseEvent, useCallback } from 'react';
 import WaterMark from 'UI/atoms/WaterMark/WaterMark';
 import { totalGraphActivitiesUiControls } from 'conf/uiControls';
 import LineChart from 'UI/atoms/LineChart/LineChart';
@@ -18,10 +18,7 @@ const TotalGraph: FC<ITotalGraphProps> = ({
   presicion,
   actionButtonsConf,
 }) => {
-  const stopPropagate = useCallback(
-    (e: MouseEvent | TouchEvent) => e.stopPropagation(),
-    []
-  );
+  const stopPropagate = useCallback((e: MouseEvent) => e.stopPropagation(), []);
   return (
     <Box sx={styles.root}>
       <Box sx={styles.header}>
@@ -39,11 +36,7 @@ const TotalGraph: FC<ITotalGraphProps> = ({
           handler={handlePeriod}
         />
       </Box>
-      <Box
-        sx={styles.wrapper}
-        onTouchStart={stopPropagate}
-        onMouseDown={stopPropagate}
-      >
+      <Box sx={styles.wrapper} onMouseDown={stopPropagate}>
         <LineChart data={data} precision={presicion} />
         {isLoading && (
           <Skeleton

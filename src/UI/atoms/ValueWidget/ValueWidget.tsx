@@ -60,8 +60,8 @@ const ValueWidget: FC<IValueWidgetProps> = ({
       <Divider sx={styles.divider} />
       <Box
         sx={styles.content}
-        onTouchStart={stopPropagate}
         onMouseDown={stopPropagate}
+        onTouchStart={stopPropagate}
       >
         <Typography sx={styles.value}>{printValue}</Typography>
         {printTrend && (

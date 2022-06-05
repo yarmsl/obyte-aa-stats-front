@@ -1,12 +1,13 @@
 /* eslint-disable camelcase */
-import { Box, Link, Typography } from '@mui/material';
+import { Box, Link, Typography, IconButton } from '@mui/material';
 import { FC, memo, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'store';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import GitHubIcon from '@mui/icons-material/GitHub';
-
 import { safetyDefinitionByAddressSelector } from 'store/Obyte';
+import { useMedia } from 'lib/useMedia';
+import { styles } from './styles';
 
 const AgentInfoWidget: FC = () => {
   const { address = '' } = useParams<{ address: string }>();
@@ -17,27 +18,35 @@ const AgentInfoWidget: FC = () => {
     source_url = '',
   } = useMemo(() => dd(address), [address, dd]);
 
+  const { isPortable } = useMedia();
+
   return (
-    <Box
-      sx={{
-        '&>*:not(:last-child)': {
-          mb: '10px',
-        },
-      }}
-    >
-      <Typography>{description}</Typography>
-      {homepage_url && (
-        <Link sx={{ display: 'flex' }} href={homepage_url}>
-          <HomeRoundedIcon />
-          <Typography sx={{ ml: '5px' }}>Homepage</Typography>
-        </Link>
-      )}
-      {source_url && (
-        <Link sx={{ display: 'flex' }} href={source_url}>
-          <GitHubIcon />
-          <Typography sx={{ ml: '5px' }}>GitHub</Typography>
-        </Link>
-      )}
+    <Box sx={styles.root}>
+      <Box sx={styles.titleBox}>
+        <Typography sx={styles.title}>{description}</Typography>
+      </Box>
+      <Box sx={styles.linksWrapper}>
+        {homepage_url && (
+          <Link
+            component={isPortable ? IconButton : 'a'}
+            sx={styles.link}
+            href={homepage_url}
+          >
+            <HomeRoundedIcon />
+            <Typography sx={styles.linkText}>Homepage</Typography>
+          </Link>
+        )}
+        {source_url && (
+          <Link
+            component={isPortable ? IconButton : 'a'}
+            sx={styles.link}
+            href={source_url}
+          >
+            <GitHubIcon />
+            <Typography sx={styles.linkText}>GitHub</Typography>
+          </Link>
+        )}
+      </Box>
     </Box>
   );
 };

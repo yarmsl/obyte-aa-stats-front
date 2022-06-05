@@ -107,7 +107,7 @@ export const assetsIconsConf: IAssetsIconsConf[] = [
   },
   { icon: 'GRB.svg', assets: ['GRGBV2', 'GRBV2', 'GRGB', 'GRB'] },
   { icon: 'ETH.svg', assets: ['ETH'] },
-  { icon: 'USDC.svg', assets: ['USDC'] },
+  { icon: 'USDC.svg', assets: ['USDC', 'SFUSD'] },
   { icon: 'SFETH.svg', assets: ['GRETHV2'] },
   { icon: 'WBTC.svg', assets: ['WBTC'] },
   { icon: 'ITH.svg', assets: ['ITH'] },

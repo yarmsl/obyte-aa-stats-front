@@ -10,6 +10,7 @@ export const styles: Record<string, SxProps> = {
     flexDirection: 'column',
     justifyContent: 'center',
     overflow: 'hidden',
+    mr: '5px',
   },
   title: {
     fontSize: '12px',
@@ -28,7 +29,10 @@ export const styles: Record<string, SxProps> = {
     alignSelf: 'flex-start',
   },
   cell: {
-    width: '150px',
+    width: { xs: '100px', sm: '150px' },
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
   },
   divider: {
     mx: '10px',
