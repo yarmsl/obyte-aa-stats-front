@@ -3,7 +3,7 @@ import { SxProps } from '@mui/material';
 export const styles: Record<string, SxProps> = {
   root: {
     height: '100%',
-    p: '10px',
+    py: '10px',
     display: 'flex',
     alignItems: 'center',
     userSelect: 'none',

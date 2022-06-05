@@ -3,11 +3,12 @@ import { SxProps } from '@mui/material';
 export const styles: Record<string, SxProps> = {
   root: {
     width: '100%',
-    px: '30px',
+    px: { xs: '16px', sm: '24px' },
   },
   header: {
     width: '100%',
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'space-between',
     mb: '5px',
   },
@@ -27,7 +28,7 @@ export const styles: Record<string, SxProps> = {
       height: '42px',
       borderRadius: 2,
       transition: 'background-color 250ms ease-in-out',
-      fontSize: '14px',
+      fontSize: { xs: '12px', sm: '14px' },
       fontWeight: 300,
       '&:hover': {
         bgcolor: 'primary.light',

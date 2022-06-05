@@ -27,6 +27,7 @@ export const theme = (darkMode: boolean): Theme =>
       ].join(','),
       button: {
         textTransform: 'none',
+        whiteSpace: 'nowrap',
       },
     },
     palette: darkMode
@@ -127,6 +128,13 @@ export const theme = (darkMode: boolean): Theme =>
       '0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px',
     ],
     components: {
+      MuiInputBase: {
+        styleOverrides: {
+          inputSizeSmall: {
+            padding: 0,
+          },
+        },
+      },
       MuiList: {
         styleOverrides: {
           root: {

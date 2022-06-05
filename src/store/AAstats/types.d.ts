@@ -54,6 +54,10 @@ interface IAsset {
 
 type IAAStatsAddressReq = Omit<IAAStatsReq, 'period' | 'limit' | 'asset'>;
 type IAAStatsTvlReq = Omit<IAAStatsReq, 'period' | 'limit'>;
+type IAAStatsTvlValuesForOneAddressReq = Pick<
+  IAAStatsReq,
+  'address' | 'from' | 'to'
+>;
 
 type IAAStatsTotalTvl = Pick<
   IAAStatsReq,

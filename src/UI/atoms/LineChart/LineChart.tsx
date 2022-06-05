@@ -87,8 +87,10 @@ const LineChart: FC<ILineChartProps> = ({
       colors={colors}
       theme={theme}
       margin={
-        small
-          ? undefined
+        small || isMobile
+          ? {
+              right: 20,
+            }
           : {
               top: 20,
               right: 20,
@@ -101,13 +103,13 @@ const LineChart: FC<ILineChartProps> = ({
         precision,
       }}
       yScale={{ type: 'linear', stacked: false, min: 'auto', max: 'auto' }}
-      yFormat={yType === 'currency' ? '<-$2.4s' : ' >-.2f'}
+      yFormat={yType === 'currency' ? '<-$2.4s' : ' >-.0f'}
       xFormat={xType === 'time' ? 'time:%x' : undefined}
       curve='linear'
       axisTop={null}
       axisRight={null}
       axisBottom={
-        small
+        small || isMobile
           ? null
           : {
               tickValues: formatDatesX.tickValues,
@@ -118,14 +120,14 @@ const LineChart: FC<ILineChartProps> = ({
             }
       }
       axisLeft={
-        small
+        small || isMobile
           ? null
           : {
               tickSize: 0,
               tickPadding: 5,
               tickRotation: 0,
-              format: yType === 'currency' ? '<-$.2s' : undefined,
-              tickValues: 3,
+              format: yType === 'currency' ? '<-$.2s' : '<-.0s',
+              tickValues: yType === 'currency' ? 3 : 2,
             }
       }
       gridYValues={6}

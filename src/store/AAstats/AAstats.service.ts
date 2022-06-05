@@ -6,8 +6,10 @@ import {
   transformTopAAByTvl,
   transformTotalActivity,
   transformTotalTvl,
+  transformTvlOverTimeValuesForOneAddress,
   transformTvlValues,
   transformUSDInValues,
+  transformUsdInValuesForOneAddress,
 } from './AAstats.transform';
 
 export const aastatsAPI = createApi({
@@ -38,6 +40,16 @@ export const aastatsAPI = createApi({
       }),
       providesTags: ['Address'],
     }),
+    getUsdInValuesForOneAddress: build.query<number[], IAAStatsAddressReq>({
+      query: (request) => ({
+        url: 'address',
+        method: 'POST',
+        body: request,
+      }),
+      keepUnusedDataFor: 60 * 30,
+      providesTags: ['Address'],
+      transformResponse: transformUsdInValuesForOneAddress,
+    }),
     getTvlOverTimeForOneAddress: build.query<IAddressTvl[], IAAStatsTvlReq>({
       query: ({ from, to, asset, address, timeframe }) => ({
         url: 'address/tvl',
@@ -48,6 +60,19 @@ export const aastatsAPI = createApi({
             : { from, to, asset, address },
       }),
       providesTags: ['TvlForAddress'],
+    }),
+    getTvlOverTimeValuesForOneAddress: build.query<
+      number[],
+      IAAStatsTvlValuesForOneAddressReq
+    >({
+      query: (request) => ({
+        url: 'address/tvl',
+        method: 'POST',
+        body: request,
+      }),
+      keepUnusedDataFor: 60 * 30,
+      providesTags: ['TvlForAddress'],
+      transformResponse: transformTvlOverTimeValuesForOneAddress,
     }),
     getTotalTvlOverTime: build.query<Serie[], IAAStatsTotalTvl>({
       query: ({ from, to, asset, timeframe }) => ({
@@ -124,8 +149,10 @@ export const aastatsAPI = createApi({
 
 export const {
   useGetStatsForOneAddressQuery,
+  useGetUsdInValuesForOneAddressQuery,
   useGetTvlOverTimeForOneAddressQuery,
   useGetTotalTvlOverTimeQuery,
+  useGetTvlOverTimeValuesForOneAddressQuery,
   useGetTotalTvlValuesQuery,
   useGetTotalActivityOverTimeQuery,
   useGetTotalUsdInValuesQuery,

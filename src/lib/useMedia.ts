@@ -7,7 +7,7 @@ interface mediaQueries {
   isPortable: boolean;
   isLaptop: boolean;
   isDesktop: boolean;
-  IsDownThan1625: boolean;
+  isDownThan1160: boolean;
 }
 
 export const useMedia = (): mediaQueries => {
@@ -17,7 +17,7 @@ export const useMedia = (): mediaQueries => {
   const isPortable = useMediaQuery(theme.breakpoints.down('md'));
   const isLaptop = useMediaQuery(theme.breakpoints.between('md', 'lg'));
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
-  const IsDownThan1625 = useMediaQuery('(max-width:1625px)');
+  const isDownThan1160 = useMediaQuery('(max-width:1160px)');
 
   return {
     isMobile,
@@ -25,6 +25,6 @@ export const useMedia = (): mediaQueries => {
     isPortable,
     isLaptop,
     isDesktop,
-    IsDownThan1625,
+    isDownThan1160,
   };
 };

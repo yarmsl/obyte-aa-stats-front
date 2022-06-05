@@ -38,6 +38,7 @@ const AssetSelect: FC = () => {
       autoComplete='off'
       value={asset || 'null'}
       onChange={onAssetChange}
+      sx={styles.root}
     >
       <MenuItem value='all'>
         <Box sx={styles.item}>

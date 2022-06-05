@@ -1,6 +1,10 @@
 import { SxProps } from '@mui/material';
 
 export const styles: Record<string, SxProps> = {
+  root: {
+    width: '120px',
+    maxWidth: '120px',
+  },
   item: {
     display: 'flex',
   },
@@ -18,5 +22,8 @@ export const styles: Record<string, SxProps> = {
   label: {
     fontSize: '14px',
     fontWeight: 300,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
 };

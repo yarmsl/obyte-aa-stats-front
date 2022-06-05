@@ -13,6 +13,7 @@ const LineChartTooltip: FC<PointTooltipProps> = ({ point }) => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          minWidth: '120px',
         }}
       >
         <Typography>{xFormatted}</Typography>

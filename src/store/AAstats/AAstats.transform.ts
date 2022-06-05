@@ -123,3 +123,67 @@ export const transformUSDInValues = (
   }
   return [0, 0];
 };
+
+export const transformTvlOverTimeValuesForOneAddress = (
+  data: IAddressTvl[] | undefined
+): number[] => {
+  if (Array.isArray(data) && data.length > 0) {
+    if (Array.from(new Set(data.map((d) => d.asset))).length > 1) {
+      const periods = Array.from(new Set(data.map((d) => d.period)));
+      const merged = periods.map((period) => {
+        const dataForPeriod = data.filter((d) => d.period === period);
+        return dataForPeriod.reduce(
+          (accu: IAddressTvl, curr) => ({
+            ...accu,
+            balance: accu.usd_balance + curr.usd_balance,
+            usd_balance: accu.usd_balance + curr.usd_balance,
+          }),
+          {
+            address: dataForPeriod[0].address,
+            asset: null,
+            period,
+            balance: 0,
+            usd_balance: 0,
+          }
+        );
+      });
+      return [merged[0].usd_balance, merged[merged.length - 1].usd_balance];
+    }
+    return [data[0].usd_balance, data[data.length - 1].usd_balance];
+  }
+  return [0, 0];
+};
+
+export const transformUsdInValuesForOneAddress = (
+  data: IAddress[] | undefined
+): number[] => {
+  if (Array.isArray(data) && data.length > 0) {
+    if (Array.from(new Set(data.map((d) => d.asset))).length > 1) {
+      const periods = Array.from(new Set(data.map((d) => d.period)));
+      const merged = periods.map((period) => {
+        const dataForPeriod = data.filter((d) => d.period === period);
+        return dataForPeriod.reduce(
+          (accu: IAddress, curr) => ({
+            ...accu,
+            usd_amount_in: accu.usd_amount_in + curr.usd_amount_in,
+          }),
+          {
+            address: dataForPeriod[0].address,
+            amount_in: 0,
+            amount_out: 0,
+            asset: null,
+            bounced_count: 0,
+            num_users: 0,
+            period,
+            triggers_count: 0,
+            usd_amount_in: 0,
+            usd_amount_out: 0,
+          }
+        );
+      });
+      return [merged[0].usd_amount_in, merged[merged.length - 1].usd_amount_in];
+    }
+    return [data[0].usd_amount_in, data[data.length - 1].usd_amount_in];
+  }
+  return [0, 0];
+};

@@ -5,8 +5,6 @@ import { useScroll } from 'lib/useScroll';
 import { useAppSelector } from 'store';
 import SaveLayoutButton from 'UI/atoms/SaveLayoutButton/SaveLayoutButton';
 import DarkModeSwitcher from 'UI/atoms/DarkModeSwitcher/DarkModeSwitcher';
-import { usePage } from 'lib/usePage';
-import AssetSelect from 'UI/atoms/AssetSelect/AssetSelect';
 import { darkModeSelector } from 'store/UI';
 import { stylesByMode } from './styles';
 
@@ -21,13 +19,12 @@ const Header: React.FC = () => {
     }),
     [styles.root, styles.shadow]
   );
-  const { isAgentPage } = usePage();
+
   return (
     <AppBar color='transparent' sx={scrollTop ? styles.root : shadow}>
       <Toolbar sx={styles.header}>
         <Logo title='Obyte' subtitle='Autonomous Agents Statistics' />
         <Box sx={styles.actions}>
-          {isAgentPage && <AssetSelect />}
           <SaveLayoutButton />
           <DarkModeSwitcher />
         </Box>
