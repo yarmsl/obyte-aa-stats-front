@@ -136,6 +136,15 @@ export const aastatsAPI = createApi({
       providesTags: ['TopAA'],
       transformResponse: transformTopAA,
     }),
+    getMostActiveAgents: build.query<IAddress[], IAAStatsMosActiveAgenstReq>({
+      query: (request) => ({
+        url: 'top/aa/usd_amount_in',
+        method: 'POST',
+        body: request,
+      }),
+      providesTags: ['TopAA'],
+      // keepUnusedDataFor: 60 * 30,
+    }),
     getTopAssets: build.query<IAsset[], IAAStatsTopAssetsReq>({
       query: (request) => ({
         url: 'top/asset/tvl',
@@ -156,6 +165,7 @@ export const {
   useGetTotalTvlValuesQuery,
   useGetTotalActivityOverTimeQuery,
   useGetTotalUsdInValuesQuery,
+  useGetMostActiveAgentsQuery,
   useGetTopAAbyTvlQuery,
   useGetTopAAbyTypeQuery,
   useGetTopAssetsQuery,

@@ -1,7 +1,7 @@
 import { FC, memo } from 'react';
+import MostActiveAgentsWidget from 'UI/atoms/MostActiveAgentsWidget/MostActiveAgentsWidget';
 import TurnoverValueWidget from 'UI/atoms/TurnoverValueWidget/TurnoverValueWidget';
 import TvlValueWidget from 'UI/atoms/TvlValueWidget/TvlValueWidget';
-import ValueWidget from 'UI/atoms/ValueWidget/ValueWidget';
 import AgentsTableConnected from 'UI/molecules/AgentsTable/AgentsTableConnected';
 import TotalGraphConnected from 'UI/molecules/TotalGraph/TotalGraphConnected';
 import DragLayout from 'UI/templates/DragLayout/DragLayout';
@@ -29,7 +29,7 @@ const HomeDashboardLayout: FC<IHomeDashboardLayoutProps> = ({
         <TurnoverValueWidget />
       </NeuBox>
       <NeuBox key='widget-3'>
-        <ValueWidget title='Widget title' value={32.324} unit='%' />
+        <MostActiveAgentsWidget />
       </NeuBox>
       <NeuBox key='widget-chart'>
         <TotalGraphConnected />

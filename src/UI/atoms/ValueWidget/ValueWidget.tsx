@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material';
 import { usd } from 'lib/currency';
-import { FC, memo, MouseEvent, TouchEvent, useCallback, useMemo } from 'react';
+import { FC, memo, MouseEvent, useCallback, useMemo } from 'react';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import WaterMark from '../WaterMark/WaterMark';
@@ -22,10 +22,7 @@ const ValueWidget: FC<IValueWidgetProps> = ({
   trendTooltip,
   isLoading,
 }) => {
-  const stopPropagate = useCallback(
-    (e: MouseEvent | TouchEvent) => e.stopPropagation(),
-    []
-  );
+  const stopPropagate = useCallback((e: MouseEvent) => e.stopPropagation(), []);
 
   const print = useCallback(
     (val: number) => {
@@ -58,11 +55,7 @@ const ValueWidget: FC<IValueWidgetProps> = ({
     <Box sx={styles.root}>
       <Typography sx={styles.title}>{title}</Typography>
       <Divider sx={styles.divider} />
-      <Box
-        sx={styles.content}
-        onMouseDown={stopPropagate}
-        onTouchStart={stopPropagate}
-      >
+      <Box sx={styles.content} onMouseDown={stopPropagate}>
         <Typography sx={styles.value}>{printValue}</Typography>
         {printTrend && (
           <Tooltip
