@@ -21,6 +21,7 @@ const ValueWidget: FC<IValueWidgetProps> = ({
   trend,
   trendTooltip,
   isLoading,
+  isTrendCount,
 }) => {
   const stopPropagate = useCallback((e: MouseEvent) => e.stopPropagation(), []);
 
@@ -41,10 +42,12 @@ const ValueWidget: FC<IValueWidgetProps> = ({
 
   const printTrend = useMemo(() => {
     if (trend && value !== trend) {
-      return print(value - trend);
+      return isTrendCount
+        ? print(value - trend)
+        : `${(((value - trend) / trend) * 100).toFixed(2)}%`;
     }
     return null;
-  }, [print, trend, value]);
+  }, [isTrendCount, print, trend, value]);
 
   const isValueGreater = useMemo(
     () => (trend ? value > trend : false),

@@ -6,4 +6,5 @@ interface IValueWidgetProps {
   trend?: number;
   trendTooltip?: string;
   isLoading?: boolean;
+  isTrendCount?: boolean;
 }

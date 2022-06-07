@@ -53,7 +53,7 @@ export const styles: Record<string, SxProps> = {
     justifyContent: 'space-between',
   },
   counter: {
-    width: '45px',
+    width: '50px',
     fontSize: 12,
     display: 'flex',
     alignItems: 'center',
