@@ -143,7 +143,7 @@ export const aastatsAPI = createApi({
         body: request,
       }),
       providesTags: ['TopAA'],
-      // keepUnusedDataFor: 60 * 30,
+      keepUnusedDataFor: 60 * 30,
     }),
     getTopAssets: build.query<IAsset[], IAAStatsTopAssetsReq>({
       query: (request) => ({

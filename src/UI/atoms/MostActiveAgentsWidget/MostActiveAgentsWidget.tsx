@@ -58,9 +58,26 @@ const MostActiveAgentsWidget: FC = () => {
         {mostActiveAgents.map(
           ({ title, address, usd_amount_in, num_users, triggers_count }, i) => (
             <Box key={address} sx={styles.mostActiveAA}>
-              <Link component={RouterLink} to={`aa/${address}`} sx={styles.top}>
-                {`${i + 1}. ${title}`}
-              </Link>
+              {title === address ? (
+                <Link
+                  component={RouterLink}
+                  to={`aa/${address}`}
+                  sx={styles.top}
+                >
+                  {`${i + 1}. ${title}`}
+                </Link>
+              ) : (
+                <Tooltip title={title} arrow>
+                  <Link
+                    component={RouterLink}
+                    to={`aa/${address}`}
+                    sx={styles.top}
+                  >
+                    {`${i + 1}. ${title}`}
+                  </Link>
+                </Tooltip>
+              )}
+
               <Box sx={styles.stats}>
                 <Tooltip title='Turnover' arrow>
                   <Box sx={styles.counter}>
