@@ -35,7 +35,7 @@ export const totalGraphActivitiesUiControls: IUiSelects<ITotalWithTvlActivity>[]
     {
       label: 'TVL',
       value: 'usd_balance',
-      color: 'red',
+      color: '#d5265b',
       timeframe: 'hourly',
       group: null,
       type: 'currency',
@@ -134,10 +134,18 @@ export const agentGraphUiControls: IUiSelects<IAddressGraphData>[] = [
   },
   {
     label: 'TVL',
+    value: 'balance',
+    color: '#a9203e',
+    timeframe: 'hourly',
+    group: 'tvl',
+    type: 'amount',
+  },
+  {
+    label: 'TVL $',
     value: 'usd_balance',
     color: '#d5265b',
     timeframe: 'hourly',
-    group: null,
+    group: 'tvl',
     type: 'currency',
   },
   {
