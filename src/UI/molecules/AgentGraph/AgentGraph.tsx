@@ -1,7 +1,6 @@
 import { Box, Skeleton } from '@mui/material';
 import { FC, memo, MouseEvent, TouchEvent, useCallback, useMemo } from 'react';
 import WaterMark from 'UI/atoms/WaterMark/WaterMark';
-import { agentGraphUiControls } from 'conf/uiControls';
 import LineChart from 'UI/atoms/LineChart/LineChart';
 import ActionButtons from 'UI/atoms/ActionButtons/ActionButtons';
 import SelectButtons from 'UI/atoms/SelectButtons/SelectButtons';
@@ -20,6 +19,7 @@ const AgentGraph: FC<IAgentGraphProps> = ({
   yType,
   isLoading,
   actionButtonsConf,
+  selectButtonConf,
 }) => {
   const stopPropagate = useCallback(
     (e: MouseEvent | TouchEvent) => e.stopPropagation(),
@@ -36,7 +36,7 @@ const AgentGraph: FC<IAgentGraphProps> = ({
         <Box sx={styles.headerLeft}>
           <AssetSelect />
           <SelectButtons<IAddressGraphData>
-            config={agentGraphUiControls}
+            config={selectButtonConf}
             isSelected={isSelectedActivities}
             handler={handleActivities}
           />

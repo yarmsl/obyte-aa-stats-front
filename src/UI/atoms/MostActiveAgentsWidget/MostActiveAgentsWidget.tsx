@@ -77,31 +77,26 @@ const MostActiveAgentsWidget: FC = () => {
                   </Link>
                 </Tooltip>
               )}
-
               <Box sx={styles.stats}>
-                <Tooltip title='Turnover' arrow>
-                  <Box sx={styles.counter}>
-                    <Typography color='secondary.dark' fontSize='inherit'>
-                      {usd_amount_in}
-                    </Typography>
-                  </Box>
-                </Tooltip>
-                <Tooltip title='Number of users' arrow>
-                  <Box sx={styles.counter}>
-                    <PeopleAltIcon color='info' fontSize='inherit' />
-                    <Typography color='info.main' fontSize='inherit'>
-                      {num_users}
-                    </Typography>
-                  </Box>
-                </Tooltip>
-                <Tooltip title='Number of requests' arrow>
-                  <Box sx={styles.counter}>
-                    <QueryStatsIcon sx={{ color: 'teal' }} fontSize='inherit' />
-                    <Typography color='teal' fontSize='inherit'>
-                      {triggers_count}
-                    </Typography>
-                  </Box>
-                </Tooltip>
+                <Box sx={styles.counter}>
+                  <Typography color='secondary.dark' fontSize='inherit'>
+                    {usd_amount_in}
+                  </Typography>
+                </Box>
+
+                <Box sx={styles.counter}>
+                  <QueryStatsIcon sx={{ color: 'teal' }} fontSize='inherit' />
+                  <Typography color='teal' fontSize='inherit'>
+                    {triggers_count}
+                  </Typography>
+                </Box>
+
+                <Box sx={styles.counter}>
+                  <PeopleAltIcon color='info' fontSize='inherit' />
+                  <Typography color='info.main' fontSize='inherit'>
+                    {num_users}
+                  </Typography>
+                </Box>
               </Box>
             </Box>
           )

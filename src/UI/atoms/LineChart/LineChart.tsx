@@ -103,7 +103,7 @@ const LineChart: FC<ILineChartProps> = ({
         precision,
       }}
       yScale={{ type: 'linear', stacked: false, min: 'auto', max: 'auto' }}
-      yFormat={yType === 'currency' ? '<-$2.4s' : ' >-.0f'}
+      yFormat={yType === 'currency' ? '<-$2.4s' : ' >-.0s'}
       xFormat={xType === 'time' ? 'time:%x' : undefined}
       curve='linear'
       axisTop={null}

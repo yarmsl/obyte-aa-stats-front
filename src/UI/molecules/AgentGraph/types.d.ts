@@ -12,4 +12,5 @@ export interface IAgentGraphProps {
   yType: yAxisTypes;
   isLoading: boolean;
   actionButtonsConf: IUiControls[];
+  selectButtonConf: IUiSelects<IAddressGraphData>[];
 }

@@ -36,6 +36,7 @@ const AgentGraphConnected: FC = () => {
   const selectedActivities = useAppSelector(
     agentGraphActivitiesControlsSelector
   );
+
   const { from, to } = useTimeframe(selectedPeriod, timeframe);
   const presicion = useMemo(
     () => (timeframe === 'daily' ? 'day' : 'hour'),
@@ -53,27 +54,41 @@ const AgentGraphConnected: FC = () => {
     [selectedPeriod]
   );
 
+  const selectButtonConf = useMemo(
+    () =>
+      asset === 'all'
+        ? agentGraphUiControls.filter((ctrl) => ctrl.value !== 'balance')
+        : agentGraphUiControls,
+    [asset]
+  );
+
   const handleActivities = useCallback(
     (value: keyof IAddressGraphData) => () => {
       const isSelected = selectedActivities.some((a) => a.value === value);
-      const conf = agentGraphUiControls.find((c) => c.value === value);
+      const conf = selectButtonConf.find((c) => c.value === value);
 
       if (conf) {
         if (!isSelected) {
           if (
             value === 'usd_balance' ||
+            value === 'balance' ||
             value === 'num_users' ||
             value === 'triggers_count'
           ) {
             dispatch(handleAgentGraphActivitiesControls([conf]));
-            if (value === 'usd_balance' && selectedPeriod !== 30) {
+            if (
+              (value === 'usd_balance' || value === 'balance') &&
+              selectedPeriod !== 30
+            ) {
               dispatch(handleAgentGraphPeriodControl(30));
             }
           } else {
             dispatch(
               handleAgentGraphActivitiesControls(
                 [
-                  ...selectedActivities.filter((sa) => sa.group != null),
+                  ...selectedActivities.filter(
+                    (sa) => !(sa.group == null || sa.group === 'tvl')
+                  ),
                   conf,
                 ].sort((a, b) => a.value.localeCompare(b.value))
               )
@@ -91,7 +106,7 @@ const AgentGraphConnected: FC = () => {
         }
       }
     },
-    [dispatch, selectedActivities, selectedPeriod]
+    [dispatch, selectButtonConf, selectedActivities, selectedPeriod]
   );
 
   const isSelectedActivities = useCallback(
@@ -101,12 +116,18 @@ const AgentGraphConnected: FC = () => {
   );
 
   const slices = useMemo(
-    () => selectedActivities.filter((sa) => sa.value !== 'usd_balance'),
+    () =>
+      selectedActivities.filter(
+        (sa) => !(sa.value === 'usd_balance' || sa.value === 'balance')
+      ),
     [selectedActivities]
   );
 
   const tvlConf = useMemo(
-    () => selectedActivities.find((sa) => sa.value === 'usd_balance'),
+    () =>
+      selectedActivities.find(
+        (sa) => sa.value === 'usd_balance' || sa.value === 'balance'
+      ),
     [selectedActivities]
   );
 
@@ -172,7 +193,7 @@ const AgentGraphConnected: FC = () => {
             ? new Date(d.period * 3600 * 1000 * 24)
             : new Date(d.period * 3600 * 1000),
         y:
-          value !== 'asset' && value !== 'usd_balance'
+          value !== 'asset' && value !== 'usd_balance' && value !== 'balance'
             ? d[value]
             : d.usd_amount_in,
       })),
@@ -227,11 +248,15 @@ const AgentGraphConnected: FC = () => {
           const hoursTvlByDay = addressTvlData.filter(
             (d) => Math.floor(d.period / 24) === period
           );
-          const middle =
-            hoursTvlByDay.reduce((accu, curr) => accu + curr.usd_balance, 0) /
-            hoursTvlByDay.length;
-
-          return { period, usd_balance: middle };
+          return {
+            period,
+            usd_balance:
+              hoursTvlByDay.reduce((accu, curr) => accu + curr.usd_balance, 0) /
+              hoursTvlByDay.length,
+            balance:
+              hoursTvlByDay.reduce((accu, curr) => accu + curr.balance, 0) /
+              hoursTvlByDay.length,
+          };
         });
         return [
           {
@@ -239,7 +264,10 @@ const AgentGraphConnected: FC = () => {
             color: tvlConf.color,
             data: dailyTvl.map((d) => ({
               x: new Date(d.period * 3600 * 1000 * 24),
-              y: d.usd_balance,
+              y:
+                tvlConf.value === 'balance' || tvlConf.value === 'usd_balance'
+                  ? d[tvlConf.value]
+                  : d.usd_balance,
             })),
           },
         ];
@@ -250,7 +278,10 @@ const AgentGraphConnected: FC = () => {
           color: tvlConf.color,
           data: addressTvlData.map((d) => ({
             x: new Date(d.period * 3600 * 1000),
-            y: d.usd_balance,
+            y:
+              tvlConf.value === 'balance' || tvlConf.value === 'usd_balance'
+                ? d[tvlConf.value]
+                : d.usd_balance,
           })),
         },
       ];
@@ -302,6 +333,16 @@ const AgentGraphConnected: FC = () => {
     }
   }, [asset, data, dispatch, selectedAssets, tvlConf, tvlData]);
 
+  useEffect(() => {
+    if (asset === 'all' && selectedActivities[0].value === 'balance') {
+      dispatch(
+        handleAgentGraphActivitiesControls(
+          selectButtonConf.filter((sbc) => sbc.value === 'usd_balance')
+        )
+      );
+    }
+  }, [asset, dispatch, selectButtonConf, selectedActivities]);
+
   return (
     <AgentGraph
       data={totalData || []}
@@ -313,6 +354,7 @@ const AgentGraphConnected: FC = () => {
       yType={yType}
       isLoading={isLoading}
       actionButtonsConf={actionButtonsConf}
+      selectButtonConf={selectButtonConf}
     />
   );
 };

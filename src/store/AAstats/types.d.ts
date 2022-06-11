@@ -37,6 +37,7 @@ type ITotalTvl = Pick<topAAbyTvlRes, 'period' | 'balance' | 'usd_balance'>;
 
 type IAddressGraphData = Omit<IAddress, 'address'> & {
   usd_balance: number;
+  balance: number;
 };
 
 type topAAbyTvlRes = Pick<IAddress, 'address'> & {

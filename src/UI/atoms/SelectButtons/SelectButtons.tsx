@@ -1,5 +1,5 @@
 import { Box, Button, ButtonGroup } from '@mui/material';
-import { memo, MouseEvent, TouchEvent, useCallback, useMemo } from 'react';
+import { memo, MouseEvent, useCallback, useMemo } from 'react';
 import { styles } from './styles';
 
 const SelectButtons = <V,>({
@@ -7,10 +7,7 @@ const SelectButtons = <V,>({
   isSelected,
   handler,
 }: ISelectButtonsProps<V>): JSX.Element => {
-  const stopPropagate = useCallback(
-    (e: MouseEvent | TouchEvent) => e.stopPropagation(),
-    []
-  );
+  const stopPropagate = useCallback((e: MouseEvent) => e.stopPropagation(), []);
 
   const groups = useMemo(
     () =>
@@ -37,28 +34,26 @@ const SelectButtons = <V,>({
   );
 
   const groupColor = useCallback(
-    (i: number) => ((i + 1) % 2 === 0 ? 'primary' : 'secondary'),
+    (i: number) => ((i + 1) % 2 === 0 ? 'error' : 'secondary'),
     []
   );
 
-  const singleColor = useCallback((i: number) => {
-    const switcher = i + 1 < 3 ? i + 1 : (i + 1) % 3;
-    switch (switcher) {
-      case 1:
-        return 'error';
-      case 2:
-        return 'info';
-      default:
-        return 'success';
-    }
-  }, []);
+  const singleColor = useCallback(
+    (i: number) => {
+      if (buttons.length === 1) return 'error';
+      const switcher = i + 1 < 3 ? i + 1 : (i + 1) % 3;
+      switch (switcher) {
+        case 1:
+          return 'info';
+        default:
+          return 'success';
+      }
+    },
+    [buttons.length]
+  );
 
   return (
-    <Box
-      sx={styles.root}
-      onTouchStart={stopPropagate}
-      onMouseDown={stopPropagate}
-    >
+    <Box sx={styles.root} onMouseDown={stopPropagate}>
       {isGroups &&
         groupsKeys.map((key, i) => (
           <ButtonGroup
