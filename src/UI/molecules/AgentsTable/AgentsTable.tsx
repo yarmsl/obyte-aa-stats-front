@@ -17,26 +17,28 @@ const AgentsTable: FC<IAgentsTableProps> = ({
   isSortSelected,
   loaderRef,
 }) => (
-  <Box sx={styles.root}>
-    <Box sx={styles.header}>
-      <Typography sx={styles.title}>Autonomous Agents Top</Typography>
-      <ActionButtons
-        config={shortPeriodsUiControls}
-        handler={handlePeriod}
-        isSelected={isSelectedPeriod}
+  <Box sx={styles.wrapper}>
+    <Box sx={styles.root}>
+      <Box sx={styles.header}>
+        <Typography sx={styles.title}>Autonomous Agents Top</Typography>
+        <ActionButtons
+          config={shortPeriodsUiControls}
+          handler={handlePeriod}
+          isSelected={isSelectedPeriod}
+        />
+      </Box>
+      <AgentTableHead
+        isSortSelected={isSortSelected}
+        onChangeSortType={onChangeSortType}
       />
-    </Box>
-    <AgentTableHead
-      isSortSelected={isSortSelected}
-      onChangeSortType={onChangeSortType}
-    />
-    <Box sx={styles.table}>
-      {data.map((d) => (
-        <AgentItem key={d.address} {...d} onNavigate={onNavigate} />
-      ))}
-    </Box>
-    <Box ref={loaderRef} sx={styles.loading}>
-      {isLoading && <Loading />}
+      <Box sx={styles.table}>
+        {data.map((d) => (
+          <AgentItem key={d.address} {...d} onNavigate={onNavigate} />
+        ))}
+      </Box>
+      <Box ref={loaderRef} sx={styles.loading}>
+        {isLoading && <Loading />}
+      </Box>
     </Box>
   </Box>
 );

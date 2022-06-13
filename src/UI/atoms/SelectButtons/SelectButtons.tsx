@@ -82,6 +82,7 @@ const SelectButtons = <V,>({
           onClick={handler(value)}
           color={singleColor(i)}
           sx={styles.button}
+          size='small'
         >
           {label}
         </Button>
