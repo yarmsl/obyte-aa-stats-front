@@ -30,7 +30,8 @@ export const styles: Record<string, SxProps> = {
     fontWeight: 700,
   },
   subtitle: {
-    fontSize: '14px',
+    fontSize: { xs: '12px', sm: '14px' },
     fontWeight: 300,
+    whiteSpace: 'nowrap',
   },
 };

@@ -1,8 +1,15 @@
 import { SxProps } from '@mui/material';
 
 export const styles: Record<string, SxProps> = {
+  wrapper: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
   root: {
     width: '100%',
+    maxWidth: '900px',
     px: { xs: '16px', sm: '24px' },
   },
   header: {
@@ -13,7 +20,7 @@ export const styles: Record<string, SxProps> = {
     mb: '5px',
   },
   title: {
-    fontSize: '18px',
+    fontSize: { xs: '14px', sm: '18px' },
     fontWeight: 300,
   },
   tableHead: {
