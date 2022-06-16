@@ -3,7 +3,7 @@ import { SxProps } from '@mui/material';
 export const styles: Record<string, SxProps> = {
   root: {
     width: '100%',
-    height: { xs: 'calc(100% - 49px)', sm: 'calc(100% - 31px)' },
+    height: { xs: 'calc(100% - 54px)', sm: 'calc(100% - 31px)' },
     position: 'relative',
   },
   header: {
@@ -12,11 +12,14 @@ export const styles: Record<string, SxProps> = {
     flexDirection: { xs: 'column', sm: 'row' },
     justifyContent: 'space-between',
     alignItems: { xs: 'flex-end', sm: 'center' },
+    gap: { xs: '5px', sm: 'unset' },
   },
   headerLeft: {
+    width: '100%',
     display: 'flex',
     alignItems: 'center',
     alignSelf: 'flex-start',
+    justifyContent: { xs: 'space-between', sm: 'flex-start' },
     '&>p': {
       mr: '10px',
     },
@@ -28,6 +31,7 @@ export const styles: Record<string, SxProps> = {
   },
   title: {
     fontSize: '18px',
+    flexGrow: { xs: 1, sm: 'unset' },
     fontWeight: 300,
     userSelect: 'none',
   },

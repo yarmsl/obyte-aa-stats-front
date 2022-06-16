@@ -1,0 +1,9 @@
+version: '3'
+services:
+  web:
+    image: obyte-aastats-front
+    container_name: obyte-aastats-front
+    build:
+      context: .
+    ports:
+      - 80:80

@@ -10,10 +10,10 @@ export const styles: Record<string, SxProps> = {
     fontSize: { xs: '12px', sm: '16px' },
     fontWeight: 300,
     whiteSpace: 'nowrap',
-    mr: '5px',
+    mr: { xs: 0, sm: '5px' },
   },
   column: {
-    width: '150px',
+    width: { xs: '100px', sm: '150px' },
     display: 'flex',
     alignItems: 'center',
   },

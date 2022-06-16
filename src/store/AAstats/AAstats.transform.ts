@@ -1,6 +1,5 @@
 import { Serie } from '@nivo/line';
 import { FetchBaseQueryMeta } from '@reduxjs/toolkit/dist/query';
-import { usd } from 'lib/currency';
 
 export const transformTotalActivity = (
   data: ITotalActivity[] | undefined,
@@ -34,8 +33,8 @@ export const transformTopAA = (
       }
       return accu.concat({
         address: curr.address,
-        usd_amount_in: usd(curr.usd_amount_in),
-        usd_amount_out: usd(curr.usd_amount_out),
+        usd_amount_in: curr.usd_amount_in,
+        usd_amount_out: curr.usd_amount_out,
       });
     }, []);
   }
@@ -48,7 +47,7 @@ export const transformTopAAByTvl = (
   if (Array.isArray(data) && data.length > 0) {
     return data.map((address) => ({
       address: address.address,
-      usd_balance: usd(address.usd_balance),
+      usd_balance: address.usd_balance,
     }));
   }
   return [];

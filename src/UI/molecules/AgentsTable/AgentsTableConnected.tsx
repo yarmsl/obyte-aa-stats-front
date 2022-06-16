@@ -92,17 +92,13 @@ const AgentsTableConnected: FC = () => {
           return accu.concat({
             ...curr,
             agent: getDef(curr.address),
-            usd_balance: 'no data',
+            usd_balance: -1,
           });
         }
         return accu;
       }, []);
       if (isSortByTvl) {
-        return res.sort(
-          (a, b) =>
-            +b.usd_balance.replace(/\D/g, '') -
-            +a.usd_balance.replace(/\D/g, '')
-        );
+        return res.sort((a, b) => b.usd_balance - a.usd_balance);
       }
       return res;
     }
