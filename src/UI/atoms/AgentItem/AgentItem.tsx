@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
 import { Box, Divider, Typography } from '@mui/material';
+import { usd } from 'lib/currency';
+import { useMedia } from 'lib/useMedia';
 import { FC, memo, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { styles } from './styles';
@@ -18,6 +20,8 @@ const AgentItem: FC<IAgentItemProps> = ({
     () => selectedAddress === address,
     [address, selectedAddress]
   );
+  const { isMobile } = useMedia();
+  const fraction = useMemo(() => (isMobile ? 0 : 2), [isMobile]);
   return (
     <>
       <Box
@@ -30,9 +34,11 @@ const AgentItem: FC<IAgentItemProps> = ({
             {isAgent ? address : undefined}
           </Typography>
         </Box>
-        <Box sx={styles.cell}>{usd_amount_in}</Box>
-        <Box sx={styles.cell}>{usd_amount_out}</Box>
-        <Box sx={styles.cell}>{usd_balance}</Box>
+        <Box sx={styles.cell}>{usd(usd_amount_in, fraction, true)}</Box>
+        <Box sx={styles.cell}>{usd(usd_amount_out, fraction, true)}</Box>
+        <Box sx={styles.cell}>
+          {usd_balance === -1 ? 'no data' : usd(usd_balance, fraction, true)}
+        </Box>
       </Box>
       <Divider sx={styles.divider} />
     </>

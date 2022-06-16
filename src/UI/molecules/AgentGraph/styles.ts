@@ -5,10 +5,11 @@ export const getStylesByArg = (
 ): Record<string, SxProps> => ({
   root: {
     width: '100%',
-    height: isDownThan1160
-      ? { xs: 'calc(100% - 77px)', sm: 'calc(100% - 50px)' }
-      : 'calc(100% - 23px)',
+    height: '100%',
     position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   header: {
     width: '100%',
@@ -28,7 +29,9 @@ export const getStylesByArg = (
   },
   wrapper: {
     width: '100%',
-    height: '100%',
+    height: isDownThan1160
+      ? { xs: 'calc(100% - 84px)', sm: 'calc(100% - 50px)' }
+      : 'calc(100% - 23px)',
     position: 'relative',
   },
   title: {

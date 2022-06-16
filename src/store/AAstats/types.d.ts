@@ -80,13 +80,11 @@ type IAAStatsTopAAbyTypeReq = Omit<IAAStatsReq, 'address' | 'period'> & {
 };
 type IAAStatsTopAssetsReq = Pick<IAAStatsReq, 'limit' | 'period'>;
 
-type IRenderAddress = Pick<IAddress, 'address'> & {
-  usd_amount_in: string;
-  usd_amount_out: string;
-};
+type IRenderAddress = Pick<
+  IAddress,
+  'address' | 'usd_amount_in' | 'usd_amount_out'
+>;
 
 type IRenderTvlValues = Pick<ITotalTvl, 'period'> & { usd_balance: string };
 
-type IRenderAATvl = Pick<topAAbyTvlRes, 'address'> & {
-  usd_balance: string;
-};
+type IRenderAATvl = Pick<topAAbyTvlRes, 'address' | 'usd_balance'>;

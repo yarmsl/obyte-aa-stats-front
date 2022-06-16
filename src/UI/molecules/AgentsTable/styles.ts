@@ -15,12 +15,17 @@ export const styles: Record<string, SxProps> = {
   header: {
     width: '100%',
     display: 'flex',
+    flexDirection: { xs: 'column', sm: 'row' },
     alignItems: 'center',
     justifyContent: 'space-between',
     mb: '5px',
+    gap: { xs: '5px', sm: 'unset' },
+    '&>div': {
+      alignSelf: 'flex-end',
+    },
   },
   title: {
-    fontSize: { xs: '14px', sm: '18px' },
+    fontSize: '18px',
     fontWeight: 300,
   },
   tableHead: {

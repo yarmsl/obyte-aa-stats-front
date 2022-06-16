@@ -2,8 +2,8 @@
 interface IAgentItemProps {
   address: string;
   agent: string;
-  usd_amount_in: string;
-  usd_amount_out: string;
-  usd_balance: string;
+  usd_amount_in: number;
+  usd_amount_out: number;
+  usd_balance: number;
   onNavigate: (address: string) => () => void;
 }

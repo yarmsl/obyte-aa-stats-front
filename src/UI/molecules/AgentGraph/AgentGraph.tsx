@@ -30,6 +30,7 @@ const AgentGraph: FC<IAgentGraphProps> = ({
     () => getStylesByArg(isDownThan1160),
     [isDownThan1160]
   );
+
   return (
     <Box sx={styles.root}>
       <Box sx={styles.header}>

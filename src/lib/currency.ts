@@ -7,10 +7,13 @@ export const usd = (
 ): string => {
   if (shorten) {
     if (value > 0) {
-      return `$${shortenNumber(value, fraction || 2)}`;
+      return `$${shortenNumber(value, fraction != null ? fraction : 2)}`;
     }
     if (value < 0) {
-      return `-$${shortenNumber(Math.abs(value), fraction || 2)}`;
+      return `-$${shortenNumber(
+        Math.abs(value),
+        fraction != null ? fraction : 2
+      )}`;
     }
   }
   return value.toLocaleString('en-US', {
