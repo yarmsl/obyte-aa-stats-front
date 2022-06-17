@@ -45,7 +45,7 @@
     "prebuild": "rimraf build",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts --max_old_space_size=4096 build",
     "build-dev": "dotenv -e .env.development react-scripts build",
     "lint": "eslint \"src/**/*.ts*\" --fix",
     "test": "react-scripts test",
