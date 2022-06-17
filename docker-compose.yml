@@ -1,8 +1,8 @@
-version: '3'
+version: '3.8'
 services:
   web:
-    image: obyte-aastats-front
-    container_name: obyte-aastats-front
+    image: obyte-aastats-frontend-image
+    container_name: obyte-aastats-frontend-container
     build:
       context: .
     ports:
