@@ -60,8 +60,18 @@ export const styles: Record<string, SxProps> = {
     gap: '2px',
   },
   top: {
-    whiteSpace: 'nowrap',
+    display: 'flex',
     overflow: 'hidden',
-    textOverflow: 'ellipsis',
+    fontSize: 14,
+    '&>p:first-of-type': {
+      minWidth: '20px',
+      fontSize: 'inherit',
+    },
+    '&>p:last-of-type': {
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      fontSize: 'inherit',
+    },
   },
 };

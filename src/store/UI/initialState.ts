@@ -79,7 +79,7 @@ const mdSmAgentLt = [
 ];
 
 export const initialState: UIState = {
-  darkMode: false,
+  darkMode: true,
   homeLayouts: {
     md: mdSmHomeLt,
     sm: mdSmHomeLt,
