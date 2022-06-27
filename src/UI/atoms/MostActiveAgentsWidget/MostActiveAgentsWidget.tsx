@@ -58,45 +58,37 @@ const MostActiveAgentsWidget: FC = () => {
         {mostActiveAgents.map(
           ({ title, address, usd_amount_in, num_users, triggers_count }, i) => (
             <Box key={address} sx={styles.mostActiveAA}>
-              {title === address ? (
-                <Link
-                  component={RouterLink}
-                  to={`aa/${address}`}
-                  sx={styles.top}
-                >
-                  {`${i + 1}. ${title}`}
-                </Link>
-              ) : (
-                <Tooltip title={title} arrow>
-                  <Link
-                    component={RouterLink}
-                    to={`aa/${address}`}
-                    sx={styles.top}
-                  >
-                    {`${i + 1}. ${title}`}
-                  </Link>
-                </Tooltip>
-              )}
+              <Link component={RouterLink} to={`aa/${address}`} sx={styles.top}>
+                <Typography>{`${i + 1}.`}</Typography>
+                <Typography>{title}</Typography>
+              </Link>
+
               <Box sx={styles.stats}>
-                <Box sx={styles.counter}>
-                  <Typography color='secondary.dark' fontSize='inherit'>
-                    {usd_amount_in}
-                  </Typography>
-                </Box>
+                <Tooltip title='Turnover' arrow>
+                  <Box sx={styles.counter}>
+                    <Typography color='secondary.dark' fontSize='inherit'>
+                      {usd_amount_in}
+                    </Typography>
+                  </Box>
+                </Tooltip>
 
-                <Box sx={styles.counter}>
-                  <QueryStatsIcon sx={{ color: 'teal' }} fontSize='inherit' />
-                  <Typography color='teal' fontSize='inherit'>
-                    {triggers_count}
-                  </Typography>
-                </Box>
+                <Tooltip title='Requests' arrow>
+                  <Box sx={styles.counter}>
+                    <QueryStatsIcon sx={{ color: 'teal' }} fontSize='inherit' />
+                    <Typography color='teal' fontSize='inherit'>
+                      {triggers_count}
+                    </Typography>
+                  </Box>
+                </Tooltip>
 
-                <Box sx={styles.counter}>
-                  <PeopleAltIcon color='info' fontSize='inherit' />
-                  <Typography color='info.main' fontSize='inherit'>
-                    {num_users}
-                  </Typography>
-                </Box>
+                <Tooltip title='Users' arrow>
+                  <Box sx={styles.counter}>
+                    <PeopleAltIcon color='info' fontSize='inherit' />
+                    <Typography color='info.main' fontSize='inherit'>
+                      {num_users}
+                    </Typography>
+                  </Box>
+                </Tooltip>
               </Box>
             </Box>
           )
