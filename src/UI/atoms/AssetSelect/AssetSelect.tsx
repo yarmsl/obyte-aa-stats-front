@@ -25,7 +25,7 @@ const AssetSelect: FC = () => {
   const getAssetIcon = useCallback(
     (assetValue: assetsTypes) =>
       assetsIconsConf.find((aic) => aic.assets.some((a) => a === assetValue))
-        ?.icon || 'GBYTE.svg',
+        ?.icon || null,
     []
   );
 
@@ -42,9 +42,7 @@ const AssetSelect: FC = () => {
     >
       <MenuItem value='all'>
         <Box sx={styles.item}>
-          <Box sx={styles.icon}>
-            <img src={`${coinIcon}GBYTE.svg`} alt='all assets' />
-          </Box>
+          <Box sx={styles.icon} />
           <Typography sx={styles.label}>all assets</Typography>
         </Box>
       </MenuItem>
@@ -60,14 +58,14 @@ const AssetSelect: FC = () => {
         <MenuItem key={ast} value={ast || 'null'}>
           <Box sx={styles.item}>
             <Box sx={styles.icon}>
-              <img
-                src={`${coinIcon}${getAssetIcon(ast)}`}
-                alt={ast || undefined}
-              />
+              {getAssetIcon(ast) && (
+                <img
+                  src={`${coinIcon}${getAssetIcon(ast)}`}
+                  alt={ast || undefined}
+                />
+              )}
             </Box>
-            <Typography sx={styles.label}>
-              {ast?.replaceAll('-', ' ') || ''}
-            </Typography>
+            <Typography sx={styles.label}>{ast}</Typography>
           </Box>
         </MenuItem>
       ))}

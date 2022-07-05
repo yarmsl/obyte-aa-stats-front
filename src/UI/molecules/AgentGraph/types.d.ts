@@ -13,4 +13,7 @@ export interface IAgentGraphProps {
   isLoading: boolean;
   actionButtonsConf: IUiControls[];
   selectButtonConf: IUiSelects<IAddressGraphData>[];
+  serieLength: number;
+  isDataSerieLessThan1: boolean;
+  isEveryValOfSerieIsNull: boolean;
 }

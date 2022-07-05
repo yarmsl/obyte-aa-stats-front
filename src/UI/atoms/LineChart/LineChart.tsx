@@ -1,5 +1,5 @@
 import { FC, memo, useMemo } from 'react';
-import { ResponsiveLineCanvas } from '@nivo/line';
+import { ResponsiveLine } from '@nivo/line';
 import { useMedia } from 'lib/useMedia';
 import { darkModeSelector } from 'store/UI';
 import { useAppSelector } from 'store';
@@ -13,13 +13,29 @@ const LineChart: FC<ILineChartProps> = ({
   precision = 'day',
   xType = 'time',
   yType = 'currency',
+  serieLength,
+  isDataSerieLessThan1 = false,
 }) => {
   const { isMobile, isTablet } = useMedia();
   const darkMode = useAppSelector(darkModeSelector);
-  const serieLength = useMemo(
-    () => (data.length > 0 ? data[0].data.length : 0),
-    [data]
-  );
+
+  const formatYaxis = useMemo(() => {
+    const symbol = yType === 'currency' ? '$' : '';
+    const format = isDataSerieLessThan1 ? 'f' : 's';
+
+    return `>-${symbol}.4~${format}`;
+  }, [isDataSerieLessThan1, yType]);
+
+  const xFormat = useMemo(() => {
+    if (xType === 'time') {
+      if (precision === 'hour') return 'time:%x %H:%M';
+
+      return 'time:%x';
+    }
+
+    return undefined;
+  }, [precision, xType]);
+
   const formatDatesX = useMemo(() => {
     if (xType === 'linear') {
       return { tickValues: undefined, format: undefined };
@@ -34,7 +50,7 @@ const LineChart: FC<ILineChartProps> = ({
       if (isMobile) {
         return { tickValues: 'every 10 day', format: '%b %d' };
       }
-      return { tickValues: 'every 4 day', format: '%b %d' };
+      return { tickValues: 'every 5 day', format: '%b %d' };
     }
     if (serieLength > 30 && serieLength <= 365) {
       if (isMobile) {
@@ -64,6 +80,12 @@ const LineChart: FC<ILineChartProps> = ({
           strokeWidth: 1,
         },
       },
+      crosshair: {
+        line: {
+          stroke: darkMode ? '#fff' : 'rgba(0,0,0,.6)',
+          strokeWidth: 2,
+        },
+      },
     }),
     [darkMode]
   );
@@ -82,7 +104,7 @@ const LineChart: FC<ILineChartProps> = ({
   }, [data]);
 
   return (
-    <ResponsiveLineCanvas
+    <ResponsiveLine
       data={data}
       colors={colors}
       theme={theme}
@@ -93,18 +115,23 @@ const LineChart: FC<ILineChartProps> = ({
             }
           : {
               top: 20,
-              right: 30,
-              bottom: 20,
-              left: 50,
+              right: 40,
+              bottom: 23,
+              left: 60,
             }
       }
       xScale={{
         type: xType,
         precision,
       }}
-      yScale={{ type: 'linear', stacked: false, min: 'auto', max: 'auto' }}
-      yFormat={yType === 'currency' ? '<-$2.4s' : ' >-.0s'}
-      xFormat={xType === 'time' ? 'time:%x' : undefined}
+      yScale={{
+        type: 'linear',
+        stacked: false,
+        min: 'auto',
+        max: 'auto',
+      }}
+      yFormat={yType === 'currency' ? '<-$.2f' : '>-.0~f'}
+      xFormat={xFormat}
       curve='linear'
       axisTop={null}
       axisRight={null}
@@ -126,8 +153,8 @@ const LineChart: FC<ILineChartProps> = ({
               tickSize: 0,
               tickPadding: 5,
               tickRotation: 0,
-              format: yType === 'currency' ? '<-$.2s' : '<-.0s',
-              tickValues: yType === 'currency' ? 3 : 2,
+              format: formatYaxis,
+              tickValues: yType === 'currency' ? 5 : 4,
             }
       }
       gridYValues={6}
@@ -136,7 +163,9 @@ const LineChart: FC<ILineChartProps> = ({
       isInteractive
       tooltip={LineChartTooltip}
       lineWidth={lineWidth || 1.5}
-      enablePoints={false}
+      enablePoints
+      pointSize={lineWidth || 1.5}
+      useMesh
     />
   );
 };

@@ -3,8 +3,9 @@ import { SxProps } from '@mui/material';
 export const styles: Record<string, SxProps> = {
   root: {
     display: 'flex',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     height: '42px',
+    px: '10px',
   },
   label: {
     fontSize: { xs: '12px', sm: '16px' },

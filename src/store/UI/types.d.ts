@@ -18,12 +18,14 @@ interface UIState {
 
 interface IUiControls {
   label: string;
+  labelMobile: string;
   value: number;
   timeframe?: tfTypes;
 }
 
 interface IUiSelects<V> {
   label: string;
+  labelMobile: string;
   value: keyof V;
   color: string;
   timeframe?: tfTypes;

@@ -1,7 +1,7 @@
 import { SxProps } from '@mui/material';
 
 export const getStylesByArg = (
-  isDownThan1160: boolean
+  isDownThan1366: boolean
 ): Record<string, SxProps> => ({
   root: {
     width: '100%',
@@ -14,9 +14,9 @@ export const getStylesByArg = (
   header: {
     width: '100%',
     display: 'flex',
-    flexDirection: isDownThan1160 ? 'column' : 'row',
+    flexDirection: isDownThan1366 ? 'column' : 'row',
     justifyContent: 'space-between',
-    alignItems: isDownThan1160 ? 'flex-end' : 'center',
+    alignItems: isDownThan1366 ? 'flex-end' : 'center',
     gap: '5px',
   },
   headerLeft: {
@@ -29,7 +29,7 @@ export const getStylesByArg = (
   },
   wrapper: {
     width: '100%',
-    height: isDownThan1160
+    height: isDownThan1366
       ? { xs: 'calc(100% - 84px)', sm: 'calc(100% - 50px)' }
       : 'calc(100% - 23px)',
     position: 'relative',
@@ -38,6 +38,13 @@ export const getStylesByArg = (
     fontSize: '18px',
     fontWeight: 300,
     userSelect: 'none',
+  },
+  nodata: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   skeleton: {
     width: 'calc(100% + 20px)',
