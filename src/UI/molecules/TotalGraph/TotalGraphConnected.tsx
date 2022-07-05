@@ -17,6 +17,7 @@ import {
   totalGraphActivitiesUiControls,
 } from 'conf/uiControls';
 import { useTimeframe } from 'lib/useTimeframe';
+import { useLineChart } from 'lib/useLineChart';
 import TotalGraph from './TotalGraph';
 
 const TotalGraphConnected: FC = () => {
@@ -132,14 +133,17 @@ const TotalGraphConnected: FC = () => {
 
   const total = useMemo(() => {
     if (tvlConf) {
-      return tvl;
+      return tvl || [];
     }
-    return data;
+    return data || [];
   }, [data, tvlConf, tvl]);
+
+  const { serieLength, isDataSerieLessThan1, isEveryValOfSerieIsNull } =
+    useLineChart(total);
 
   return (
     <TotalGraph
-      data={total || []}
+      data={total}
       handlePeriod={handlePeriod}
       isSelectedPeriod={isSelectedPeriod}
       handleActivities={handleActivities}
@@ -147,6 +151,9 @@ const TotalGraphConnected: FC = () => {
       isLoading={isLoading}
       presicion={presicion}
       actionButtonsConf={actionButtonsConf}
+      serieLength={serieLength}
+      isDataSerieLessThan1={isDataSerieLessThan1}
+      isEveryValOfSerieIsNull={isEveryValOfSerieIsNull}
     />
   );
 };

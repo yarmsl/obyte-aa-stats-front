@@ -236,10 +236,11 @@ export const initialState: UIState = {
   },
   homeLayoutsCache: {},
   agentLayoutsCache: {},
-  totalGraphPeriodControls: { label: '30 Days', value: 30 },
+  totalGraphPeriodControls: { label: '30 Days', value: 30, labelMobile: '30d' },
   totalGraphActivitiesControls: [
     {
       label: 'USD in',
+      labelMobile: '$ in',
       value: 'usd_amount_in',
       color: '#ffa16f',
       timeframe: 'daily',
@@ -247,7 +248,12 @@ export const initialState: UIState = {
       type: 'currency',
     },
   ],
-  agentsTablePeriodControls: { label: 'Today', value: 1, timeframe: 'hourly' },
+  agentsTablePeriodControls: {
+    label: 'Today',
+    value: 1,
+    timeframe: 'hourly',
+    labelMobile: '2day',
+  },
   agentsTableDataLimit: 10,
   agentsTableSortType: 'usd_amount_in',
   agentsTableSortByTvl: false,
@@ -256,6 +262,7 @@ export const initialState: UIState = {
   agentGraphActivitiesControls: [
     {
       label: 'USD in',
+      labelMobile: '$ in',
       value: 'usd_amount_in',
       color: '#ffa16f',
       timeframe: 'daily',
@@ -263,5 +270,5 @@ export const initialState: UIState = {
       type: 'currency',
     },
   ],
-  agentGraphPeriodControl: { label: '30 Days', value: 30 },
+  agentGraphPeriodControl: { label: '30 Days', value: 30, labelMobile: '30d' },
 };

@@ -1,4 +1,5 @@
 import { Box, Button, ButtonGroup } from '@mui/material';
+import { useMedia } from 'lib/useMedia';
 import { memo, MouseEvent, useCallback, useMemo } from 'react';
 import { styles } from './styles';
 
@@ -8,6 +9,7 @@ const SelectButtons = <V,>({
   handler,
 }: ISelectButtonsProps<V>): JSX.Element => {
   const stopPropagate = useCallback((e: MouseEvent) => e.stopPropagation(), []);
+  const { isMobile } = useMedia();
 
   const groups = useMemo(
     () =>
@@ -62,20 +64,20 @@ const SelectButtons = <V,>({
             color={groupColor(i)}
             sx={styles.group}
           >
-            {groups[key].map(({ value, label }) => (
+            {groups[key].map(({ value, label, labelMobile }) => (
               <Button
                 variant={isSelected(value) ? 'contained' : 'text'}
                 key={String(value)}
                 onClick={handler(value)}
                 sx={styles.gbutton}
               >
-                {label}
+                {isMobile ? labelMobile : label}
               </Button>
             ))}
           </ButtonGroup>
         ))}
 
-      {buttons.map(({ label, value }, i) => (
+      {buttons.map(({ label, value, labelMobile }, i) => (
         <Button
           key={String(value)}
           variant={isSelected(value) ? 'contained' : 'text'}
@@ -84,7 +86,7 @@ const SelectButtons = <V,>({
           sx={styles.button}
           size='small'
         >
-          {label}
+          {isMobile ? labelMobile : label}
         </Button>
       ))}
     </Box>

@@ -1,8 +1,9 @@
 import {
   agentGraphUiControls,
-  longPeriodsUiControls,
+  allPeriodsUiControls,
   shortPeriodsUiControls,
 } from 'conf/uiControls';
+import { useLineChart } from 'lib/useLineChart';
 import { useTimeframe } from 'lib/useTimeframe';
 import { equals } from 'ramda';
 import { FC, memo, useCallback, useEffect, useMemo } from 'react';
@@ -78,7 +79,7 @@ const AgentGraphConnected: FC = () => {
             dispatch(handleAgentGraphActivitiesControls([conf]));
             if (
               (value === 'usd_balance' || value === 'balance') &&
-              selectedPeriod !== 30
+              selectedPeriod > 30
             ) {
               dispatch(handleAgentGraphPeriodControl(30));
             }
@@ -94,9 +95,9 @@ const AgentGraphConnected: FC = () => {
               )
             );
           }
-          if (selectedPeriod < 30 && selectedPeriod > 0) {
-            dispatch(handleAgentGraphPeriodControl(30));
-          }
+          // if (selectedPeriod < 30 && selectedPeriod > 0) {
+          //   dispatch(handleAgentGraphPeriodControl(30));
+          // }
         } else if (selectedActivities.length > 1) {
           dispatch(
             handleAgentGraphActivitiesControls(
@@ -135,7 +136,7 @@ const AgentGraphConnected: FC = () => {
     if (tvlConf) {
       return shortPeriodsUiControls;
     }
-    return longPeriodsUiControls;
+    return allPeriodsUiControls;
   }, [tvlConf]);
 
   const { data, isFetching } = useGetStatsForOneAddressQuery(
@@ -194,8 +195,8 @@ const AgentGraphConnected: FC = () => {
             : new Date(d.period * 3600 * 1000),
         y:
           value !== 'asset' && value !== 'usd_balance' && value !== 'balance'
-            ? d[value]
-            : d.usd_amount_in,
+            ? d[value] || null
+            : d.usd_amount_in || null,
       })),
     }));
   }, [asset, data, slices, timeframe]);
@@ -266,8 +267,8 @@ const AgentGraphConnected: FC = () => {
               x: new Date(d.period * 3600 * 1000 * 24),
               y:
                 tvlConf.value === 'balance' || tvlConf.value === 'usd_balance'
-                  ? d[tvlConf.value]
-                  : d.usd_balance,
+                  ? d[tvlConf.value] || null
+                  : d.usd_balance || null,
             })),
           },
         ];
@@ -280,8 +281,8 @@ const AgentGraphConnected: FC = () => {
             x: new Date(d.period * 3600 * 1000),
             y:
               tvlConf.value === 'balance' || tvlConf.value === 'usd_balance'
-                ? d[tvlConf.value]
-                : d.usd_balance,
+                ? d[tvlConf.value] || null
+                : d.usd_balance || null,
           })),
         },
       ];
@@ -300,6 +301,9 @@ const AgentGraphConnected: FC = () => {
     }
     return graphData;
   }, [graphData, tvlConf, tvlGraphData]);
+
+  const { serieLength, isDataSerieLessThan1, isEveryValOfSerieIsNull } =
+    useLineChart(totalData);
 
   useEffect(() => {
     if (tvlConf && tvlData) {
@@ -345,7 +349,7 @@ const AgentGraphConnected: FC = () => {
 
   return (
     <AgentGraph
-      data={totalData || []}
+      data={totalData}
       handlePeriod={handlePeriod}
       isSelectedPeriod={isSelectedPeriod}
       handleActivities={handleActivities}
@@ -355,6 +359,9 @@ const AgentGraphConnected: FC = () => {
       isLoading={isLoading}
       actionButtonsConf={actionButtonsConf}
       selectButtonConf={selectButtonConf}
+      serieLength={serieLength}
+      isDataSerieLessThan1={isDataSerieLessThan1}
+      isEveryValOfSerieIsNull={isEveryValOfSerieIsNull}
     />
   );
 };

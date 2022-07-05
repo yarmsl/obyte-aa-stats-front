@@ -67,14 +67,25 @@ export const agentGraphActivitiesControlsSelector = createSelector(
   (ui) => ui.agentGraphActivitiesControls
 );
 
+export const agentGraphPeriodControlSelector = createSelector(
+  uiSelector,
+  (ui) => ui.agentGraphPeriodControl
+);
+
 export const agentGraphTimeframeSelector = createSelector(
   agentGraphActivitiesControlsSelector,
-  ([control]) => control.timeframe || 'daily'
+  agentGraphPeriodControlSelector,
+  ([control], { timeframe }): tfTypes => {
+    if (control.value === 'usd_balance' || control.value === 'balance')
+      return control.timeframe || 'hourly';
+
+    return timeframe || 'daily';
+  }
 );
 
 export const agentGraphPeriodControlValueSelector = createSelector(
-  uiSelector,
-  (ui) => ui.agentGraphPeriodControl.value
+  agentGraphPeriodControlSelector,
+  ({ value }) => value
 );
 
 export const agentGraphTypeSelector = createSelector(

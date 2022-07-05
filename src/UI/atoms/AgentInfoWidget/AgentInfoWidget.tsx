@@ -31,6 +31,7 @@ const AgentInfoWidget: FC = () => {
             component={isPortable ? IconButton : 'a'}
             sx={styles.link}
             href={homepage_url}
+            target='_blank'
           >
             <HomeRoundedIcon />
             <Typography sx={styles.linkText}>Homepage</Typography>
@@ -41,6 +42,7 @@ const AgentInfoWidget: FC = () => {
             component={isPortable ? IconButton : 'a'}
             sx={styles.link}
             href={source_url}
+            target='_blank'
           >
             <GitHubIcon />
             <Typography sx={styles.linkText}>GitHub</Typography>

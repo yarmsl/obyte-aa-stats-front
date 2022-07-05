@@ -17,6 +17,9 @@ const TotalGraph: FC<ITotalGraphProps> = ({
   isLoading,
   presicion,
   actionButtonsConf,
+  serieLength,
+  isDataSerieLessThan1,
+  isEveryValOfSerieIsNull,
 }) => {
   const stopPropagate = useCallback((e: MouseEvent) => e.stopPropagation(), []);
   return (
@@ -37,7 +40,18 @@ const TotalGraph: FC<ITotalGraphProps> = ({
         />
       </Box>
       <Box sx={styles.wrapper} onMouseDown={stopPropagate}>
-        <LineChart data={data} precision={presicion} />
+        {!isLoading && isEveryValOfSerieIsNull ? (
+          <Box sx={styles.nodata}>
+            <Typography>no data</Typography>
+          </Box>
+        ) : (
+          <LineChart
+            data={data}
+            precision={presicion}
+            serieLength={serieLength}
+            isDataSerieLessThan1={isDataSerieLessThan1}
+          />
+        )}
         {isLoading && (
           <Skeleton
             sx={styles.skeleton}

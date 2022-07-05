@@ -16,7 +16,7 @@ export const transformTotalActivity = (
           timeframe === 'daily'
             ? new Date(d.period * 3600 * 1000 * 24)
             : new Date(d.period * 3600 * 1000),
-        y: d[slice.value],
+        y: d[slice.value] || null,
       })),
     }));
   }
@@ -80,7 +80,7 @@ export const transformTotalTvl = (
           color: conf.color,
           data: dailyTvl.map((d) => ({
             x: new Date(d.period * 3600 * 1000 * 24),
-            y: d.usd_balance,
+            y: d.usd_balance || null,
           })),
         },
       ];
@@ -91,7 +91,7 @@ export const transformTotalTvl = (
         color: conf.color,
         data: data.map((d) => ({
           x: new Date(d.period * 3600 * 1000),
-          y: d.usd_balance,
+          y: d.usd_balance || null,
         })),
       },
     ];

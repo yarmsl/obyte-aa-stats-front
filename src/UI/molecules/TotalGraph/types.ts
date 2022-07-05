@@ -1,16 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Serie } from '@nivo/line';
 
-export interface IMockData {
-  id: number;
-  amount_in: number;
-  amount_out: number;
-  timestamp: string;
-  triggers_count: number;
-  usd_amount_in: number;
-  usd_amount_out: number;
-}
-
 export interface ITotalGraphProps {
   data: Serie[];
   handlePeriod: (value: number) => () => void;
@@ -20,4 +10,7 @@ export interface ITotalGraphProps {
   isLoading: boolean;
   presicion: 'hour' | 'day';
   actionButtonsConf: IUiControls[];
+  serieLength: number;
+  isDataSerieLessThan1: boolean;
+  isEveryValOfSerieIsNull: boolean;
 }
