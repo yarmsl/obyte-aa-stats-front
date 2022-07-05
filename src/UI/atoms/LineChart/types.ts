@@ -2,6 +2,7 @@ import { Serie } from '@nivo/line';
 
 export interface ILineChartProps {
   data: Serie[];
+  serieLength: number;
   lineWidth?: number;
   small?: boolean;
   precision?:
@@ -14,6 +15,7 @@ export interface ILineChartProps {
     | 'year';
   xType?: xAxisTypes;
   yType?: yAxisTypes;
+  isDataSerieLessThan1?: boolean;
 }
 
 export type xAxisTypes = 'time' | 'linear';

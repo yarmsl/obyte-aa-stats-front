@@ -6,6 +6,7 @@ import NeuBox from 'UI/templates/NeuBox/NeuBox';
 const LineChartTooltip: FC<PointTooltipProps> = ({ point }) => {
   const { serieId, serieColor, data } = point;
   const { xFormatted, yFormatted } = data;
+
   return (
     <NeuBox>
       <Box
@@ -13,7 +14,7 @@ const LineChartTooltip: FC<PointTooltipProps> = ({ point }) => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          minWidth: '120px',
+          minWidth: '140px',
         }}
       >
         <Typography>{xFormatted}</Typography>
@@ -23,6 +24,7 @@ const LineChartTooltip: FC<PointTooltipProps> = ({ point }) => {
             width: '16px',
             height: '16px',
             borderRadius: '50%',
+            marginLeft: '10px',
           }}
         />
       </Box>

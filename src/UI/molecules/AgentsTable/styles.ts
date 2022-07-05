@@ -19,6 +19,7 @@ export const styles: Record<string, SxProps> = {
     alignItems: 'center',
     justifyContent: 'space-between',
     mb: '5px',
+    px: '10px',
     gap: { xs: '5px', sm: 'unset' },
     '&>div': {
       alignSelf: 'flex-end',
@@ -36,8 +37,9 @@ export const styles: Record<string, SxProps> = {
   table: {
     '&>div': {
       display: 'flex',
-      justifyContent: 'space-evenly',
+      justifyContent: 'space-between',
       height: '42px',
+      px: '10px',
       borderRadius: 2,
       transition: 'background-color 250ms ease-in-out',
       fontSize: { xs: '12px', sm: '14px' },

@@ -1,5 +1,6 @@
 import { Button, ButtonGroup } from '@mui/material';
-import { FC, memo, MouseEvent, TouchEvent, useCallback } from 'react';
+import { useMedia } from 'lib/useMedia';
+import { FC, memo, MouseEvent, useCallback } from 'react';
 import { styles } from './styles';
 
 const ActionButtons: FC<IActionButtonsProps> = ({
@@ -7,27 +8,24 @@ const ActionButtons: FC<IActionButtonsProps> = ({
   isSelected,
   handler,
 }) => {
-  const stopPropagate = useCallback(
-    (e: MouseEvent | TouchEvent) => e.stopPropagation(),
-    []
-  );
+  const stopPropagate = useCallback((e: MouseEvent) => e.stopPropagation(), []);
+  const { isMobile } = useMedia();
 
   return (
     <ButtonGroup
-      onTouchStart={stopPropagate}
       onMouseDown={stopPropagate}
       size='small'
       color='secondary'
       sx={styles.root}
     >
-      {config.map(({ label, value }) => (
+      {config.map(({ label, labelMobile, value }) => (
         <Button
           variant={isSelected(value) ? 'contained' : 'text'}
           key={value}
           onClick={handler(value)}
           sx={styles.button}
         >
-          {label}
+          {isMobile ? labelMobile : label}
         </Button>
       ))}
     </ButtonGroup>

@@ -4,6 +4,11 @@ export const styles: Record<string, SxProps> = {
   root: {
     width: '120px',
     maxWidth: '120px',
+    border: 'none',
+    '& .MuiInput-root:before, .MuiInput-root:after, .MuiInput-underline:hover:not(.Mui-disabled):before':
+      {
+        border: 'none',
+      },
   },
   item: {
     display: 'flex',

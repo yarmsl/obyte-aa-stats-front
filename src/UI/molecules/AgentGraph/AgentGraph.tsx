@@ -1,5 +1,5 @@
-import { Box, Skeleton } from '@mui/material';
-import { FC, memo, MouseEvent, TouchEvent, useCallback, useMemo } from 'react';
+import { Box, Skeleton, Typography } from '@mui/material';
+import { FC, memo, MouseEvent, useCallback, useMemo } from 'react';
 import WaterMark from 'UI/atoms/WaterMark/WaterMark';
 import LineChart from 'UI/atoms/LineChart/LineChart';
 import ActionButtons from 'UI/atoms/ActionButtons/ActionButtons';
@@ -20,15 +20,15 @@ const AgentGraph: FC<IAgentGraphProps> = ({
   isLoading,
   actionButtonsConf,
   selectButtonConf,
+  isDataSerieLessThan1,
+  isEveryValOfSerieIsNull,
+  serieLength,
 }) => {
-  const stopPropagate = useCallback(
-    (e: MouseEvent | TouchEvent) => e.stopPropagation(),
-    []
-  );
-  const { isDownThan1160 } = useMedia();
+  const stopPropagate = useCallback((e: MouseEvent) => e.stopPropagation(), []);
+  const { isDownThan1366 } = useMedia();
   const styles = useMemo(
-    () => getStylesByArg(isDownThan1160),
-    [isDownThan1160]
+    () => getStylesByArg(isDownThan1366),
+    [isDownThan1366]
   );
 
   return (
@@ -48,12 +48,21 @@ const AgentGraph: FC<IAgentGraphProps> = ({
           handler={handlePeriod}
         />
       </Box>
-      <Box
-        sx={styles.wrapper}
-        onTouchStart={stopPropagate}
-        onMouseDown={stopPropagate}
-      >
-        <LineChart data={data} precision={presicion} yType={yType} />
+      <Box sx={styles.wrapper} onMouseDown={stopPropagate}>
+        {!isLoading && isEveryValOfSerieIsNull ? (
+          <Box sx={styles.nodata}>
+            <Typography>no data</Typography>
+          </Box>
+        ) : (
+          <LineChart
+            data={data}
+            precision={presicion}
+            yType={yType}
+            serieLength={serieLength}
+            isDataSerieLessThan1={isDataSerieLessThan1}
+          />
+        )}
+
         {isLoading && (
           <Skeleton
             sx={styles.skeleton}

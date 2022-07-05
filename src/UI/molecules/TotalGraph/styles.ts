@@ -35,6 +35,13 @@ export const styles: Record<string, SxProps> = {
     fontWeight: 300,
     userSelect: 'none',
   },
+  nodata: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   skeleton: {
     width: 'calc(100% + 20px)',
     height: '100%',

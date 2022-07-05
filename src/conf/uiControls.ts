@@ -1,23 +1,34 @@
 import { coinIcon } from './constants';
 
 export const longPeriodsUiControls: IUiControls[] = [
-  { label: '30 Days', value: 30, timeframe: 'daily' },
-  { label: '90 Days', value: 90, timeframe: 'daily' },
-  { label: '1 Year', value: 365, timeframe: 'daily' },
-  { label: 'All', value: 0, timeframe: 'daily' },
+  { label: '30 Days', value: 30, timeframe: 'daily', labelMobile: '30d' },
+  { label: '90 Days', value: 90, timeframe: 'daily', labelMobile: '90d' },
+  { label: '1 Year', value: 365, timeframe: 'daily', labelMobile: '1Y' },
+  { label: 'All', value: 0, timeframe: 'daily', labelMobile: 'All' },
 ];
 
 export const shortPeriodsUiControls: IUiControls[] = [
-  { label: 'Today', value: 1, timeframe: 'hourly' },
-  { label: 'Yesterday', value: 2, timeframe: 'hourly' },
-  { label: '7 Days', value: 7, timeframe: 'daily' },
-  { label: '30 Days', value: 30, timeframe: 'daily' },
+  { label: 'Today', value: 1, timeframe: 'hourly', labelMobile: '2day' },
+  { label: 'Yesterday', value: 2, timeframe: 'hourly', labelMobile: 'yday' },
+  { label: '7 Days', value: 7, timeframe: 'daily', labelMobile: '7d' },
+  { label: '30 Days', value: 30, timeframe: 'daily', labelMobile: '30d' },
+];
+
+export const allPeriodsUiControls: IUiControls[] = [
+  { label: 'Today', value: 1, timeframe: 'hourly', labelMobile: '2day' },
+  { label: 'Yesterday', value: 2, timeframe: 'hourly', labelMobile: 'yday' },
+  { label: '7 Days', value: 7, timeframe: 'hourly', labelMobile: '7d' },
+  { label: '30 Days', value: 30, timeframe: 'daily', labelMobile: '30d' },
+  { label: '90 Days', value: 90, timeframe: 'daily', labelMobile: '90d' },
+  { label: '1 Year', value: 365, timeframe: 'daily', labelMobile: '1Y' },
+  { label: 'All', value: 0, timeframe: 'daily', labelMobile: 'All' },
 ];
 
 export const totalGraphActivitiesUiControls: IUiSelects<ITotalWithTvlActivity>[] =
   [
     {
       label: 'USD in',
+      labelMobile: '$ in',
       value: 'usd_amount_in',
       color: '#ffa16f',
       timeframe: 'daily',
@@ -26,6 +37,7 @@ export const totalGraphActivitiesUiControls: IUiSelects<ITotalWithTvlActivity>[]
     },
     {
       label: 'USD out',
+      labelMobile: '$ out',
       value: 'usd_amount_out',
       color: '#03809c',
       timeframe: 'daily',
@@ -34,6 +46,7 @@ export const totalGraphActivitiesUiControls: IUiSelects<ITotalWithTvlActivity>[]
     },
     {
       label: 'TVL',
+      labelMobile: 'TVL',
       value: 'usd_balance',
       color: '#d5265b',
       timeframe: 'hourly',
@@ -118,6 +131,7 @@ export const assetsIconsConf: IAssetsIconsConf[] = [
 export const agentGraphUiControls: IUiSelects<IAddressGraphData>[] = [
   {
     label: 'USD in',
+    labelMobile: '$ in',
     value: 'usd_amount_in',
     color: '#ffa16f',
     timeframe: 'daily',
@@ -126,6 +140,7 @@ export const agentGraphUiControls: IUiSelects<IAddressGraphData>[] = [
   },
   {
     label: 'USD out',
+    labelMobile: '$ out',
     value: 'usd_amount_out',
     color: '#03809c',
     timeframe: 'daily',
@@ -134,6 +149,7 @@ export const agentGraphUiControls: IUiSelects<IAddressGraphData>[] = [
   },
   {
     label: 'TVL',
+    labelMobile: 'TVL',
     value: 'balance',
     color: '#a9203e',
     timeframe: 'hourly',
@@ -141,7 +157,8 @@ export const agentGraphUiControls: IUiSelects<IAddressGraphData>[] = [
     type: 'amount',
   },
   {
-    label: 'TVL $',
+    label: 'TVL USD',
+    labelMobile: 'TVL $',
     value: 'usd_balance',
     color: '#d5265b',
     timeframe: 'hourly',
@@ -150,6 +167,7 @@ export const agentGraphUiControls: IUiSelects<IAddressGraphData>[] = [
   },
   {
     label: 'Users',
+    labelMobile: 'Users',
     value: 'num_users',
     color: 'blue',
     timeframe: 'daily',
@@ -158,6 +176,7 @@ export const agentGraphUiControls: IUiSelects<IAddressGraphData>[] = [
   },
   {
     label: 'Requests',
+    labelMobile: 'Reqs',
     value: 'triggers_count',
     color: 'teal',
     timeframe: 'daily',
