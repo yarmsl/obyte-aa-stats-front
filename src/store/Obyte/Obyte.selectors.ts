@@ -43,3 +43,22 @@ export const isAddressesInCacheSelector = createSelector(
   (getDef, addresses) =>
     addresses.length > 0 ? addresses.every((address) => getDef(address)) : true
 );
+
+export const fullFlattenDefinedDataSelector = createSelector(
+  definedDataSelector,
+  (definedData): ILabeledAddress[] =>
+    Object.keys(definedData).reduce(
+      (labeledAddresses: ILabeledAddress[], curr) =>
+        labeledAddresses.concat(
+          {
+            address: curr,
+            label: definedData[curr].definition.description,
+          },
+          definedData[curr].addresses.map((address) => ({
+            address,
+            label: definedData[curr].definition.description,
+          }))
+        ),
+      []
+    )
+);

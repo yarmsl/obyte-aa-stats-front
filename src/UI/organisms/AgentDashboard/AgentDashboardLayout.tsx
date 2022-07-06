@@ -1,5 +1,7 @@
 import { useMedia } from 'lib/useMedia';
 import { FC, memo } from 'react';
+import { useParams } from 'react-router-dom';
+import AgentDescription from 'UI/atoms/AgentDescription/AgentDescription';
 import AgentInfoWidget from 'UI/atoms/AgentInfoWidget/AgentInfoWidget';
 import AgentTurnoverValueWidget from 'UI/atoms/AgentTurnoverValueWidget/AgentTurnoverValueWidget';
 import AgentTvlValueWidget from 'UI/atoms/AgentTvlValueWidget/AgentTvlValueWidget';
@@ -12,6 +14,7 @@ const AgentDashboardLayout: FC<IAgentDashboardLayoutProps> = ({
   layouts,
   handleLayouts,
 }) => {
+  const { address = '' } = useParams<{ address: string }>();
   const { isPortable } = useMedia();
   return (
     <>
@@ -35,6 +38,7 @@ const AgentDashboardLayout: FC<IAgentDashboardLayoutProps> = ({
           <AgentGraphConnected />
         </NeuBox>
       </DragLayout>
+      {address === '7AUBFK4YAUGUF3RWWYRFXXF7BBWY2V7Y' && <AgentDescription />}
       <AgentsTableConnected />
     </>
   );

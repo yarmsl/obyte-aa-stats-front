@@ -74,4 +74,14 @@ export const styles: Record<string, SxProps> = {
       fontSize: 'inherit',
     },
   },
+  tooltip: {
+    backgroundColor: '#1a223f',
+  },
+  tooltipBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    '&>div': {
+      display: 'flex',
+    },
+  },
 };

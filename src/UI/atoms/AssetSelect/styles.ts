@@ -31,4 +31,7 @@ export const styles: Record<string, SxProps> = {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   },
+  menu: {
+    maxHeight: '350px',
+  },
 };
