@@ -39,6 +39,7 @@ const AssetSelect: FC = () => {
       value={asset || 'null'}
       onChange={onAssetChange}
       sx={styles.root}
+      SelectProps={{ MenuProps: { sx: styles.menu } }}
     >
       <MenuItem value='all'>
         <Box sx={styles.item}>

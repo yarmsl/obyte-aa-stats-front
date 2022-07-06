@@ -135,6 +135,13 @@ export const theme = (darkMode: boolean): Theme =>
           },
         },
       },
+      MuiTooltip: {
+        styleOverrides: {
+          tooltip: {
+            color: '#fff',
+          },
+        },
+      },
       MuiList: {
         styleOverrides: {
           root: {

@@ -4,6 +4,7 @@ import { FC, memo, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'store';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import ExploreIcon from '@mui/icons-material/Explore';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { safetyDefinitionByAddressSelector } from 'store/Obyte';
 import { useMedia } from 'lib/useMedia';
@@ -26,6 +27,15 @@ const AgentInfoWidget: FC = () => {
         <Typography sx={styles.title}>{description}</Typography>
       </Box>
       <Box sx={styles.linksWrapper}>
+        <Link
+          component={isPortable ? IconButton : 'a'}
+          sx={styles.link}
+          href={`https://explorer.obyte.org/#${address}`}
+          target='_blank'
+        >
+          <ExploreIcon />
+          <Typography sx={styles.linkText}>Explorer</Typography>
+        </Link>
         {homepage_url && (
           <Link
             component={isPortable ? IconButton : 'a'}

@@ -16,4 +16,7 @@ export const styles: Record<string, SxProps> = {
     fontWeight: 300,
     userSelect: 'none',
   },
+  link: {
+    textDecoration: 'none',
+  },
 };

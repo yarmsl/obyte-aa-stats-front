@@ -6,6 +6,8 @@ import { useAppSelector } from 'store';
 import SaveLayoutButton from 'UI/atoms/SaveLayoutButton/SaveLayoutButton';
 import DarkModeSwitcher from 'UI/atoms/DarkModeSwitcher/DarkModeSwitcher';
 import { darkModeSelector } from 'store/UI';
+import Search from 'UI/atoms/Search/Search';
+import { useMedia } from 'lib/useMedia';
 import { stylesByMode } from './styles';
 
 const Header: React.FC = () => {
@@ -19,15 +21,24 @@ const Header: React.FC = () => {
     }),
     [styles.root, styles.shadow]
   );
+  const { isPortable } = useMedia();
 
   return (
     <AppBar color='transparent' sx={scrollTop ? styles.root : shadow}>
       <Toolbar sx={styles.header}>
-        <Logo title='Obyte' subtitle='Autonomous Agents Statistics' />
-        <Box sx={styles.actions}>
-          <SaveLayoutButton />
-          <DarkModeSwitcher />
+        <Box sx={styles.headerLine}>
+          <Logo title='Obyte' subtitle='Autonomous Agents Statistics' />
+          <Box sx={styles.actions}>
+            {!isPortable && (
+              <Box sx={styles.search}>
+                <Search />
+              </Box>
+            )}
+            <SaveLayoutButton />
+            <DarkModeSwitcher />
+          </Box>
         </Box>
+        {isPortable && <Search />}
       </Toolbar>
     </AppBar>
   );
