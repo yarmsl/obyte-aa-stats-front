@@ -6,10 +6,9 @@ export const styles: Record<string, SxProps> = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    boxShadow: 'none',
-    bgcolor: 'background.default',
     minHeight: '64px',
-    transition: 'box-shadow 250ms ease-in-out',
+    py: '15px',
+    gap: '15px',
   },
   copyright: {
     fontSize: '12px',
