@@ -8,7 +8,7 @@ export const styles: Record<string, SxProps> = {
     alignItems: 'center',
   },
   titleBox: {
-    width: { xs: 'calc(100% - 85px)', md: 'calc(100% - 240px)' },
+    width: { xs: 'calc(100% - 130px)', md: 'calc(100% - 340px)' },
   },
   title: {
     fontSize: { xs: '18px', md: '24px' },
@@ -22,7 +22,7 @@ export const styles: Record<string, SxProps> = {
     borderColor: 'secondary.main',
   },
   linksWrapper: {
-    width: { xs: '85px', md: '240px' },
+    width: { xs: '130px', md: '340px' },
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',

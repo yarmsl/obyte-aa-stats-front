@@ -195,8 +195,8 @@ const AgentGraphConnected: FC = () => {
             : new Date(d.period * 3600 * 1000),
         y:
           value !== 'asset' && value !== 'usd_balance' && value !== 'balance'
-            ? d[value] || null
-            : d.usd_amount_in || null,
+            ? d[value]
+            : d.usd_amount_in,
       })),
     }));
   }, [asset, data, slices, timeframe]);
@@ -267,8 +267,8 @@ const AgentGraphConnected: FC = () => {
               x: new Date(d.period * 3600 * 1000 * 24),
               y:
                 tvlConf.value === 'balance' || tvlConf.value === 'usd_balance'
-                  ? d[tvlConf.value] || null
-                  : d.usd_balance || null,
+                  ? d[tvlConf.value]
+                  : d.usd_balance,
             })),
           },
         ];
@@ -281,8 +281,8 @@ const AgentGraphConnected: FC = () => {
             x: new Date(d.period * 3600 * 1000),
             y:
               tvlConf.value === 'balance' || tvlConf.value === 'usd_balance'
-                ? d[tvlConf.value] || null
-                : d.usd_balance || null,
+                ? d[tvlConf.value]
+                : d.usd_balance,
           })),
         },
       ];

@@ -1,9 +1,11 @@
 import { Box, Link, Typography } from '@mui/material';
 import { FC, memo } from 'react';
+import SocialBlock from 'UI/atoms/SocialBlock/SocialBlock';
 import { styles } from './styles';
 
 const Footer: FC = () => (
   <Box component='footer' sx={styles.root}>
+    <SocialBlock />
     <Box>
       <Typography sx={styles.copyright}>
         © 2022{' '}
