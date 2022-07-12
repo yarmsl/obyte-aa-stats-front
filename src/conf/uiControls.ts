@@ -8,15 +8,15 @@ export const longPeriodsUiControls: IUiControls[] = [
 ];
 
 export const shortPeriodsUiControls: IUiControls[] = [
-  { label: 'Today', value: 1, timeframe: 'hourly', labelMobile: '2day' },
-  { label: 'Yesterday', value: 2, timeframe: 'hourly', labelMobile: 'yday' },
+  { label: 'Today', value: 1, timeframe: 'hourly', labelMobile: 'Today' },
+  { label: 'Yesterday', value: 2, timeframe: 'hourly', labelMobile: 'Yday' },
   { label: '7 Days', value: 7, timeframe: 'daily', labelMobile: '7d' },
   { label: '30 Days', value: 30, timeframe: 'daily', labelMobile: '30d' },
 ];
 
 export const allPeriodsUiControls: IUiControls[] = [
-  { label: 'Today', value: 1, timeframe: 'hourly', labelMobile: '2day' },
-  { label: 'Yesterday', value: 2, timeframe: 'hourly', labelMobile: 'yday' },
+  { label: 'Today', value: 1, timeframe: 'hourly', labelMobile: 'Today' },
+  { label: 'Yesterday', value: 2, timeframe: 'hourly', labelMobile: 'Yday' },
   { label: '7 Days', value: 7, timeframe: 'hourly', labelMobile: '7d' },
   { label: '30 Days', value: 30, timeframe: 'daily', labelMobile: '30d' },
   { label: '90 Days', value: 90, timeframe: 'daily', labelMobile: '90d' },
@@ -54,6 +54,63 @@ export const totalGraphActivitiesUiControls: IUiSelects<ITotalWithTvlActivity>[]
       type: 'currency',
     },
   ];
+
+export const agentGraphUiControls: IUiSelects<IAddressGraphData>[] = [
+  {
+    label: 'USD in',
+    labelMobile: 'In, $',
+    value: 'usd_amount_in',
+    color: '#ffa16f',
+    timeframe: 'daily',
+    group: 'usd',
+    type: 'currency',
+  },
+  {
+    label: 'USD out',
+    labelMobile: 'Out, $',
+    value: 'usd_amount_out',
+    color: '#03809c',
+    timeframe: 'daily',
+    group: 'usd',
+    type: 'currency',
+  },
+  {
+    label: 'TVL',
+    labelMobile: 'TVL',
+    value: 'balance',
+    color: '#a9203e',
+    timeframe: 'hourly',
+    group: 'tvl',
+    type: 'amount',
+  },
+  {
+    label: 'TVL, USD',
+    labelMobile: 'TVL, $',
+    value: 'usd_balance',
+    color: '#d5265b',
+    timeframe: 'hourly',
+    group: 'tvl',
+    type: 'currency',
+  },
+  {
+    label: 'Users',
+    labelMobile: 'Users',
+    value: 'num_users',
+    color: 'blue',
+    timeframe: 'daily',
+    group: null,
+    type: 'amount',
+  },
+  {
+    label: 'Requests',
+    labelMobile: 'Reqs',
+    value: 'triggers_count',
+    color: 'teal',
+    timeframe: 'daily',
+    group: null,
+    type: 'amount',
+  },
+];
 
 export const assetsConf: assetUiControl[] = [
   { value: null, icon: 'GBYTE.svg' },
@@ -126,61 +183,4 @@ export const assetsIconsConf: IAssetsIconsConf[] = [
   { icon: 'ITH.svg', assets: ['ITH'] },
   { icon: 'IUSD.svg', assets: ['IUSD'] },
   { icon: 'IBIT.svg', assets: ['IBIT'] },
-];
-
-export const agentGraphUiControls: IUiSelects<IAddressGraphData>[] = [
-  {
-    label: 'USD in',
-    labelMobile: 'In, $',
-    value: 'usd_amount_in',
-    color: '#ffa16f',
-    timeframe: 'daily',
-    group: 'usd',
-    type: 'currency',
-  },
-  {
-    label: 'USD out',
-    labelMobile: 'Out, $',
-    value: 'usd_amount_out',
-    color: '#03809c',
-    timeframe: 'daily',
-    group: 'usd',
-    type: 'currency',
-  },
-  {
-    label: 'TVL',
-    labelMobile: 'TVL',
-    value: 'balance',
-    color: '#a9203e',
-    timeframe: 'hourly',
-    group: 'tvl',
-    type: 'amount',
-  },
-  {
-    label: 'TVL, USD',
-    labelMobile: 'TVL, $',
-    value: 'usd_balance',
-    color: '#d5265b',
-    timeframe: 'hourly',
-    group: 'tvl',
-    type: 'currency',
-  },
-  {
-    label: 'Users',
-    labelMobile: 'Users',
-    value: 'num_users',
-    color: 'blue',
-    timeframe: 'daily',
-    group: null,
-    type: 'amount',
-  },
-  {
-    label: 'Requests',
-    labelMobile: 'Reqs',
-    value: 'triggers_count',
-    color: 'teal',
-    timeframe: 'daily',
-    group: null,
-    type: 'amount',
-  },
 ];
