@@ -21,7 +21,7 @@ const SearchResultsConnected: FC<ISearchResultsConnectedProps> = ({
   );
 
   const searchedData = useMemo(() => {
-    if (searchText.length > 1) {
+    if (searchText.length > 0) {
       return [
         ...fullFlattenDefinedData.filter(
           (data) =>

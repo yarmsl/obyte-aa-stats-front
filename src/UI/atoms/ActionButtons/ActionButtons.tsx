@@ -7,6 +7,7 @@ const ActionButtons: FC<IActionButtonsProps> = ({
   config,
   isSelected,
   handler,
+  color = 'secondary',
 }) => {
   const stopPropagate = useCallback((e: MouseEvent) => e.stopPropagation(), []);
   const { isMobile } = useMedia();
@@ -15,7 +16,7 @@ const ActionButtons: FC<IActionButtonsProps> = ({
     <ButtonGroup
       onMouseDown={stopPropagate}
       size='small'
-      color='secondary'
+      color={color}
       sx={styles.root}
     >
       {config.map(({ label, labelMobile, value }) => (

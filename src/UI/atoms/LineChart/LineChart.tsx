@@ -8,7 +8,7 @@ import LineChartTooltip from '../LineChartTooltip/LineChartTooltip';
 
 const LineChart: FC<ILineChartProps> = ({
   data,
-  lineWidth,
+  lineWidth = 1.5,
   small,
   precision = 'day',
   xType = 'time',
@@ -162,9 +162,9 @@ const LineChart: FC<ILineChartProps> = ({
       enableGridY={!small}
       isInteractive
       tooltip={LineChartTooltip}
-      lineWidth={lineWidth || 1.5}
-      enablePoints
-      pointSize={lineWidth || 1.5}
+      lineWidth={lineWidth}
+      enablePoints={false}
+      pointSize={lineWidth}
       useMesh
     />
   );

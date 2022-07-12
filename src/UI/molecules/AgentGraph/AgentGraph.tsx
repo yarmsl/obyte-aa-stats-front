@@ -25,27 +25,17 @@ const AgentGraph: FC<IAgentGraphProps> = ({
   serieLength,
 }) => {
   const stopPropagate = useCallback((e: MouseEvent) => e.stopPropagation(), []);
-  const { isDownThan1366 } = useMedia();
-  const styles = useMemo(
-    () => getStylesByArg(isDownThan1366),
-    [isDownThan1366]
-  );
+  const { isMobile } = useMedia();
+  const styles = useMemo(() => getStylesByArg(isMobile), [isMobile]);
 
   return (
     <Box sx={styles.root}>
       <Box sx={styles.header}>
-        <Box sx={styles.headerLeft}>
-          <AssetSelect />
-          <SelectButtons<IAddressGraphData>
-            config={selectButtonConf}
-            isSelected={isSelectedActivities}
-            handler={handleActivities}
-          />
-        </Box>
-        <ActionButtons
-          config={actionButtonsConf}
-          isSelected={isSelectedPeriod}
-          handler={handlePeriod}
+        <AssetSelect />
+        <SelectButtons<IAddressGraphData>
+          config={selectButtonConf}
+          isSelected={isSelectedActivities}
+          handler={handleActivities}
         />
       </Box>
       <Box sx={styles.wrapper} onMouseDown={stopPropagate}>
@@ -62,15 +52,17 @@ const AgentGraph: FC<IAgentGraphProps> = ({
             isDataSerieLessThan1={isDataSerieLessThan1}
           />
         )}
-
-        {isLoading && (
-          <Skeleton
-            sx={styles.skeleton}
-            variant='rectangular'
-            animation='wave'
-          />
-        )}
       </Box>
+      <Box sx={styles.footer}>
+        <ActionButtons
+          config={actionButtonsConf}
+          isSelected={isSelectedPeriod}
+          handler={handlePeriod}
+        />
+      </Box>
+      {isLoading && (
+        <Skeleton sx={styles.skeleton} variant='rectangular' animation='wave' />
+      )}
       <WaterMark />
     </Box>
   );

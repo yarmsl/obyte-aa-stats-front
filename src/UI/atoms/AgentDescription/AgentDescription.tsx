@@ -6,7 +6,7 @@ const AgentDescription: FC = () => (
   <Box sx={styles.root}>
     <Box sx={styles.wrapper}>
       <Typography variant='h5'>Title</Typography>
-      <Typography>
+      <Typography align='justify'>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
         veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea

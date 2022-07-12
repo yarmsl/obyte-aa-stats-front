@@ -44,10 +44,10 @@ export const theme = (darkMode: boolean): Theme =>
             main: '#d9275c',
           },
           primary: {
-            dark: '#008cf0',
+            dark: '#fff',
             main: '#fff',
             light: 'rgba(225,225,225,.2)',
-            contrastText: '#fff',
+            contrastText: '#2b2e5c',
           },
           secondary: {
             dark: '#ff8c6f',
@@ -57,7 +57,7 @@ export const theme = (darkMode: boolean): Theme =>
           },
           background: {
             paper: '#1a223f',
-            default: '#111936',
+            default: '#252850',
           },
           text: {
             primary: '#fff',
@@ -145,7 +145,7 @@ export const theme = (darkMode: boolean): Theme =>
       MuiList: {
         styleOverrides: {
           root: {
-            backgroundColor: darkMode ? '#111936' : '#fff',
+            backgroundColor: darkMode ? '#252850' : '#fff',
           },
         },
       },

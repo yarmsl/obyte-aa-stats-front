@@ -25,6 +25,7 @@ const AgentsTable: FC<IAgentsTableProps> = ({
           config={shortPeriodsUiControls}
           handler={handlePeriod}
           isSelected={isSelectedPeriod}
+          color='primary'
         />
       </Box>
       <AgentTableHead
