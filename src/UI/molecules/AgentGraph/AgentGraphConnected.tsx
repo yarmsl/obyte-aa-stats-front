@@ -4,6 +4,7 @@ import {
   shortPeriodsUiControls,
 } from 'conf/uiControls';
 import { useLineChart } from 'lib/useLineChart';
+import { useStateUrlParams } from 'lib/useStateUrlParams';
 import { useTimeframe } from 'lib/useTimeframe';
 import { equals } from 'ramda';
 import { FC, memo, useCallback, useEffect, useMemo } from 'react';
@@ -15,7 +16,7 @@ import {
 } from 'store/AAstats';
 import {
   agentGraphActivitiesControlsSelector,
-  agentGraphPeriodControlValueSelector,
+  agentGraphPeriodControlSelector,
   agentGraphTimeframeSelector,
   agentGraphTypeSelector,
   assetSelector,
@@ -33,11 +34,11 @@ const AgentGraphConnected: FC = () => {
   const asset = useAppSelector(assetSelector);
   const selectedAssets = useAppSelector(assetsSelector);
   const timeframe = useAppSelector(agentGraphTimeframeSelector);
-  const selectedPeriod = useAppSelector(agentGraphPeriodControlValueSelector);
+  const selectedPeriod = useAppSelector(agentGraphPeriodControlSelector);
   const selectedActivities = useAppSelector(
     agentGraphActivitiesControlsSelector
   );
-
+  const { setUrl } = useStateUrlParams();
   const { from, to } = useTimeframe(selectedPeriod, timeframe);
   const presicion = useMemo(
     () => (timeframe === 'daily' ? 'day' : 'hour'),
@@ -46,8 +47,11 @@ const AgentGraphConnected: FC = () => {
   const yType = useAppSelector(agentGraphTypeSelector);
 
   const handlePeriod = useCallback(
-    (value: number) => () => dispatch(handleAgentGraphPeriodControl(value)),
-    [dispatch]
+    (value: number) => () => {
+      dispatch(handleAgentGraphPeriodControl(value));
+      setUrl({ g_period: value });
+    },
+    [dispatch, setUrl]
   );
 
   const isSelectedPeriod = useCallback(
@@ -65,7 +69,7 @@ const AgentGraphConnected: FC = () => {
 
   const handleActivities = useCallback(
     (value: keyof IAddressGraphData) => () => {
-      const isSelected = selectedActivities.some((a) => a.value === value);
+      const isSelected = selectedActivities.some((a) => a === value);
       const conf = selectButtonConf.find((c) => c.value === value);
 
       if (conf) {
@@ -76,7 +80,8 @@ const AgentGraphConnected: FC = () => {
             value === 'num_users' ||
             value === 'triggers_count'
           ) {
-            dispatch(handleAgentGraphActivitiesControls([conf]));
+            dispatch(handleAgentGraphActivitiesControls([value]));
+            setUrl({ activity: [value] });
             if (
               (value === 'usd_balance' || value === 'balance') &&
               selectedPeriod > 30
@@ -84,60 +89,57 @@ const AgentGraphConnected: FC = () => {
               dispatch(handleAgentGraphPeriodControl(30));
             }
           } else {
-            dispatch(
-              handleAgentGraphActivitiesControls(
-                [
-                  ...selectedActivities.filter(
-                    (sa) => !(sa.group == null || sa.group === 'tvl')
-                  ),
-                  conf,
-                ].sort((a, b) => a.value.localeCompare(b.value))
-              )
-            );
+            const activity = [
+              ...selectedActivities.filter(
+                (sa) => !(sa !== 'usd_amount_in' && sa !== 'usd_amount_out')
+              ),
+              value,
+            ].sort();
+            dispatch(handleAgentGraphActivitiesControls(activity));
+            setUrl({ activity });
           }
-          // if (selectedPeriod < 30 && selectedPeriod > 0) {
-          //   dispatch(handleAgentGraphPeriodControl(30));
-          // }
         } else if (selectedActivities.length > 1) {
-          dispatch(
-            handleAgentGraphActivitiesControls(
-              selectedActivities.filter((a) => a.value !== value)
-            )
-          );
+          const activity = selectedActivities.filter((a) => a !== value);
+          dispatch(handleAgentGraphActivitiesControls(activity));
+          setUrl({ activity });
         }
       }
     },
-    [dispatch, selectButtonConf, selectedActivities, selectedPeriod]
+    [dispatch, selectButtonConf, selectedActivities, selectedPeriod, setUrl]
   );
 
   const isSelectedActivities = useCallback(
     (value: keyof IAddressGraphData) =>
-      selectedActivities.some((a) => a.value === value),
+      selectedActivities.some((a) => a === value),
     [selectedActivities]
   );
 
-  const slices = useMemo(
+  const slices = useMemo(() => {
+    const validActivities = selectedActivities.filter(
+      (agc) => !(agc === 'usd_balance' || agc === 'balance')
+    );
+    return agentGraphUiControls.filter((agc) =>
+      validActivities.includes(agc.value)
+    );
+  }, [selectedActivities]);
+
+  const tvlSelected = useMemo(
     () =>
-      selectedActivities.filter(
-        (sa) => !(sa.value === 'usd_balance' || sa.value === 'balance')
-      ),
+      selectedActivities.find((sa) => sa === 'usd_balance' || sa === 'balance'),
     [selectedActivities]
   );
 
   const tvlConf = useMemo(
-    () =>
-      selectedActivities.find(
-        (sa) => sa.value === 'usd_balance' || sa.value === 'balance'
-      ),
-    [selectedActivities]
+    () => agentGraphUiControls.find((agc) => agc.value === tvlSelected),
+    [tvlSelected]
   );
 
   const actionButtonsConf = useMemo(() => {
-    if (tvlConf) {
+    if (tvlSelected) {
       return shortPeriodsUiControls;
     }
     return allPeriodsUiControls;
-  }, [tvlConf]);
+  }, [tvlSelected]);
 
   const { data, isFetching } = useGetStatsForOneAddressQuery(
     {
@@ -146,7 +148,7 @@ const AgentGraphConnected: FC = () => {
       to,
       timeframe,
     },
-    { skip: !!tvlConf }
+    { skip: !!tvlSelected }
   );
 
   const graphData = useMemo(() => {
@@ -209,7 +211,7 @@ const AgentGraphConnected: FC = () => {
         to,
         timeframe,
       },
-      { skip: !tvlConf }
+      { skip: !tvlSelected }
     );
 
   const tvlGraphData = useMemo(() => {
@@ -291,22 +293,22 @@ const AgentGraphConnected: FC = () => {
   }, [asset, timeframe, tvlConf, tvlData]);
 
   const isLoading = useMemo(
-    () => (tvlConf ? isTvlFetching : isFetching),
-    [isFetching, tvlConf, isTvlFetching]
+    () => (tvlSelected ? isTvlFetching : isFetching),
+    [isFetching, tvlSelected, isTvlFetching]
   );
 
   const totalData = useMemo(() => {
-    if (tvlConf) {
+    if (tvlSelected) {
       return tvlGraphData;
     }
     return graphData;
-  }, [graphData, tvlConf, tvlGraphData]);
+  }, [graphData, tvlSelected, tvlGraphData]);
 
   const { serieLength, isDataSerieLessThan1, isEveryValOfSerieIsNull } =
     useLineChart(totalData);
 
   useEffect(() => {
-    if (tvlConf && tvlData) {
+    if (tvlSelected && tvlData) {
       const assets = Array.from(new Set(tvlData.map((t) => t.asset))).filter(
         (a) => a != null
       );
@@ -335,13 +337,15 @@ const AgentGraphConnected: FC = () => {
         dispatch(handleAsset('all'));
       }
     }
-  }, [asset, data, dispatch, selectedAssets, tvlConf, tvlData]);
+  }, [asset, data, dispatch, selectedAssets, tvlData, tvlSelected]);
 
   useEffect(() => {
-    if (asset === 'all' && selectedActivities[0].value === 'balance') {
+    if (asset === 'all' && selectedActivities[0] === 'balance') {
       dispatch(
         handleAgentGraphActivitiesControls(
-          selectButtonConf.filter((sbc) => sbc.value === 'usd_balance')
+          selectButtonConf
+            .filter((sbc) => sbc.value === 'usd_balance')
+            .map((sbc) => sbc.value)
         )
       );
     }

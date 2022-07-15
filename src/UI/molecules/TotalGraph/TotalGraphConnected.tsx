@@ -18,6 +18,7 @@ import {
 } from 'conf/uiControls';
 import { useTimeframe } from 'lib/useTimeframe';
 import { useLineChart } from 'lib/useLineChart';
+import { useStateUrlParams } from 'lib/useStateUrlParams';
 import TotalGraph from './TotalGraph';
 
 const TotalGraphConnected: FC = () => {
@@ -30,10 +31,14 @@ const TotalGraphConnected: FC = () => {
   const selectedPeriod = useAppSelector(totalGraphControlValue);
   const selectedActivities = useAppSelector(totalGraphActivityControl);
   const { from, to } = useTimeframe(selectedPeriod, timeframe);
+  const { setUrl } = useStateUrlParams();
 
   const handlePeriod = useCallback(
-    (value: number) => () => dispatch(handleTotalGraphPeriodControl(value)),
-    [dispatch]
+    (value: number) => () => {
+      dispatch(handleTotalGraphPeriodControl(value));
+      setUrl({ g_period: value });
+    },
+    [dispatch, setUrl]
   );
 
   const isSelectedPeriod = useCallback(
@@ -43,7 +48,7 @@ const TotalGraphConnected: FC = () => {
 
   const handleActivities = useCallback(
     (value: keyof ITotalWithTvlActivity) => () => {
-      const isSelected = selectedActivities.some((a) => a.value === value);
+      const isSelected = selectedActivities.some((a) => a === value);
       const conf = totalGraphActivitiesUiControls.find(
         (c) => c.value === value
       );
@@ -51,60 +56,66 @@ const TotalGraphConnected: FC = () => {
       if (conf) {
         if (!isSelected) {
           if (value === 'usd_balance') {
-            dispatch(handleTotalGraphActivitiesControls([conf]));
+            dispatch(handleTotalGraphActivitiesControls([value]));
+            setUrl({ activity: [value] });
             if (selectedPeriod !== 30) {
               dispatch(handleTotalGraphPeriodControl(30));
             }
           } else {
-            dispatch(
-              handleTotalGraphActivitiesControls(
-                [
-                  ...selectedActivities.filter((sa) => sa.group != null),
-                  conf,
-                ].sort((a, b) => a.value.localeCompare(b.value))
-              )
-            );
+            const activity = [
+              ...selectedActivities.filter(
+                (sa) => !(sa !== 'usd_amount_in' && sa !== 'usd_amount_out')
+              ),
+              value,
+            ].sort();
+            dispatch(handleTotalGraphActivitiesControls(activity));
+            setUrl({ activity });
             if (selectedPeriod < 30 && selectedPeriod > 0) {
               dispatch(handleTotalGraphPeriodControl(30));
             }
           }
         } else if (selectedActivities.length > 1) {
-          dispatch(
-            handleTotalGraphActivitiesControls(
-              selectedActivities.filter((a) => a.value !== value)
-            )
-          );
+          const activity = selectedActivities.filter((a) => a !== value);
+          dispatch(handleTotalGraphActivitiesControls(activity));
+          setUrl({ activity });
         }
       }
     },
-    [dispatch, selectedActivities, selectedPeriod]
+    [dispatch, selectedActivities, selectedPeriod, setUrl]
   );
 
   const isSelectedActivities = useCallback(
     (value: keyof ITotalWithTvlActivity) =>
-      selectedActivities.some((a) => a.value === value),
+      selectedActivities.some((a) => a === value),
     [selectedActivities]
   );
 
-  const slices = useMemo(
-    () =>
-      selectedActivities.filter(
-        (sa) => sa.value !== 'usd_balance'
-      ) as IUiSelects<ITotalActivity>[],
-    [selectedActivities]
-  );
+  const slices = useMemo(() => {
+    const validActivities = selectedActivities.filter(
+      (sa) => sa !== 'usd_balance'
+    );
+    return totalGraphActivitiesUiControls.filter((control) =>
+      validActivities.includes(control.value)
+    ) as IUiSelects<ITotalActivity>[];
+  }, [selectedActivities]);
 
   const tvlConf = useMemo(
-    () => selectedActivities.find((sa) => sa.value === 'usd_balance'),
+    () =>
+      totalGraphActivitiesUiControls.find((sa) => sa.value === 'usd_balance'),
+    []
+  );
+
+  const tvlSelected = useMemo(
+    () => selectedActivities.find((sa) => sa === 'usd_balance'),
     [selectedActivities]
   );
 
   const actionButtonsConf = useMemo(() => {
-    if (tvlConf) {
+    if (tvlSelected) {
       return shortPeriodsUiControls;
     }
     return longPeriodsUiControls;
-  }, [tvlConf]);
+  }, [tvlSelected]);
 
   const { data, isFetching } = useGetTotalActivityOverTimeQuery(
     {
@@ -113,7 +124,7 @@ const TotalGraphConnected: FC = () => {
       timeframe,
       slices,
     },
-    { skip: !!tvlConf }
+    { skip: !!tvlSelected }
   );
 
   const { data: tvl, isFetching: isTvlFetching } = useGetTotalTvlOverTimeQuery(
@@ -121,22 +132,23 @@ const TotalGraphConnected: FC = () => {
       from,
       to,
       timeframe,
-      conf: tvlConf as IUiSelects<ITotalWithTvlActivity>,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      conf: tvlConf!,
     },
-    { skip: !tvlConf }
+    { skip: !tvlSelected }
   );
 
   const isLoading = useMemo(
-    () => (tvlConf ? isTvlFetching : isFetching),
-    [isFetching, tvlConf, isTvlFetching]
+    () => (tvlSelected ? isTvlFetching : isFetching),
+    [isFetching, tvlSelected, isTvlFetching]
   );
 
   const total = useMemo(() => {
-    if (tvlConf) {
+    if (tvlSelected) {
       return tvl || [];
     }
     return data || [];
-  }, [data, tvlConf, tvl]);
+  }, [data, tvlSelected, tvl]);
 
   const { serieLength, isDataSerieLessThan1, isEveryValOfSerieIsNull } =
     useLineChart(total);

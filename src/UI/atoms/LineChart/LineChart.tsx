@@ -103,6 +103,8 @@ const LineChart: FC<ILineChartProps> = ({
     return cls;
   }, [data]);
 
+  const yValuesCount = useMemo(() => (yType === 'currency' ? 5 : 4), [yType]);
+
   return (
     <ResponsiveLine
       data={data}
@@ -154,10 +156,10 @@ const LineChart: FC<ILineChartProps> = ({
               tickPadding: 5,
               tickRotation: 0,
               format: formatYaxis,
-              tickValues: yType === 'currency' ? 5 : 4,
+              tickValues: yValuesCount,
             }
       }
-      gridYValues={6}
+      gridYValues={yValuesCount}
       enableGridX={false}
       enableGridY={!small}
       isInteractive
