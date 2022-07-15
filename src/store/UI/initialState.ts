@@ -1,3 +1,67 @@
+import { allPeriodsUiControls } from 'conf/uiControls';
+
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+const initialParams = new URLSearchParams(window.location.search);
+
+const getInitialTableSortType = (): {
+  agentsTableSortType: topAATypes;
+  agentsTableSortByTvl: boolean;
+} => {
+  if (initialParams.has('t_sort')) {
+    const sortType = initialParams.get('t_sort')!;
+    const isAmount =
+      sortType === 'usd_amount_in' || sortType === 'usd_amount_out';
+
+    return {
+      agentsTableSortType: isAmount ? sortType : 'usd_amount_in',
+      agentsTableSortByTvl: !isAmount,
+    };
+  }
+  return { agentsTableSortType: 'usd_amount_in', agentsTableSortByTvl: false };
+};
+
+const getInitialGraphData = <T>(keyParam: string): T[] => {
+  if (initialParams.has(keyParam)) {
+    return initialParams.get(keyParam)!.split('-') as unknown as T[];
+  }
+
+  return ['usd_amount_in'] as unknown as T[];
+};
+
+const getInitialAsset = (): UiAssetTypes => {
+  if (initialParams.has('asset')) {
+    return initialParams.get('asset') as UiAssetTypes;
+  }
+  return 'all';
+};
+
+const getInitialPeriod = (keyParam: string): number => {
+  if (initialParams.has(keyParam)) {
+    const period = +initialParams.get(keyParam)!;
+    if (allPeriodsUiControls.some((p) => p.value === period)) {
+      return period;
+    }
+    return keyParam === 't_period' ? 1 : 30;
+  }
+  return keyParam === 't_period' ? 1 : 30;
+};
+
+const { agentsTableSortType, agentsTableSortByTvl } = getInitialTableSortType();
+
+const totalGraphActivitiesControls =
+  getInitialGraphData<keyof ITotalWithTvlActivity>('activity');
+
+const agentGraphActivitiesControls =
+  getInitialGraphData<keyof IAddressGraphData>('activity');
+
+const asset = getInitialAsset();
+
+const totalGraphPeriodControls = getInitialPeriod('g_period');
+
+const agentsTablePeriodControls = getInitialPeriod('t_period');
+
+const agentGraphPeriodControl = getInitialPeriod('g_period');
+
 const mdSmHomeLt = [
   {
     i: 'widget-1',
@@ -236,39 +300,14 @@ export const initialState: UIState = {
   },
   homeLayoutsCache: {},
   agentLayoutsCache: {},
-  totalGraphPeriodControls: { label: '30 Days', value: 30, labelMobile: '30d' },
-  totalGraphActivitiesControls: [
-    {
-      label: 'USD in',
-      labelMobile: '$ in',
-      value: 'usd_amount_in',
-      color: '#ffa16f',
-      timeframe: 'daily',
-      group: 'usd',
-      type: 'currency',
-    },
-  ],
-  agentsTablePeriodControls: {
-    label: 'Today',
-    value: 1,
-    timeframe: 'hourly',
-    labelMobile: '2day',
-  },
+  totalGraphPeriodControls,
+  totalGraphActivitiesControls,
+  agentsTablePeriodControls,
   agentsTableDataLimit: 10,
-  agentsTableSortType: 'usd_amount_in',
-  agentsTableSortByTvl: false,
-  asset: 'all',
+  agentsTableSortType,
+  agentsTableSortByTvl,
+  asset,
   assets: [],
-  agentGraphActivitiesControls: [
-    {
-      label: 'USD in',
-      labelMobile: '$ in',
-      value: 'usd_amount_in',
-      color: '#ffa16f',
-      timeframe: 'daily',
-      group: 'usd',
-      type: 'currency',
-    },
-  ],
-  agentGraphPeriodControl: { label: '30 Days', value: 30, labelMobile: '30d' },
+  agentGraphActivitiesControls,
+  agentGraphPeriodControl,
 };

@@ -4,16 +4,16 @@ interface UIState {
   homeLayoutsCache: ReactGridLayout.Layouts;
   agentLayouts: ReactGridLayout.Layouts;
   agentLayoutsCache: ReactGridLayout.Layouts;
-  totalGraphPeriodControls: IUiControls;
-  totalGraphActivitiesControls: IUiSelects<ITotalWithTvlActivity>[];
-  agentsTablePeriodControls: IUiControls;
+  totalGraphPeriodControls: number;
+  totalGraphActivitiesControls: (keyof ITotalWithTvlActivity)[];
+  agentsTablePeriodControls: number;
   agentsTableDataLimit: number;
   agentsTableSortType: topAATypes;
   agentsTableSortByTvl: boolean;
   asset: UiAssetTypes;
   assets: assetsTypes[];
-  agentGraphActivitiesControls: IUiSelects<IAddressGraphData>[];
-  agentGraphPeriodControl: IUiControls;
+  agentGraphActivitiesControls: (keyof IAddressGraphData)[];
+  agentGraphPeriodControl: number;
 }
 
 interface IUiControls {
@@ -30,7 +30,9 @@ interface IUiSelects<V> {
   color: string;
   timeframe?: tfTypes;
   group: string | null;
-  type: 'currency' | 'amount';
+  type: graphYTypes;
 }
+
+type graphYTypes = 'currency' | 'amount';
 
 type UiAssetTypes = assetsTypes | 'all';

@@ -1,9 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  shortPeriodsUiControls,
-  longPeriodsUiControls,
-  allPeriodsUiControls,
-} from 'conf/uiControls';
+import { shortPeriodsUiControls, allPeriodsUiControls } from 'conf/uiControls';
 import { initialState } from './initialState';
 
 const UISlice = createSlice({
@@ -48,13 +44,12 @@ const UISlice = createSlice({
       action: PayloadAction<number>
     ) => {
       state.totalGraphPeriodControls =
-        [...longPeriodsUiControls, ...shortPeriodsUiControls].find(
-          (ctrl) => ctrl.value === action.payload
-        ) || initialState.totalGraphPeriodControls;
+        allPeriodsUiControls.find((ctrl) => ctrl.value === action.payload)
+          ?.value || initialState.totalGraphPeriodControls;
     },
     handleTotalGraphActivitiesControls: (
       state: UIState,
-      action: PayloadAction<IUiSelects<ITotalWithTvlActivity>[]>
+      action: PayloadAction<(keyof ITotalWithTvlActivity)[]>
     ) => {
       state.totalGraphActivitiesControls = action.payload;
     },
@@ -63,8 +58,8 @@ const UISlice = createSlice({
       action: PayloadAction<number>
     ) => {
       state.agentsTablePeriodControls =
-        shortPeriodsUiControls.find((ctrl) => ctrl.value === action.payload) ||
-        initialState.agentsTablePeriodControls;
+        shortPeriodsUiControls.find((ctrl) => ctrl.value === action.payload)
+          ?.value || initialState.agentsTablePeriodControls;
     },
     increaseAgentsTableDataLimit: (
       state: UIState,
@@ -92,7 +87,7 @@ const UISlice = createSlice({
     },
     handleAgentGraphActivitiesControls: (
       state: UIState,
-      action: PayloadAction<IUiSelects<IAddressGraphData>[]>
+      action: PayloadAction<(keyof IAddressGraphData)[]>
     ) => {
       state.agentGraphActivitiesControls = action.payload;
     },
@@ -101,8 +96,8 @@ const UISlice = createSlice({
       action: PayloadAction<number>
     ) => {
       state.agentGraphPeriodControl =
-        allPeriodsUiControls.find((ctrl) => ctrl.value === action.payload) ||
-        initialState.totalGraphPeriodControls;
+        allPeriodsUiControls.find((ctrl) => ctrl.value === action.payload)
+          ?.value || initialState.agentGraphPeriodControl;
     },
   },
 });

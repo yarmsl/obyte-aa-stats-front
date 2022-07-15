@@ -1,6 +1,7 @@
 import { Box, MenuItem, TextField, Typography } from '@mui/material';
 import { coinIcon } from 'conf/constants';
 import { assetsIconsConf } from 'conf/uiControls';
+import { useStateUrlParams } from 'lib/useStateUrlParams';
 import { ChangeEventHandler, FC, memo, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 import { assetSelector, assetsSelector, handleAsset } from 'store/UI';
@@ -10,16 +11,17 @@ const AssetSelect: FC = () => {
   const dispatch = useAppDispatch();
   const asset = useAppSelector(assetSelector);
   const assets = useAppSelector(assetsSelector);
+  const { setUrl } = useStateUrlParams();
   const onAssetChange: ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
   > = useCallback(
-    (e) =>
-      dispatch(
-        handleAsset(
-          e.target.value === 'null' ? null : (e.target.value as assetsTypes)
-        )
-      ),
-    [dispatch]
+    (e) => {
+      const value =
+        e.target.value === 'null' ? null : (e.target.value as assetsTypes);
+      dispatch(handleAsset(value));
+      setUrl({ asset: value });
+    },
+    [dispatch, setUrl]
   );
 
   const getAssetIcon = useCallback(

@@ -17,18 +17,7 @@ import { obyteApi, ObyteReducer } from './Obyte';
 const UIPersistConfig = {
   key: 'ui',
   storage,
-  whitelist: [
-    'darkMode',
-    'homeLayouts',
-    'agentLayouts',
-    'totalGraphPeriodControls',
-    'totalGraphActivitiesControls',
-    'agentsTablePeriodControls',
-    'aaTopTableSortType',
-    'agentsTableSortByTvl',
-    'agentGraphActivitiesControls',
-    'agentGraphPeriodControl',
-  ],
+  whitelist: ['darkMode', 'homeLayouts', 'agentLayouts'],
 };
 
 const ObytePersistConfig = {

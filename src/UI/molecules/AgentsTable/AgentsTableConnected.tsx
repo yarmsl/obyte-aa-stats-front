@@ -1,3 +1,4 @@
+import { useStateUrlParams } from 'lib/useStateUrlParams';
 import { useTimeframe } from 'lib/useTimeframe';
 import { FC, memo, useCallback, useEffect, useMemo, useRef } from 'react';
 import { batch } from 'react-redux';
@@ -13,20 +14,21 @@ import {
 import {
   agentsTableSortTypeSelector,
   agentsTableSortByTvlSelector,
-  agentsTableControl,
+  agentsTablePeriodSelector,
   agentsTableDataLimitSelector,
   handleAgentsTableSortType,
   handleAgentsTableSortByTvl,
   handleAgentsTablePeriodControl,
   increaseAgentsTableDataLimit,
+  agentsTableTimeframeSelector,
 } from 'store/UI';
 import AgentsTable from './AgentsTable';
 
 const AgentsTableConnected: FC = () => {
   const dispatch = useAppDispatch();
   const nav = useNavigate();
-  const { value: selectedPeriod, timeframe = 'daily' } =
-    useAppSelector(agentsTableControl);
+  const selectedPeriod = useAppSelector(agentsTablePeriodSelector);
+  const timeframe = useAppSelector(agentsTableTimeframeSelector);
   const limit = useAppSelector(agentsTableDataLimitSelector);
   const type = useAppSelector(agentsTableSortTypeSelector);
   const isSortByTvl = useAppSelector(agentsTableSortByTvlSelector);
@@ -35,10 +37,14 @@ const AgentsTableConnected: FC = () => {
   const addresses = useAppSelector(addressesSelector);
   const loaderRef = useRef(null);
   const isAddressesInCache = useAppSelector(isAddressesInCacheSelector);
+  const { setUrl } = useStateUrlParams();
 
   const handlePeriod = useCallback(
-    (value: number) => () => dispatch(handleAgentsTablePeriodControl(value)),
-    [dispatch]
+    (value: number) => () => {
+      dispatch(handleAgentsTablePeriodControl(value));
+      setUrl({ t_period: value });
+    },
+    [dispatch, setUrl]
   );
 
   const isSelectedPeriod = useCallback(
@@ -50,14 +56,16 @@ const AgentsTableConnected: FC = () => {
     (dataKey: string) => () => {
       if (dataKey === 'usd_balance') {
         dispatch(handleAgentsTableSortByTvl(true));
+        setUrl({ t_sort: dataKey as topAATypes });
         return;
       }
       batch(() => {
         dispatch(handleAgentsTableSortByTvl(false));
         dispatch(handleAgentsTableSortType(dataKey as topAATypes));
       });
+      setUrl({ t_sort: dataKey as topAATypes });
     },
-    [dispatch]
+    [dispatch, setUrl]
   );
 
   const onNavigate = useCallback(

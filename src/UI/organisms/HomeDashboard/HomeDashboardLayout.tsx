@@ -13,6 +13,7 @@ const HomeDashboardLayout: FC<IHomeDashboardLayoutProps> = ({
   handleLayouts,
 }) => {
   const { isPortable } = useMedia();
+
   return (
     <>
       <DragLayout
@@ -38,6 +39,7 @@ const HomeDashboardLayout: FC<IHomeDashboardLayoutProps> = ({
           <TotalGraphConnected />
         </NeuBox>
       </DragLayout>
+
       <AgentsTableConnected />
     </>
   );

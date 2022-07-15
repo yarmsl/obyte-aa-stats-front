@@ -1,4 +1,10 @@
 import { createSelector } from '@reduxjs/toolkit';
+import {
+  agentGraphUiControls,
+  allPeriodsUiControls,
+  shortPeriodsUiControls,
+  totalGraphActivitiesUiControls,
+} from 'conf/uiControls';
 import { TRootState } from 'store';
 
 const uiSelector = (state: TRootState): UIState => state.ui;
@@ -17,7 +23,7 @@ export const homeLayoutsCacheSelector = createSelector(
 
 export const totalGraphControlValue = createSelector(
   uiSelector,
-  (ui) => ui.totalGraphPeriodControls.value
+  (ui) => ui.totalGraphPeriodControls
 );
 
 export const totalGraphActivityControl = createSelector(
@@ -27,12 +33,21 @@ export const totalGraphActivityControl = createSelector(
 
 export const totalGraphTimeframeSelector = createSelector(
   totalGraphActivityControl,
-  ([control]) => control.timeframe || 'daily'
+  ([control]): tfTypes =>
+    totalGraphActivitiesUiControls.find((c) => c.value === control)
+      ?.timeframe || 'daily'
 );
 
-export const agentsTableControl = createSelector(
+export const agentsTablePeriodSelector = createSelector(
   uiSelector,
   (ui) => ui.agentsTablePeriodControls
+);
+
+export const agentsTableTimeframeSelector = createSelector(
+  uiSelector,
+  (ui): tfTypes =>
+    shortPeriodsUiControls.find((p) => p.value === ui.agentsTablePeriodControls)
+      ?.timeframe || 'daily'
 );
 
 export const assetSelector = createSelector(uiSelector, (ui) => ui.asset);
@@ -75,22 +90,45 @@ export const agentGraphPeriodControlSelector = createSelector(
 export const agentGraphTimeframeSelector = createSelector(
   agentGraphActivitiesControlsSelector,
   agentGraphPeriodControlSelector,
-  ([control], { timeframe }): tfTypes => {
-    if (control.value === 'usd_balance' || control.value === 'balance')
-      return control.timeframe || 'hourly';
+  ([control], value): tfTypes => {
+    if (control === 'usd_balance' || control === 'balance')
+      return (
+        agentGraphUiControls.find((agc) => agc.value === control)?.timeframe ||
+        'hourly'
+      );
 
-    return timeframe || 'daily';
+    return (
+      allPeriodsUiControls.find((p) => p.value === value)?.timeframe || 'daily'
+    );
   }
-);
-
-export const agentGraphPeriodControlValueSelector = createSelector(
-  agentGraphPeriodControlSelector,
-  ({ value }) => value
 );
 
 export const agentGraphTypeSelector = createSelector(
   agentGraphActivitiesControlsSelector,
-  ([control]) => control.type
+  ([control]) =>
+    agentGraphUiControls.find((agc) => agc.value === control)?.type ||
+    'currency'
 );
 
 export const assetsSelector = createSelector(uiSelector, (ui) => ui.assets);
+
+export const initialHomeSearchParamsSelector = createSelector(
+  uiSelector,
+  (ui) => ({
+    activity: ui.totalGraphActivitiesControls.map((activity) => activity),
+    g_period: ui.totalGraphPeriodControls,
+    t_period: ui.agentsTablePeriodControls,
+    t_sort: ui.agentsTableSortType,
+  })
+);
+
+export const initialAgentPageSearchParamsSelector = createSelector(
+  uiSelector,
+  (ui) => ({
+    activity: ui.agentGraphActivitiesControls.map((activity) => activity),
+    g_period: ui.agentGraphPeriodControl,
+    asset: ui.asset,
+    t_period: ui.agentsTablePeriodControls,
+    t_sort: ui.agentsTableSortType,
+  })
+);
