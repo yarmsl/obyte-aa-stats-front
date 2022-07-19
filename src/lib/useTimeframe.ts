@@ -1,4 +1,4 @@
-import { addDays, endOfDay, endOfHour, startOfDay } from 'date-fns';
+import { addDays, endOfDay, endOfHour } from 'date-fns';
 import { useMemo } from 'react';
 
 interface IUseTimeframeOutput {
@@ -26,18 +26,18 @@ export const useTimeframe = (
       return 0;
     }
     if (selectedPeriod === 1) {
-      return Math.ceil(startOfDay(thisHour).getTime() / 1000 / 3600);
+      return thisHour / 1000 / 3600 - 25;
     }
-    if (selectedPeriod === 2) {
-      if (timeframe === 'daily') {
-        return Math.ceil(
-          startOfDay(addDays(thisHour, -1)).getTime() / 1000 / 3600 / 24
-        );
-      }
-      return Math.ceil(
-        startOfDay(addDays(thisHour, -1)).getTime() / 1000 / 3600
-      );
-    }
+    // if (selectedPeriod === 2) {
+    //   if (timeframe === 'daily') {
+    //     return Math.ceil(
+    //       startOfDay(addDays(thisHour, -1)).getTime() / 1000 / 3600 / 24
+    //     );
+    //   }
+    //   return Math.ceil(
+    //     startOfDay(addDays(thisHour, -1)).getTime() / 1000 / 3600
+    //   );
+    // }
     switch (timeframe) {
       case 'daily':
         return Math.ceil(
@@ -54,18 +54,18 @@ export const useTimeframe = (
   }, [selectedPeriod, thisHour, timeframe]);
 
   const to = useMemo(() => {
-    if (selectedPeriod === 2) {
-      return Math.floor(
-        addDays(endOfDay(thisHour), -1).getTime() / 1000 / 3600
-      );
-    }
+    // if (selectedPeriod === 2) {
+    //   return Math.floor(
+    //     addDays(endOfDay(thisHour), -1).getTime() / 1000 / 3600
+    //   );
+    // }
     switch (timeframe) {
       case 'daily':
         return Math.floor(endOfDay(thisHour).getTime() / 1000 / 3600 / 24);
       default:
         return Math.floor(thisHour / 1000 / 3600);
     }
-  }, [selectedPeriod, thisHour, timeframe]);
+  }, [thisHour, timeframe]);
 
   return { from, to, now };
 };

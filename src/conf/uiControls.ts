@@ -8,15 +8,13 @@ export const longPeriodsUiControls: IUiControls[] = [
 ];
 
 export const shortPeriodsUiControls: IUiControls[] = [
-  { label: 'Today', value: 1, timeframe: 'hourly', labelMobile: 'Today' },
-  { label: 'Yesterday', value: 2, timeframe: 'hourly', labelMobile: 'Yday' },
+  { label: '24h', value: 1, timeframe: 'hourly', labelMobile: '24h' },
   { label: '7 Days', value: 7, timeframe: 'daily', labelMobile: '7d' },
   { label: '30 Days', value: 30, timeframe: 'daily', labelMobile: '30d' },
 ];
 
 export const allPeriodsUiControls: IUiControls[] = [
-  { label: 'Today', value: 1, timeframe: 'hourly', labelMobile: 'Today' },
-  { label: 'Yesterday', value: 2, timeframe: 'hourly', labelMobile: 'Yday' },
+  { label: '24h', value: 1, timeframe: 'hourly', labelMobile: '24h' },
   { label: '7 Days', value: 7, timeframe: 'hourly', labelMobile: '7d' },
   { label: '30 Days', value: 30, timeframe: 'daily', labelMobile: '30d' },
   { label: '90 Days', value: 90, timeframe: 'daily', labelMobile: '90d' },
