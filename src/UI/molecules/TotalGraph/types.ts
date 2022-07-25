@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Serie } from '@nivo/line';
+import { MouseEvent } from 'react';
 
 export interface ITotalGraphProps {
   data: Serie[];
@@ -13,4 +14,8 @@ export interface ITotalGraphProps {
   serieLength: number;
   isDataSerieLessThan1: boolean;
   isEveryValOfSerieIsNull: boolean;
+  onContextMenu: (e: MouseEvent) => void;
+  onContextMenuClose: () => void;
+  mouseX: number | null;
+  mouseY: number | null;
 }

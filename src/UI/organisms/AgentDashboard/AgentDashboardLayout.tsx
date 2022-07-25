@@ -6,7 +6,7 @@ import AgentTvlValueWidget from 'UI/atoms/AgentTvlValueWidget/AgentTvlValueWidge
 import AgentGraphConnected from 'UI/molecules/AgentGraph/AgentGraphConnected';
 import AgentsTableConnected from 'UI/molecules/AgentsTable/AgentsTableConnected';
 import DragLayout from 'UI/templates/DragLayout/DragLayout';
-import NeuBox from 'UI/templates/NeuBox/NeuBox';
+import DragBox from 'UI/templates/DragBox/DragBox';
 
 const AgentDashboardLayout: FC<IAgentDashboardLayoutProps> = ({
   layouts,
@@ -25,15 +25,15 @@ const AgentDashboardLayout: FC<IAgentDashboardLayoutProps> = ({
         onLayoutChange={handleLayouts}
         measureBeforeMount
       >
-        <NeuBox key='widget-1'>
+        <DragBox key='widget-1'>
           <AgentTvlValueWidget />
-        </NeuBox>
-        <NeuBox key='widget-2'>
+        </DragBox>
+        <DragBox key='widget-2'>
           <AgentTurnoverValueWidget />
-        </NeuBox>
-        <NeuBox key='widget-chart'>
+        </DragBox>
+        <DragBox key='widget-chart'>
           <AgentGraphConnected />
-        </NeuBox>
+        </DragBox>
       </DragLayout>
       <AgentsTableConnected />
     </>

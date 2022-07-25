@@ -9,9 +9,11 @@ export default {
 } as ComponentMeta<typeof ValueWidget>;
 
 const Template: ComponentStory<typeof ValueWidget> = (args) => (
-  <NeuBox style={{ width: '400px', height: '175px' }}>
-    <ValueWidget {...args} />
-  </NeuBox>
+  <div style={{ width: '400px', height: '175px' }}>
+    <NeuBox>
+      <ValueWidget {...args} />
+    </NeuBox>
+  </div>
 );
 
 export const Currency = Template.bind({});
