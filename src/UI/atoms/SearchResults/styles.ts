@@ -32,4 +32,11 @@ export const styles: Record<string, SxProps> = {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   },
+  goToLabel: {
+    width: '100%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    fontSize: { xs: 'unset', md: '10px' },
+  },
 };

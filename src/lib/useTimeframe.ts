@@ -28,16 +28,6 @@ export const useTimeframe = (
     if (selectedPeriod === 1) {
       return thisHour / 1000 / 3600 - 25;
     }
-    // if (selectedPeriod === 2) {
-    //   if (timeframe === 'daily') {
-    //     return Math.ceil(
-    //       startOfDay(addDays(thisHour, -1)).getTime() / 1000 / 3600 / 24
-    //     );
-    //   }
-    //   return Math.ceil(
-    //     startOfDay(addDays(thisHour, -1)).getTime() / 1000 / 3600
-    //   );
-    // }
     switch (timeframe) {
       case 'daily':
         return Math.ceil(
@@ -54,11 +44,6 @@ export const useTimeframe = (
   }, [selectedPeriod, thisHour, timeframe]);
 
   const to = useMemo(() => {
-    // if (selectedPeriod === 2) {
-    //   return Math.floor(
-    //     addDays(endOfDay(thisHour), -1).getTime() / 1000 / 3600
-    //   );
-    // }
     switch (timeframe) {
       case 'daily':
         return Math.floor(endOfDay(thisHour).getTime() / 1000 / 3600 / 24);

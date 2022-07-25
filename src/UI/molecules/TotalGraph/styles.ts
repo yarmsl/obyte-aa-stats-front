@@ -2,7 +2,6 @@ import { SxProps } from '@mui/material';
 
 export const styles: Record<string, SxProps> = {
   root: {
-    width: '100%',
     height: { xs: 'calc(100% - 54px)', sm: 'calc(100% - 31px)' },
     position: 'relative',
   },

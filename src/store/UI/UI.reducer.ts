@@ -59,7 +59,7 @@ const UISlice = createSlice({
     ) => {
       state.agentsTablePeriodControls =
         shortPeriodsUiControls.find((ctrl) => ctrl.value === action.payload)
-          ?.value || initialState.agentsTablePeriodControls;
+          ?.value ?? initialState.agentsTablePeriodControls;
     },
     increaseAgentsTableDataLimit: (
       state: UIState,
@@ -97,7 +97,7 @@ const UISlice = createSlice({
     ) => {
       state.agentGraphPeriodControl =
         allPeriodsUiControls.find((ctrl) => ctrl.value === action.payload)
-          ?.value || initialState.agentGraphPeriodControl;
+          ?.value ?? initialState.agentGraphPeriodControl;
     },
   },
 });

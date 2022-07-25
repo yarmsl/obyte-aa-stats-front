@@ -1,4 +1,5 @@
 import { Serie } from '@nivo/line';
+import { MouseEvent } from 'react';
 import { yAxisTypes } from 'UI/atoms/LineChart/types';
 
 /* eslint-disable no-unused-vars */
@@ -16,4 +17,8 @@ export interface IAgentGraphProps {
   serieLength: number;
   isDataSerieLessThan1: boolean;
   isEveryValOfSerieIsNull: boolean;
+  onContextMenu: (e: MouseEvent) => void;
+  onContextMenuClose: () => void;
+  mouseX: number | null;
+  mouseY: number | null;
 }

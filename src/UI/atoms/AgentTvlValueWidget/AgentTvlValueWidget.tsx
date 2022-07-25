@@ -2,6 +2,7 @@ import { useTimeframe } from 'lib/useTimeframe';
 import { FC, memo, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetTvlOverTimeValuesForOneAddressQuery } from 'store/AAstats';
+import NeuBox from 'UI/templates/NeuBox/NeuBox';
 
 import ValueWidget from '../ValueWidget/ValueWidget';
 
@@ -21,15 +22,17 @@ const AgentTvlValueWidget: FC = () => {
   const [prev, value] = useMemo(() => data || [0, 0], [data]);
 
   return (
-    <ValueWidget
-      value={value}
-      title='Total Value Locked'
-      unit='$'
-      shorten
-      trend={prev}
-      trendTooltip='TVL compared to the previous period (24h)'
-      isLoading={isFetching}
-    />
+    <NeuBox>
+      <ValueWidget
+        value={value}
+        title='Total Value Locked'
+        unit='$'
+        shorten
+        trend={prev}
+        trendTooltip='TVL compared to the previous period (24h)'
+        isLoading={isFetching}
+      />
+    </NeuBox>
   );
 };
 

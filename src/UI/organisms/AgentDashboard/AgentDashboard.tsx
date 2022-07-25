@@ -9,9 +9,11 @@ import {
 import { cleanUndef } from 'lib/clearUndef';
 import { equals } from 'ramda';
 import { useStateUrlParams } from 'lib/useStateUrlParams';
+import { useParams } from 'react-router-dom';
 import AgentDashboardLayout from './AgentDashboardLayout';
 
 const AgentDashboard: FC = () => {
+  const { address = '' } = useParams<{ address: string }>();
   const dispatch = useAppDispatch();
   const { setUrl } = useStateUrlParams();
   const agentLayouts = useAppSelector(agentLayoutsSelector);
@@ -31,9 +33,9 @@ const AgentDashboard: FC = () => {
   );
 
   useEffect(() => {
-    setUrl(initialAgentPageSearchParams);
+    if (address) setUrl(initialAgentPageSearchParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [address]);
 
   return (
     <AgentDashboardLayout

@@ -19,6 +19,7 @@ import {
 import { useTimeframe } from 'lib/useTimeframe';
 import { useLineChart } from 'lib/useLineChart';
 import { useStateUrlParams } from 'lib/useStateUrlParams';
+import { useContextMenu } from 'lib/useContextMenu';
 import TotalGraph from './TotalGraph';
 
 const TotalGraphConnected: FC = () => {
@@ -32,6 +33,8 @@ const TotalGraphConnected: FC = () => {
   const selectedActivities = useAppSelector(totalGraphActivityControl);
   const { from, to } = useTimeframe(selectedPeriod, timeframe);
   const { setUrl } = useStateUrlParams();
+  const { mouseX, mouseY, handleOpenContextMenu, handleCloseContextMenu } =
+    useContextMenu();
 
   const handlePeriod = useCallback(
     (value: number) => () => {
@@ -53,13 +56,14 @@ const TotalGraphConnected: FC = () => {
         (c) => c.value === value
       );
 
-      if (conf) {
+      if (conf != null) {
         if (!isSelected) {
           if (value === 'usd_balance') {
             dispatch(handleTotalGraphActivitiesControls([value]));
             setUrl({ activity: [value] });
             if (selectedPeriod !== 30) {
               dispatch(handleTotalGraphPeriodControl(30));
+              setUrl({ g_period: 30 });
             }
           } else {
             const activity = [
@@ -72,6 +76,7 @@ const TotalGraphConnected: FC = () => {
             setUrl({ activity });
             if (selectedPeriod < 30 && selectedPeriod > 0) {
               dispatch(handleTotalGraphPeriodControl(30));
+              setUrl({ g_period: 30 });
             }
           }
         } else if (selectedActivities.length > 1) {
@@ -166,6 +171,10 @@ const TotalGraphConnected: FC = () => {
       serieLength={serieLength}
       isDataSerieLessThan1={isDataSerieLessThan1}
       isEveryValOfSerieIsNull={isEveryValOfSerieIsNull}
+      onContextMenu={handleOpenContextMenu}
+      mouseX={mouseX}
+      mouseY={mouseY}
+      onContextMenuClose={handleCloseContextMenu}
     />
   );
 };

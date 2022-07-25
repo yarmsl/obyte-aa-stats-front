@@ -5,15 +5,14 @@ import TurnoverValueWidget from 'UI/atoms/TurnoverValueWidget/TurnoverValueWidge
 import TvlValueWidget from 'UI/atoms/TvlValueWidget/TvlValueWidget';
 import AgentsTableConnected from 'UI/molecules/AgentsTable/AgentsTableConnected';
 import TotalGraphConnected from 'UI/molecules/TotalGraph/TotalGraphConnected';
+import DragBox from 'UI/templates/DragBox/DragBox';
 import DragLayout from 'UI/templates/DragLayout/DragLayout';
-import NeuBox from 'UI/templates/NeuBox/NeuBox';
 
 const HomeDashboardLayout: FC<IHomeDashboardLayoutProps> = ({
   layouts,
   handleLayouts,
 }) => {
   const { isPortable } = useMedia();
-
   return (
     <>
       <DragLayout
@@ -26,18 +25,18 @@ const HomeDashboardLayout: FC<IHomeDashboardLayoutProps> = ({
         measureBeforeMount
         compactType='vertical'
       >
-        <NeuBox key='widget-1'>
+        <DragBox key='widget-1'>
           <TvlValueWidget />
-        </NeuBox>
-        <NeuBox key='widget-2'>
+        </DragBox>
+        <DragBox key='widget-2'>
           <TurnoverValueWidget />
-        </NeuBox>
-        <NeuBox key='widget-3'>
+        </DragBox>
+        <DragBox key='widget-3'>
           <MostActiveAgentsWidget />
-        </NeuBox>
-        <NeuBox key='widget-chart'>
+        </DragBox>
+        <DragBox key='widget-chart'>
           <TotalGraphConnected />
-        </NeuBox>
+        </DragBox>
       </DragLayout>
 
       <AgentsTableConnected />

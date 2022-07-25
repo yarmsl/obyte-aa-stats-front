@@ -1,4 +1,4 @@
-import { Fade, MenuItem, MenuList, Paper } from '@mui/material';
+import { Fade, MenuItem, MenuList, Paper, Typography } from '@mui/material';
 import { FC, memo } from 'react';
 import { v4 } from 'uuid';
 import SearchedItem from './SearchedItem';
@@ -13,10 +13,12 @@ const SearchResults: FC<ISearchResultsProps> = ({
   <Fade in={open}>
     <Paper sx={styles.root}>
       <MenuList sx={styles.menu}>
-        {searchText.length > 1 && data.length === 0 && (
-          <MenuItem
-            onClick={onAddressClick(searchText)}
-          >{`Go to ${searchText}`}</MenuItem>
+        {searchText.length === 32 && data.length === 0 && (
+          <MenuItem onClick={onAddressClick(searchText)}>
+            <Typography
+              sx={styles.goToLabel}
+            >{`Go to ${searchText}`}</Typography>
+          </MenuItem>
         )}
         {data.map(({ address, label }) => (
           <SearchedItem

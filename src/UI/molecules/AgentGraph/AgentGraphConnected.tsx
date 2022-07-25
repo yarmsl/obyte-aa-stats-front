@@ -3,6 +3,7 @@ import {
   allPeriodsUiControls,
   shortPeriodsUiControls,
 } from 'conf/uiControls';
+import { useContextMenu } from 'lib/useContextMenu';
 import { useLineChart } from 'lib/useLineChart';
 import { useStateUrlParams } from 'lib/useStateUrlParams';
 import { useTimeframe } from 'lib/useTimeframe';
@@ -45,6 +46,8 @@ const AgentGraphConnected: FC = () => {
     [timeframe]
   );
   const yType = useAppSelector(agentGraphTypeSelector);
+  const { mouseX, mouseY, handleOpenContextMenu, handleCloseContextMenu } =
+    useContextMenu();
 
   const handlePeriod = useCallback(
     (value: number) => () => {
@@ -72,7 +75,7 @@ const AgentGraphConnected: FC = () => {
       const isSelected = selectedActivities.some((a) => a === value);
       const conf = selectButtonConf.find((c) => c.value === value);
 
-      if (conf) {
+      if (conf != null) {
         if (!isSelected) {
           if (
             value === 'usd_balance' ||
@@ -84,9 +87,10 @@ const AgentGraphConnected: FC = () => {
             setUrl({ activity: [value] });
             if (
               (value === 'usd_balance' || value === 'balance') &&
-              selectedPeriod > 30
+              (selectedPeriod > 30 || selectedPeriod === 0)
             ) {
               dispatch(handleAgentGraphPeriodControl(30));
+              setUrl({ g_period: 30 });
             }
           } else {
             const activity = [
@@ -366,6 +370,10 @@ const AgentGraphConnected: FC = () => {
       serieLength={serieLength}
       isDataSerieLessThan1={isDataSerieLessThan1}
       isEveryValOfSerieIsNull={isEveryValOfSerieIsNull}
+      onContextMenu={handleOpenContextMenu}
+      mouseX={mouseX}
+      mouseY={mouseY}
+      onContextMenuClose={handleCloseContextMenu}
     />
   );
 };

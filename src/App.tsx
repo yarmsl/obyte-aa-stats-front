@@ -12,6 +12,7 @@ import { darkModeSelector } from 'store/UI';
 import ModalStack from './UI/atoms/ModalStack/ModalStack';
 import Router from './Router';
 import { theme } from './UI/theme';
+import './css/fonts.css';
 
 const App = (): ReactElement => {
   const darkMode = useAppSelector(darkModeSelector);

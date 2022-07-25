@@ -173,6 +173,14 @@ export const theme = (darkMode: boolean): Theme =>
           },
         },
       },
+      // MuiPopover: {
+      //   styleOverrides: {
+      //     root: {
+      //       top: 0,
+      //       position: 'absolute',
+      //     },
+      //   },
+      // },
       MuiCssBaseline: {
         styleOverrides: {
           '::-webkit-scrollbar': {
@@ -193,11 +201,6 @@ export const theme = (darkMode: boolean): Theme =>
             height: '100%',
             transition: 'background-color 250ms',
           },
-          // input: {
-          //   "&:-webkit-autofill": {
-          //     WebkitBoxShadow: "0 0 0 30px #fafafa inset !important",
-          //   },
-          // },
           img: {
             pointerEvents: 'none',
             userSelect: 'none',
