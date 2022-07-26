@@ -56,14 +56,11 @@ const ShareMenu: FC<IShareMenuProps> = ({
 
   const handleCopyToClipboard = useCallback(async () => {
     try {
-      console.log(window.location.href);
-      const res = await navigator.clipboard.writeText(window.location.href);
-      console.log(res);
+      await navigator.clipboard.writeText(window.location.href);
+
       dispatch(
         showSnackBar({
-          message: `Link successfully copied to clipboard ${JSON.stringify(
-            res
-          )}`,
+          message: 'Link successfully copied to clipboard',
           severity: 'success',
         })
       );
@@ -71,7 +68,9 @@ const ShareMenu: FC<IShareMenuProps> = ({
       dispatch(
         showSnackBar({
           title: 'Ooops',
-          message: 'Clipboard error, try again',
+          message: `Clipboard error, try again ${
+            e instanceof Error ? e.message : JSON.stringify(e)
+          }`,
           severity: 'error',
         })
       );
