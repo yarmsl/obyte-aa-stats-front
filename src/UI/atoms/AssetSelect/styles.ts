@@ -2,8 +2,9 @@ import { SxProps } from '@mui/material';
 
 export const styles: Record<string, SxProps> = {
   root: {
-    width: '120px',
-    maxWidth: '120px',
+    width: '100%',
+    maxWidth: '220px',
+    minWidth: '120px',
     border: 'none',
     '& .MuiInput-root:before, .MuiInput-root:after, .MuiInput-underline:hover:not(.Mui-disabled):before':
       {
@@ -19,8 +20,8 @@ export const styles: Record<string, SxProps> = {
     height: '20px',
     mr: '10px',
     '& svg': {
-      width: '20px%',
-      height: '20px%',
+      width: '100%',
+      height: '100%',
       objectFit: 'cover',
     },
   },
@@ -33,5 +34,6 @@ export const styles: Record<string, SxProps> = {
   },
   menu: {
     maxHeight: '350px',
+    maxWidth: '370px',
   },
 };

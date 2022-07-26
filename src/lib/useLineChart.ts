@@ -1,10 +1,12 @@
 import { Datum, Serie } from '@nivo/line';
+import { differenceInDays } from 'date-fns';
 import { useMemo } from 'react';
 
 interface useLineChartOutput {
   serieLength: number;
   isEveryValOfSerieIsNull: boolean;
   isDataSerieLessThan1: boolean;
+  fullDaysBetweenStartAndEnd: number;
 }
 
 export const useLineChart = (data: Serie[]): useLineChartOutput => {
@@ -18,6 +20,17 @@ export const useLineChart = (data: Serie[]): useLineChartOutput => {
     [data]
   );
 
+  const fullDaysBetweenStartAndEnd = useMemo(() => {
+    const startDate = Math.min(
+      ...allSeries.map((d) => new Date(d?.x || Date.now()).getTime())
+    );
+    const endDate = Math.max(
+      ...allSeries.map((d) => new Date(d?.x || Date.now()).getTime())
+    );
+
+    return differenceInDays(new Date(endDate), new Date(startDate));
+  }, [allSeries]);
+
   const isEveryValOfSerieIsNull = useMemo(
     () => allSeries.every((s) => s.y == null),
     [allSeries]
@@ -28,5 +41,10 @@ export const useLineChart = (data: Serie[]): useLineChartOutput => {
     [allSeries]
   );
 
-  return { serieLength, isEveryValOfSerieIsNull, isDataSerieLessThan1 };
+  return {
+    serieLength,
+    isEveryValOfSerieIsNull,
+    isDataSerieLessThan1,
+    fullDaysBetweenStartAndEnd,
+  };
 };

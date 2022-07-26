@@ -13,8 +13,8 @@ const LineChart: FC<ILineChartProps> = ({
   precision = 'day',
   xType = 'time',
   yType = 'currency',
-  serieLength,
   isDataSerieLessThan1 = false,
+  fullDaysBetweenStartAndEnd,
 }) => {
   const { isMobile, isTablet } = useMedia();
   const darkMode = useAppSelector(darkModeSelector);
@@ -41,9 +41,15 @@ const LineChart: FC<ILineChartProps> = ({
       return { tickValues: undefined, format: undefined };
     }
     if (precision === 'hour') {
+      if (fullDaysBetweenStartAndEnd === 1)
+        return { tickValues: 'every 3 hour', format: '%H:%M' };
+      if (fullDaysBetweenStartAndEnd > 1 && fullDaysBetweenStartAndEnd < 8)
+        return { tickValues: 'every 1 day', format: '%b %d' };
       return { tickValues: 'every 3 day', format: '%b %d' };
     }
-    if (serieLength <= 30) {
+    if (fullDaysBetweenStartAndEnd <= 30) {
+      if (fullDaysBetweenStartAndEnd === 0)
+        return { tickValues: 'every 1 day', format: '%b %d' };
       if (isTablet) {
         return { tickValues: 'every 5 day', format: '%b %d' };
       }
@@ -52,7 +58,7 @@ const LineChart: FC<ILineChartProps> = ({
       }
       return { tickValues: 'every 5 day', format: '%b %d' };
     }
-    if (serieLength > 30 && serieLength <= 365) {
+    if (fullDaysBetweenStartAndEnd > 30 && fullDaysBetweenStartAndEnd <= 365) {
       if (isMobile) {
         return { tickValues: 'every 2 month', format: '%b' };
       }
@@ -60,7 +66,7 @@ const LineChart: FC<ILineChartProps> = ({
     }
 
     return { tickValues: 'every year', format: '%Y' };
-  }, [isMobile, isTablet, precision, serieLength, xType]);
+  }, [fullDaysBetweenStartAndEnd, isMobile, isTablet, precision, xType]);
 
   const theme = useMemo(
     () => ({
@@ -165,8 +171,8 @@ const LineChart: FC<ILineChartProps> = ({
       isInteractive
       tooltip={LineChartTooltip}
       lineWidth={lineWidth}
-      enablePoints={false}
-      pointSize={lineWidth}
+      enablePoints={fullDaysBetweenStartAndEnd === 0}
+      pointSize={lineWidth * 3}
       useMesh
     />
   );

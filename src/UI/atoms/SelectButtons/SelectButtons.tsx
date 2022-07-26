@@ -60,7 +60,7 @@ const SelectButtons = <V,>({
         groupsKeys.map((key, i) => (
           <ButtonGroup
             key={key}
-            size='small'
+            size='medium'
             color={groupColor(i)}
             sx={styles.group}
           >
@@ -84,7 +84,7 @@ const SelectButtons = <V,>({
           onClick={handler(value)}
           color={singleColor(i)}
           sx={styles.button}
-          size='small'
+          size='medium'
         >
           {isMobile ? labelMobile : label}
         </Button>

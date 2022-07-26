@@ -15,7 +15,7 @@ const ActionButtons: FC<IActionButtonsProps> = ({
   return (
     <ButtonGroup
       onMouseDown={stopPropagate}
-      size='small'
+      size='medium'
       color={color}
       sx={styles.root}
     >

@@ -30,6 +30,7 @@ const getInitialGraphData = <T>(keyParam: string): T[] => {
 
 const getInitialAsset = (): UiAssetTypes => {
   if (initialParams.has('asset')) {
+    if (initialParams.get('asset') === 'null') return null;
     return initialParams.get('asset') as UiAssetTypes;
   }
   return 'all';
