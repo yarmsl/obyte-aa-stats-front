@@ -21,4 +21,6 @@ export interface IAgentGraphProps {
   onContextMenuClose: () => void;
   mouseX: number | null;
   mouseY: number | null;
+  testLabel: string;
+  handleZero: () => void;
 }
