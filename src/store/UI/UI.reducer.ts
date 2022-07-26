@@ -45,7 +45,7 @@ const UISlice = createSlice({
     ) => {
       state.totalGraphPeriodControls =
         allPeriodsUiControls.find((ctrl) => ctrl.value === action.payload)
-          ?.value || initialState.totalGraphPeriodControls;
+          ?.value ?? initialState.totalGraphPeriodControls;
     },
     handleTotalGraphActivitiesControls: (
       state: UIState,

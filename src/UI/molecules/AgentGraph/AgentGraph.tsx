@@ -1,4 +1,4 @@
-import { Box, Skeleton, Typography } from '@mui/material';
+import { Box, Button, Skeleton, Typography } from '@mui/material';
 import { FC, memo, MouseEvent, useCallback, useRef } from 'react';
 import WaterMark from 'UI/atoms/WaterMark/WaterMark';
 import LineChart from 'UI/atoms/LineChart/LineChart';
@@ -29,6 +29,8 @@ const AgentGraph: FC<IAgentGraphProps> = ({
   mouseY,
   onContextMenu,
   onContextMenuClose,
+  testLabel,
+  handleZero,
 }) => {
   const stopPropagate = useCallback((e: MouseEvent) => e.stopPropagation(), []);
   const { isMobile } = useMedia();
@@ -41,6 +43,9 @@ const AgentGraph: FC<IAgentGraphProps> = ({
         <Box sx={styles.header}>
           <Box sx={styles.headerTop}>
             <AssetSelect />
+            <Button onClick={handleZero} size='small'>
+              {testLabel}
+            </Button>
             <SelectButtons<IAddressGraphData>
               config={selectButtonConf}
               isSelected={isSelectedActivities}
