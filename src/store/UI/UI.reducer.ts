@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { shortPeriodsUiControls, allPeriodsUiControls } from 'conf/uiControls';
+import { allPeriodsUiControls } from 'conf/uiControls';
 import { initialState } from './initialState';
 
 const UISlice = createSlice({
@@ -58,7 +58,7 @@ const UISlice = createSlice({
       action: PayloadAction<number>
     ) => {
       state.agentsTablePeriodControls =
-        shortPeriodsUiControls.find((ctrl) => ctrl.value === action.payload)
+        allPeriodsUiControls.find((ctrl) => ctrl.value === action.payload)
           ?.value ?? initialState.agentsTablePeriodControls;
     },
     increaseAgentsTableDataLimit: (

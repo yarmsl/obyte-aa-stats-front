@@ -1,6 +1,6 @@
 import { SxProps } from '@mui/material';
 
-export const getStylesByArg = (isMobile: boolean): Record<string, SxProps> => ({
+export const styles: Record<string, SxProps> = {
   root: {
     width: '100%',
     height: '100%',
@@ -12,24 +12,24 @@ export const getStylesByArg = (isMobile: boolean): Record<string, SxProps> => ({
   header: {
     width: '100%',
     display: 'flex',
-    flexDirection: isMobile ? 'column' : 'row',
-    justifyContent: 'space-between',
-    alignItems: isMobile ? 'flex-end' : 'center',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
     gap: '5px',
   },
-  // headerLeft: {
-  //   width: '100%',
-  //   display: 'flex',
-  //   alignItems: { xs: 'flex-end', sm: 'center' },
-  //   flexDirection: { xs: 'column', sm: 'row' },
-  //   alignSelf: 'flex-start',
-  //   gap: '5px',
-  // },
+  headerTop: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: { xs: 'column', sm: 'row' },
+    justifyContent: 'space-between',
+    alignItems: { xs: 'flex-end', sm: 'center' },
+    gap: '5px',
+  },
   wrapper: {
     width: '100%',
-    height: isMobile
-      ? { xs: 'calc(100% - 84px)', sm: 'calc(100% - 50px)' }
-      : 'calc(100% - 45px)',
+    height: {
+      xs: 'calc(100% - 81px)',
+      sm: 'calc(100% - 59px)',
+    },
     position: 'relative',
     py: '5px',
   },
@@ -61,4 +61,4 @@ export const getStylesByArg = (isMobile: boolean): Record<string, SxProps> => ({
     justifyContent: 'flex-end',
     pr: '10px',
   },
-});
+};

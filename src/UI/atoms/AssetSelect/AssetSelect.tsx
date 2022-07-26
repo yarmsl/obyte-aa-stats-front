@@ -33,7 +33,7 @@ const AssetSelect: FC = () => {
 
   return (
     <TextField
-      size='small'
+      size='medium'
       variant='standard'
       color='secondary'
       select

@@ -50,10 +50,10 @@ export const fullFlattenDefinedDataSelector = createSelector(
     Object.keys(definedData).reduce(
       (labeledAddresses: ILabeledAddress[], curr) =>
         labeledAddresses.concat(
-          {
-            address: curr,
-            label: definedData[curr].definition.description,
-          },
+          // {
+          //   address: curr,
+          //   label: definedData[curr].definition.description, // base aa
+          // },
           definedData[curr].addresses.map((address) => ({
             address,
             label: definedData[curr].definition.description,

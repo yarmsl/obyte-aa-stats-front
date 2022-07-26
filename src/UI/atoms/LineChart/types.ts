@@ -2,7 +2,8 @@ import { Serie } from '@nivo/line';
 
 export interface ILineChartProps {
   data: Serie[];
-  serieLength: number;
+  serieLength?: number;
+  fullDaysBetweenStartAndEnd: number;
   lineWidth?: number;
   small?: boolean;
   precision?:

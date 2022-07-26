@@ -19,7 +19,7 @@ const TotalGraph: FC<ITotalGraphProps> = ({
   isLoading,
   presicion,
   actionButtonsConf,
-  serieLength,
+  fullDaysBetweenStartAndEnd,
   isDataSerieLessThan1,
   isEveryValOfSerieIsNull,
   mouseX,
@@ -56,7 +56,7 @@ const TotalGraph: FC<ITotalGraphProps> = ({
             <LineChart
               data={data}
               precision={presicion}
-              serieLength={serieLength}
+              fullDaysBetweenStartAndEnd={fullDaysBetweenStartAndEnd}
               isDataSerieLessThan1={isDataSerieLessThan1}
             />
           )}

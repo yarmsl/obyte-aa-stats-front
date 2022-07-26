@@ -308,8 +308,11 @@ const AgentGraphConnected: FC = () => {
     return graphData;
   }, [graphData, tvlSelected, tvlGraphData]);
 
-  const { serieLength, isDataSerieLessThan1, isEveryValOfSerieIsNull } =
-    useLineChart(totalData);
+  const {
+    fullDaysBetweenStartAndEnd,
+    isDataSerieLessThan1,
+    isEveryValOfSerieIsNull,
+  } = useLineChart(totalData);
 
   useEffect(() => {
     if (tvlSelected && tvlData) {
@@ -367,7 +370,7 @@ const AgentGraphConnected: FC = () => {
       isLoading={isLoading}
       actionButtonsConf={actionButtonsConf}
       selectButtonConf={selectButtonConf}
-      serieLength={serieLength}
+      fullDaysBetweenStartAndEnd={fullDaysBetweenStartAndEnd}
       isDataSerieLessThan1={isDataSerieLessThan1}
       isEveryValOfSerieIsNull={isEveryValOfSerieIsNull}
       onContextMenu={handleOpenContextMenu}
