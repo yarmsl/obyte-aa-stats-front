@@ -40,7 +40,7 @@ export const styles: Record<string, SxProps> = {
     fontSize: { xs: 'unset', md: '10px' },
   },
   nofound: {
-    p: ' 8px 16px',
+    p: '8px 16px',
     fontSize: { xs: 'unset', md: '12px' },
   },
 };
