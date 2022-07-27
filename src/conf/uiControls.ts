@@ -130,7 +130,7 @@ export const assetsConf: assetUiControl[] = [
   { value: 'O-OUSD-USDC', icon: 'OUSD.svg' },
 ].map((asset) => ({
   value: asset.value as assetsTypes,
-  label: asset.value?.replaceAll('-', ' ') || 'G-BYTE',
+  label: asset.value?.replaceAll('-', ' ') || 'GBYTE',
   icon: `${coinIcon}${asset.icon}`,
 }));
 
