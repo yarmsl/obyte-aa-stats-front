@@ -41,6 +41,21 @@ export const transformTopAA = (
   return [];
 };
 
+export const transformTvlOverTimeForOneAddress = (
+  data: IAddressTvlWithDecimals[] | undefined
+): IAddressTvl[] => {
+  if (Array.isArray(data) && data.length > 0) {
+    return data.map((address) => ({
+      address: address.address,
+      asset: address.asset,
+      period: address.period,
+      balance: address.balance / 10 ** address.decimals,
+      usd_balance: address.usd_balance,
+    }));
+  }
+  return [];
+};
+
 export const transformTopAAByTvl = (
   data: topAAbyTvlRes[] | undefined
 ): IRenderAATvl[] => {
@@ -124,7 +139,7 @@ export const transformUSDInValues = (
 };
 
 export const transformTvlOverTimeValuesForOneAddress = (
-  data: IAddressTvl[] | undefined
+  data: IAddressTvlWithDecimals[] | undefined
 ): number[] => {
   if (Array.isArray(data) && data.length > 0) {
     if (Array.from(new Set(data.map((d) => d.asset))).length > 1) {
@@ -132,9 +147,11 @@ export const transformTvlOverTimeValuesForOneAddress = (
       const merged = periods.map((period) => {
         const dataForPeriod = data.filter((d) => d.period === period);
         return dataForPeriod.reduce(
-          (accu: IAddressTvl, curr) => ({
+          (accu: IAddressTvlWithDecimals, curr) => ({
             ...accu,
-            balance: accu.usd_balance + curr.usd_balance,
+            balance:
+              accu.usd_balance / 10 ** accu.decimals +
+              curr.usd_balance / 10 ** curr.decimals,
             usd_balance: accu.usd_balance + curr.usd_balance,
           }),
           {
@@ -143,6 +160,7 @@ export const transformTvlOverTimeValuesForOneAddress = (
             period,
             balance: 0,
             usd_balance: 0,
+            decimals: 0,
           }
         );
       });

@@ -6,6 +6,7 @@ import {
   transformTopAAByTvl,
   transformTotalActivity,
   transformTotalTvl,
+  transformTvlOverTimeForOneAddress,
   transformTvlOverTimeValuesForOneAddress,
   transformTvlValues,
   transformUSDInValues,
@@ -60,6 +61,7 @@ export const aastatsAPI = createApi({
             : { from, to, asset, address },
       }),
       providesTags: ['TvlForAddress'],
+      transformResponse: transformTvlOverTimeForOneAddress,
     }),
     getTvlOverTimeValuesForOneAddress: build.query<
       number[],

@@ -20,6 +20,7 @@ const TotalGraph: FC<ITotalGraphProps> = ({
   presicion,
   actionButtonsConf,
   fullDaysBetweenStartAndEnd,
+  serieLength,
   isDataSerieLessThan1,
   isEveryValOfSerieIsNull,
   mouseX,
@@ -58,6 +59,7 @@ const TotalGraph: FC<ITotalGraphProps> = ({
               precision={presicion}
               fullDaysBetweenStartAndEnd={fullDaysBetweenStartAndEnd}
               isDataSerieLessThan1={isDataSerieLessThan1}
+              serieLength={serieLength}
             />
           )}
           {isLoading && (

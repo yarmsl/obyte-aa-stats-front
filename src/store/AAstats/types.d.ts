@@ -31,6 +31,7 @@ type IAddressTvl = Pick<IAddress, 'address' | 'period' | 'asset'> & {
   usd_balance: number;
   balance: number;
 };
+type IAddressTvlWithDecimals = IAddressTvl & { decimals: number };
 type ITotalActivity = Omit<IAddress, 'address'>;
 type ITotalWithTvlActivity = ITotalActivity & { usd_balance: number };
 type ITotalTvl = Pick<topAAbyTvlRes, 'period' | 'balance' | 'usd_balance'>;

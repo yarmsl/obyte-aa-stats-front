@@ -12,6 +12,7 @@ export interface ITotalGraphProps {
   presicion: 'hour' | 'day';
   actionButtonsConf: IUiControls[];
   fullDaysBetweenStartAndEnd: number;
+  serieLength: number;
   isDataSerieLessThan1: boolean;
   isEveryValOfSerieIsNull: boolean;
   onContextMenu: (e: MouseEvent) => void;
