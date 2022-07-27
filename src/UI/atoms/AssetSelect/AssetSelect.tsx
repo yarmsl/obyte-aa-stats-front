@@ -52,9 +52,9 @@ const AssetSelect: FC = () => {
       <MenuItem value='null'>
         <Box sx={styles.item}>
           <Box sx={styles.icon}>
-            <img src={`${coinIcon}GBYTE.svg`} alt='G-BYTE' />
+            <img src={`${coinIcon}GBYTE.svg`} alt='GBYTE' />
           </Box>
-          <Typography sx={styles.label}>G-BYTE</Typography>
+          <Typography sx={styles.label}>GBYTE</Typography>
         </Box>
       </MenuItem>
       {assets.map((ast) => (
