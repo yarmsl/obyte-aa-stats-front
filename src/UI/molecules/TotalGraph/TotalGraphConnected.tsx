@@ -159,6 +159,7 @@ const TotalGraphConnected: FC = () => {
     fullDaysBetweenStartAndEnd,
     isDataSerieLessThan1,
     isEveryValOfSerieIsNull,
+    serieLength,
   } = useLineChart(total);
 
   return (
@@ -172,6 +173,7 @@ const TotalGraphConnected: FC = () => {
       presicion={presicion}
       actionButtonsConf={actionButtonsConf}
       fullDaysBetweenStartAndEnd={fullDaysBetweenStartAndEnd}
+      serieLength={serieLength}
       isDataSerieLessThan1={isDataSerieLessThan1}
       isEveryValOfSerieIsNull={isEveryValOfSerieIsNull}
       onContextMenu={handleOpenContextMenu}

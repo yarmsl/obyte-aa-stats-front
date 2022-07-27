@@ -15,6 +15,7 @@ const LineChart: FC<ILineChartProps> = ({
   yType = 'currency',
   isDataSerieLessThan1 = false,
   fullDaysBetweenStartAndEnd,
+  serieLength,
 }) => {
   const { isMobile, isTablet } = useMedia();
   const darkMode = useAppSelector(darkModeSelector);
@@ -138,7 +139,7 @@ const LineChart: FC<ILineChartProps> = ({
         min: 'auto',
         max: 'auto',
       }}
-      yFormat={yType === 'currency' ? '<-$.2f' : '>-.0~f'}
+      yFormat={yType === 'currency' ? '<-$.2f' : '>-.4~f'}
       xFormat={xFormat}
       curve='linear'
       axisTop={null}
@@ -171,7 +172,7 @@ const LineChart: FC<ILineChartProps> = ({
       isInteractive
       tooltip={LineChartTooltip}
       lineWidth={lineWidth}
-      enablePoints={fullDaysBetweenStartAndEnd === 0}
+      enablePoints={serieLength === 1}
       pointSize={lineWidth * 3}
       useMesh
     />

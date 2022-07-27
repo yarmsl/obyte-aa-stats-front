@@ -36,8 +36,6 @@ const SearchResultsConnected: FC<ISearchResultsConnectedProps> = ({
     return [];
   }, [fullFlattenDefinedData, searchText]);
 
-  if (searchedData.length === 0) return null;
-
   return (
     <SearchResults
       open={open}

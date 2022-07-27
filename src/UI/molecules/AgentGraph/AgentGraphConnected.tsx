@@ -8,7 +8,7 @@ import { useLineChart } from 'lib/useLineChart';
 import { useStateUrlParams } from 'lib/useStateUrlParams';
 import { useTimeframe } from 'lib/useTimeframe';
 import { equals } from 'ramda';
-import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, memo, useCallback, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 import {
@@ -30,15 +30,6 @@ import {
 import AgentGraph from './AgentGraph';
 
 const AgentGraphConnected: FC = () => {
-  // Test
-  const [test, setTest] = useState<0 | null>(0);
-  const testLabel = useMemo(() => (test === 0 ? 'zero' : 'gap'), [test]);
-  const handleZero = useCallback(
-    () => setTest((p) => (p === 0 ? null : 0)),
-    []
-  );
-  // end Test
-
   const dispatch = useAppDispatch();
   const { address = '' } = useParams<{ address: string }>();
   const asset = useAppSelector(assetSelector);
@@ -210,11 +201,11 @@ const AgentGraphConnected: FC = () => {
             : new Date(d.period * 3600 * 1000),
         y:
           value !== 'asset' && value !== 'usd_balance' && value !== 'balance'
-            ? d[value] || test
+            ? d[value]
             : d.usd_amount_in,
       })),
     }));
-  }, [asset, data, slices, test, timeframe]);
+  }, [asset, data, slices, timeframe]);
 
   const { data: tvlData, isFetching: isTvlFetching } =
     useGetTvlOverTimeForOneAddressQuery(
@@ -282,7 +273,7 @@ const AgentGraphConnected: FC = () => {
               x: new Date(d.period * 3600 * 1000 * 24),
               y:
                 tvlConf.value === 'balance' || tvlConf.value === 'usd_balance'
-                  ? d[tvlConf.value] || test
+                  ? d[tvlConf.value]
                   : d.usd_balance,
             })),
           },
@@ -296,14 +287,14 @@ const AgentGraphConnected: FC = () => {
             x: new Date(d.period * 3600 * 1000),
             y:
               tvlConf.value === 'balance' || tvlConf.value === 'usd_balance'
-                ? d[tvlConf.value] || test
+                ? d[tvlConf.value]
                 : d.usd_balance,
           })),
         },
       ];
     }
     return [];
-  }, [asset, test, timeframe, tvlConf, tvlData]);
+  }, [asset, timeframe, tvlConf, tvlData]);
 
   const isLoading = useMemo(
     () => (tvlSelected ? isTvlFetching : isFetching),
@@ -321,6 +312,7 @@ const AgentGraphConnected: FC = () => {
     fullDaysBetweenStartAndEnd,
     isDataSerieLessThan1,
     isEveryValOfSerieIsNull,
+    serieLength,
   } = useLineChart(totalData);
 
   useEffect(() => {
@@ -380,14 +372,13 @@ const AgentGraphConnected: FC = () => {
       actionButtonsConf={actionButtonsConf}
       selectButtonConf={selectButtonConf}
       fullDaysBetweenStartAndEnd={fullDaysBetweenStartAndEnd}
+      serieLength={serieLength}
       isDataSerieLessThan1={isDataSerieLessThan1}
       isEveryValOfSerieIsNull={isEveryValOfSerieIsNull}
       onContextMenu={handleOpenContextMenu}
       mouseX={mouseX}
       mouseY={mouseY}
       onContextMenuClose={handleCloseContextMenu}
-      testLabel={testLabel}
-      handleZero={handleZero}
     />
   );
 };

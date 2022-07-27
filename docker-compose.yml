@@ -5,5 +5,7 @@ services:
     container_name: obyte-aastats-frontend-container
     build:
       context: .
+    restart: always
     ports:
       - 80:80
+      - 443:443

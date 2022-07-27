@@ -15,12 +15,11 @@ export interface IAgentGraphProps {
   actionButtonsConf: IUiControls[];
   selectButtonConf: IUiSelects<IAddressGraphData>[];
   fullDaysBetweenStartAndEnd: number;
+  serieLength: number;
   isDataSerieLessThan1: boolean;
   isEveryValOfSerieIsNull: boolean;
   onContextMenu: (e: MouseEvent) => void;
   onContextMenuClose: () => void;
   mouseX: number | null;
   mouseY: number | null;
-  testLabel: string;
-  handleZero: () => void;
 }
