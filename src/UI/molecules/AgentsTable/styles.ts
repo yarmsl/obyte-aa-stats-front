@@ -6,6 +6,7 @@ export const styles: Record<string, SxProps> = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    mt: '20px',
   },
   root: {
     width: '100%',

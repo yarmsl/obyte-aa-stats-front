@@ -10,8 +10,6 @@ import {
 } from '@mui/material';
 import { FC, memo, MouseEvent, useCallback, useMemo } from 'react';
 import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import { useTimeframe } from 'lib/useTimeframe';
 import { useGetMostActiveAgentsQuery } from 'store/AAstats';
 import { safetyDefinitionByAddressSelector } from 'store/Obyte';
@@ -24,11 +22,11 @@ import { styles } from './styles';
 
 const MostActiveAgentsWidget: FC = () => {
   const getDefinition = useAppSelector(safetyDefinitionByAddressSelector);
-  const { from, now } = useTimeframe(2, 'hourly');
+  const { from, to } = useTimeframe(1, 'hourly');
   const stopPropagate = useCallback((e: MouseEvent) => e.stopPropagation(), []);
   const { data, isFetching } = useGetMostActiveAgentsQuery({
     from,
-    to: now,
+    to,
     timeframe: 'hourly',
     limit: 3,
   });
@@ -66,19 +64,6 @@ const MostActiveAgentsWidget: FC = () => {
                   </Typography>
                   <Typography color='secondary.dark'> Turnover</Typography>
                 </Box>
-                <Box>
-                  <QueryStatsIcon
-                    sx={{ width: '16px', mr: '5px', color: 'teal' }}
-                  />
-                  <Typography color='teal'> Requests</Typography>
-                </Box>
-                <Box>
-                  <PeopleAltIcon
-                    sx={{ width: '16px', mr: '5px' }}
-                    color='info'
-                  />
-                  <Typography color='info.main'> Users</Typography>
-                </Box>
               </Box>
             }
           >
@@ -89,45 +74,22 @@ const MostActiveAgentsWidget: FC = () => {
         </Box>
         <Divider sx={styles.divider} />
         <Box sx={styles.content} onMouseDown={stopPropagate}>
-          {mostActiveAgents.map(
-            (
-              { title, address, usd_amount_in, num_users, triggers_count },
-              i
-            ) => (
-              <Box key={address} sx={styles.mostActiveAA}>
-                <Link
-                  component={RouterLink}
-                  to={`aa/${address}`}
-                  sx={styles.top}
-                >
-                  <Typography>{`${i + 1}.`}</Typography>
-                  <Typography>{title}</Typography>
-                </Link>
+          {mostActiveAgents.map(({ title, address, usd_amount_in }, i) => (
+            <Box key={address} sx={styles.mostActiveAA}>
+              <Link component={RouterLink} to={`aa/${address}`} sx={styles.top}>
+                <Typography>{`${i + 1}.`}</Typography>
+                <Typography>{title}</Typography>
+              </Link>
 
-                <Box sx={styles.stats}>
-                  <Box sx={styles.counter}>
-                    <Typography color='secondary.dark' fontSize='inherit'>
-                      {usd_amount_in}
-                    </Typography>
-                  </Box>
-
-                  <Box sx={styles.counter}>
-                    <QueryStatsIcon sx={{ color: 'teal' }} fontSize='inherit' />
-                    <Typography color='teal' fontSize='inherit'>
-                      {triggers_count}
-                    </Typography>
-                  </Box>
-
-                  <Box sx={styles.counter}>
-                    <PeopleAltIcon color='info' fontSize='inherit' />
-                    <Typography color='info.main' fontSize='inherit'>
-                      {num_users}
-                    </Typography>
-                  </Box>
+              <Box sx={styles.stats}>
+                <Box sx={styles.counter}>
+                  <Typography color='secondary.dark' fontSize='inherit'>
+                    {usd_amount_in}
+                  </Typography>
                 </Box>
               </Box>
-            )
-          )}
+            </Box>
+          ))}
         </Box>
         <WaterMark />
         {isFetching && (
