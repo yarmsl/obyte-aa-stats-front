@@ -54,7 +54,7 @@ export const styles: Record<string, SxProps> = {
   },
   counter: {
     width: '50px',
-    fontSize: 12,
+    fontSize: 14,
     display: 'flex',
     alignItems: 'center',
     gap: '2px',

@@ -23,9 +23,8 @@ const AgentInfoWidget: FC = () => {
 
   return (
     <Box sx={styles.root}>
-      <Box sx={styles.titleBox}>
-        <Typography sx={styles.title}>{description}</Typography>
-      </Box>
+      <Typography sx={styles.title}>{description}</Typography>
+
       <Box sx={styles.linksWrapper}>
         <Link
           component={isPortable ? IconButton : 'a'}

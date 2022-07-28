@@ -1,3 +1,5 @@
+import { crutchCors } from 'conf/constants';
+
 export const apiPost = async <T, K>(
   url: string,
   payload: K,
@@ -23,8 +25,12 @@ export const apiPost = async <T, K>(
   return response.json();
 };
 
-export const apiGet = async <T>(url: string): Promise<T> => {
-  const response = await fetch(url, {
+export const apiGetDef = async <T>(url: string): Promise<T> => {
+  let resultedUrl = url;
+  crutchCors.forEach((crutchUrl) => {
+    if (url.endsWith(crutchUrl)) resultedUrl = crutchUrl;
+  });
+  const response = await fetch(resultedUrl, {
     method: 'GET',
     mode: 'cors',
   });

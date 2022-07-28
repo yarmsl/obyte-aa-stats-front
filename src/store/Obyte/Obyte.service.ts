@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { apiGet } from 'lib/api';
+import { apiGetDef } from 'lib/api';
 import { Client } from 'obyte';
 import { showSnackBar } from 'store/SnackStack';
 import { updateDefinedData } from './Obyte.reducer';
@@ -20,9 +20,9 @@ const getDefData = async (
   const res = await client.api.getDefinition(address);
   if ('base_aa' in res[1]) {
     const def = await client.api.getDefinition(res[1].base_aa);
-    return apiGet<IDefinition>(def[1].doc_url);
+    return apiGetDef<IDefinition>(def[1].doc_url);
   }
-  return apiGet<IDefinition>(res[1].doc_url);
+  return apiGetDef<IDefinition>(res[1].doc_url);
 };
 
 const getDefAddresses = async (
