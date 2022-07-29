@@ -49,6 +49,14 @@ const AgentGraphConnected: FC = () => {
   const { mouseX, mouseY, handleOpenContextMenu, handleCloseContextMenu } =
     useContextMenu();
 
+  useEffect(() => {
+    if (
+      selectedActivities.includes('usd_balance' || 'balance') &&
+      selectedPeriod > 30
+    )
+      dispatch(handleAgentGraphPeriodControl(30));
+  }, [dispatch, selectedActivities, selectedPeriod]);
+
   const handlePeriod = useCallback(
     (value: number) => () => {
       dispatch(handleAgentGraphPeriodControl(value));
