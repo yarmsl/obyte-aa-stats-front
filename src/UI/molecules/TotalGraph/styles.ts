@@ -43,9 +43,9 @@ export const styles: Record<string, SxProps> = {
   },
   skeleton: {
     width: 'calc(100% + 20px)',
-    height: '100%',
+    height: { xs: 'calc(100% + 74px)', sm: 'calc(100% + 51px)' },
     position: 'absolute',
-    top: 10,
+    top: -10,
     right: -10,
     bottom: -10,
     left: -10,

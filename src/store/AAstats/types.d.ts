@@ -26,6 +26,7 @@ interface IAddress {
   num_users: number;
   period: number;
   asset: assetsTypes;
+  decimals: number;
 }
 type IAddressTvl = Pick<IAddress, 'address' | 'period' | 'asset'> & {
   usd_balance: number;

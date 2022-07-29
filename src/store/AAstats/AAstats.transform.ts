@@ -1,5 +1,48 @@
 import { Serie } from '@nivo/line';
 import { FetchBaseQueryMeta } from '@reduxjs/toolkit/dist/query';
+import { getRange } from './utils';
+
+export const transformStatsForOneAddress = (
+  data: IAddress[] | undefined,
+  _: FetchBaseQueryMeta,
+  arg: IAAStatsAddressReq
+): IAddress[] => {
+  if (Array.isArray(data) && data.length > 0) {
+    const range = getRange(
+      arg.from === 0 ? data[0].period : arg.from,
+      arg.to,
+      1
+    );
+    const assets = [...new Set(data.map((address) => address.asset))];
+    const assetArrays = assets.reduce(
+      (accu: IAddress[][], curr) =>
+        accu.concat([data.filter((address) => address.asset === curr)]),
+      []
+    );
+
+    const assetFullArrays = assetArrays.map((assetArr) =>
+      range.map<IAddress>((period) => {
+        const found = assetArr.find((val) => val.period === period);
+        if (found) return found;
+        return {
+          address: assetArr[0].address,
+          amount_in: 0,
+          amount_out: 0,
+          asset: assetArr[0].asset,
+          bounced_count: 0,
+          decimals: assetArr[0].decimals,
+          num_users: 0,
+          period,
+          triggers_count: 0,
+          usd_amount_in: 0,
+          usd_amount_out: 0,
+        };
+      })
+    );
+    return [...assetFullArrays.flat()].sort((a, b) => b.period - a.period);
+  }
+  return [];
+};
 
 export const transformTotalActivity = (
   data: ITotalActivity[] | undefined,
@@ -8,6 +51,7 @@ export const transformTotalActivity = (
 ): Serie[] => {
   const { slices, timeframe } = arg;
   if (Array.isArray(data) && data.length > 0) {
+    data.sort((a, b) => b.period - a.period);
     return slices.map((slice) => ({
       id: slice.label,
       color: slice.color,
@@ -45,6 +89,7 @@ export const transformTvlOverTimeForOneAddress = (
   data: IAddressTvlWithDecimals[] | undefined
 ): IAddressTvl[] => {
   if (Array.isArray(data) && data.length > 0) {
+    data.sort((a, b) => b.period - a.period);
     return data.map((address) => ({
       address: address.address,
       asset: address.asset,
@@ -75,6 +120,7 @@ export const transformTotalTvl = (
 ): Serie[] => {
   const { timeframe, conf } = arg;
   if (Array.isArray(data) && data.length > 0) {
+    data.sort((a, b) => b.period - a.period);
     if (timeframe === 'daily') {
       const dailyTvlPeriods = Array.from(
         new Set(data.map((d) => Math.floor(d.period / 24)))
@@ -195,6 +241,7 @@ export const transformUsdInValuesForOneAddress = (
             triggers_count: 0,
             usd_amount_in: 0,
             usd_amount_out: 0,
+            decimals: dataForPeriod[0].decimals,
           }
         );
       });
