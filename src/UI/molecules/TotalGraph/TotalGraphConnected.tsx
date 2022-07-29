@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useMemo } from 'react';
+import { FC, memo, useCallback, useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 import {
   useGetTotalActivityOverTimeQuery,
@@ -35,6 +35,13 @@ const TotalGraphConnected: FC = () => {
   const { setUrl } = useStateUrlParams();
   const { mouseX, mouseY, handleOpenContextMenu, handleCloseContextMenu } =
     useContextMenu();
+
+  useEffect(() => {
+    if (!selectedActivities.includes('usd_balance') && selectedPeriod < 30)
+      dispatch(handleTotalGraphPeriodControl(30));
+    else if (selectedActivities.includes('usd_balance') && selectedPeriod > 30)
+      dispatch(handleTotalGraphPeriodControl(30));
+  }, [dispatch, selectedActivities, selectedPeriod]);
 
   const handlePeriod = useCallback(
     (value: number) => () => {

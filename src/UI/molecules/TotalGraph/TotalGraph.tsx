@@ -62,14 +62,14 @@ const TotalGraph: FC<ITotalGraphProps> = ({
               serieLength={serieLength}
             />
           )}
-          {isLoading && (
-            <Skeleton
-              sx={styles.skeleton}
-              variant='rectangular'
-              animation='wave'
-            />
-          )}
         </Box>
+        {isLoading && (
+          <Skeleton
+            sx={styles.skeleton}
+            variant='rectangular'
+            animation='wave'
+          />
+        )}
         <WaterMark />
         <ShareMenu
           mouseX={mouseX}
