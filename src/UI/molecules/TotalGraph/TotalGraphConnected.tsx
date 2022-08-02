@@ -37,9 +37,17 @@ const TotalGraphConnected: FC = () => {
     useContextMenu();
 
   useEffect(() => {
-    if (!selectedActivities.includes('usd_balance') && selectedPeriod < 30)
+    if (
+      !selectedActivities.includes('usd_balance') &&
+      selectedPeriod < 30 &&
+      selectedPeriod > 0
+    )
       dispatch(handleTotalGraphPeriodControl(30));
-    else if (selectedActivities.includes('usd_balance') && selectedPeriod > 30)
+    else if (
+      selectedActivities.includes('usd_balance') &&
+      selectedPeriod > 30 &&
+      selectedPeriod !== 0
+    )
       dispatch(handleTotalGraphPeriodControl(30));
   }, [dispatch, selectedActivities, selectedPeriod]);
 

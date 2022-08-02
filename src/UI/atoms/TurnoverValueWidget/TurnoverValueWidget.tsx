@@ -5,20 +5,23 @@ import NeuBox from 'UI/templates/NeuBox/NeuBox';
 import ValueWidget from '../ValueWidget/ValueWidget';
 
 const TurnoverValueWidget: FC = () => {
-  const { from, to } = useTimeframe(3, 'daily');
+  const { from, to } = useTimeframe(2, 'hourly');
   const { data, isFetching } = useGetTotalUsdInValuesQuery({
     from,
-    to: to - 1,
-    timeframe: 'daily',
+    to,
+    timeframe: 'hourly',
   });
 
-  const [prev, value] = useMemo(() => data || [0, 0], [data]);
+  const { prev = 0, value = 0 } = useMemo(
+    () => data || { prev: 0, value: 0 },
+    [data]
+  );
 
   return (
     <NeuBox>
       <ValueWidget
         value={value}
-        title='Turnover'
+        title='Turnover 24h'
         unit='$'
         shorten
         trend={prev}

@@ -43,7 +43,10 @@ export const aastatsAPI = createApi({
       providesTags: ['Address'],
       transformResponse: transformStatsForOneAddress,
     }),
-    getUsdInValuesForOneAddress: build.query<number[], IAAStatsAddressReq>({
+    getUsdInValuesForOneAddress: build.query<
+      { prev: number; value: number },
+      IAAStatsAddressReq
+    >({
       query: (request) => ({
         url: 'address',
         method: 'POST',
@@ -111,7 +114,10 @@ export const aastatsAPI = createApi({
       keepUnusedDataFor: 60 * 30,
       transformResponse: transformTotalActivity,
     }),
-    getTotalUsdInValues: build.query<number[], IAAStatsUSDInValuesReq>({
+    getTotalUsdInValues: build.query<
+      { prev: number; value: number },
+      IAAStatsUSDInValuesReq
+    >({
       query: (request) => ({
         url: 'total/activity',
         method: 'POST',

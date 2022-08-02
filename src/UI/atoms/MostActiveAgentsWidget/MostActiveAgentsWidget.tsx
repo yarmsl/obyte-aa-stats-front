@@ -1,15 +1,6 @@
 /* eslint-disable camelcase */
-import {
-  Box,
-  Divider,
-  IconButton,
-  Link,
-  Skeleton,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box, Divider, Link, Skeleton, Typography } from '@mui/material';
 import { FC, memo, MouseEvent, useCallback, useMemo } from 'react';
-import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
 import { useTimeframe } from 'lib/useTimeframe';
 import { useGetMostActiveAgentsQuery } from 'store/AAstats';
 import { safetyDefinitionByAddressSelector } from 'store/Obyte';
@@ -47,48 +38,30 @@ const MostActiveAgentsWidget: FC = () => {
     <NeuBox>
       <Box sx={styles.root}>
         <Box sx={styles.head}>
-          <Typography sx={styles.title}>Most Active Agents</Typography>
-          <Tooltip
-            componentsProps={{ tooltip: { sx: styles.tooltip } }}
-            title={
-              <Box sx={styles.tooltipBox}>
-                <Box>
-                  <Typography>Most active agents in the last 24h</Typography>
-                </Box>
-                <Box>
-                  <Typography
-                    sx={{ width: '16px', mr: '5px' }}
-                    color='secondary.dark'
-                  >
-                    $
-                  </Typography>
-                  <Typography color='secondary.dark'> Turnover</Typography>
-                </Box>
-              </Box>
-            }
-          >
-            <IconButton sx={{ ml: '10px' }} size='small'>
-              <HelpOutlineRoundedIcon fontSize='inherit' />
-            </IconButton>
-          </Tooltip>
+          <Typography sx={styles.title}>
+            Most Active Agents. <span>Turnover 24h</span>
+          </Typography>
         </Box>
         <Divider sx={styles.divider} />
         <Box sx={styles.content} onMouseDown={stopPropagate}>
           {mostActiveAgents.map(({ title, address, usd_amount_in }, i) => (
-            <Box key={address} sx={styles.mostActiveAA}>
-              <Link component={RouterLink} to={`aa/${address}`} sx={styles.top}>
-                <Typography>{`${i + 1}.`}</Typography>
-                <Typography>{title}</Typography>
-              </Link>
-
-              <Box sx={styles.stats}>
-                <Box sx={styles.counter}>
-                  <Typography color='secondary.dark' fontSize='inherit'>
-                    {usd_amount_in}
-                  </Typography>
-                </Box>
+            <Link
+              key={address}
+              component={RouterLink}
+              to={`aa/${address}`}
+              sx={styles.link}
+            >
+              <Typography sx={styles.index}>{`${i + 1}.`}</Typography>
+              <Box sx={styles.titleBox}>
+                <Typography sx={styles.addressTitle}>{title}</Typography>
+                {address !== title && (
+                  <Typography sx={styles.addressSubtitle}>{address}</Typography>
+                )}
               </Box>
-            </Box>
+              <Typography color='secondary.dark' fontSize='inherit'>
+                {usd_amount_in}
+              </Typography>
+            </Link>
           ))}
         </Box>
         <WaterMark />
