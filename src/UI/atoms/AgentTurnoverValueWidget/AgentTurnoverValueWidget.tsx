@@ -7,24 +7,27 @@ import ValueWidget from '../ValueWidget/ValueWidget';
 
 const AgentTurnoverValueWidget: FC = () => {
   const { address = '' } = useParams<{ address: string }>();
-  const { from, to } = useTimeframe(3, 'daily');
+  const { from, to } = useTimeframe(2, 'hourly');
   const { data, isFetching } = useGetUsdInValuesForOneAddressQuery(
     {
       from,
-      to: to - 1,
-      timeframe: 'daily',
+      to,
+      timeframe: 'hourly',
       address,
     },
     { skip: !address }
   );
 
-  const [prev, value] = useMemo(() => data || [0, 0], [data]);
+  const { prev = 0, value = 0 } = useMemo(
+    () => data || { prev: 0, value: 0 },
+    [data]
+  );
 
   return (
     <NeuBox>
       <ValueWidget
         value={value}
-        title='Turnover'
+        title='Turnover 24h'
         unit='$'
         shorten
         trend={prev}

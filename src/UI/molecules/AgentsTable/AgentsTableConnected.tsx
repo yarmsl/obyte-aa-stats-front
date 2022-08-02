@@ -1,6 +1,6 @@
 import { useStateUrlParams } from 'lib/useStateUrlParams';
 import { useTimeframe } from 'lib/useTimeframe';
-import { FC, memo, useCallback, useEffect, useMemo, useRef } from 'react';
+import { FC, memo, useCallback, useEffect, useMemo } from 'react';
 import { batch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
@@ -15,11 +15,9 @@ import {
   agentsTableSortTypeSelector,
   agentsTableSortByTvlSelector,
   agentsTablePeriodSelector,
-  agentsTableDataLimitSelector,
   handleAgentsTableSortType,
   handleAgentsTableSortByTvl,
   handleAgentsTablePeriodControl,
-  increaseAgentsTableDataLimit,
   agentsTableTimeframeSelector,
 } from 'store/UI';
 import AgentsTable from './AgentsTable';
@@ -29,13 +27,11 @@ const AgentsTableConnected: FC = () => {
   const nav = useNavigate();
   const selectedPeriod = useAppSelector(agentsTablePeriodSelector);
   const timeframe = useAppSelector(agentsTableTimeframeSelector);
-  const limit = useAppSelector(agentsTableDataLimitSelector);
   const type = useAppSelector(agentsTableSortTypeSelector);
   const isSortByTvl = useAppSelector(agentsTableSortByTvlSelector);
   const { from, to } = useTimeframe(selectedPeriod, timeframe);
   const dd = useAppSelector(descriptionByAddressSelector);
   const addresses = useAppSelector(addressesSelector);
-  const loaderRef = useRef(null);
   const isAddressesInCache = useAppSelector(isAddressesInCacheSelector);
   const { setUrl } = useStateUrlParams();
 
@@ -72,23 +68,51 @@ const AgentsTableConnected: FC = () => {
     (address: string) => () => nav(`/aa/${address}`),
     [nav]
   );
-
+  const getDef = useCallback((address: string) => dd(address), [dd]);
   const { data, isFetching } = useGetTopAAbyTypeQuery({
     from,
     to,
     timeframe,
-    limit,
+    limit: 10000,
     type,
   });
-
-  const getDef = useCallback((address: string) => dd(address), [dd]);
 
   const { data: tvl } = useGetTopAAbyTvlQuery({});
 
   const aaTop = useMemo(() => {
-    if (data) {
-      const res = data.reduce((accu: IMergedTopAA[], curr) => {
-        if (tvl) {
+    if (data && tvl) {
+      if (isSortByTvl) {
+        return tvl
+          .reduce((accu: IMergedTopAA[], curr) => {
+            const amountData = data.find(
+              (amount) => amount.address === curr.address
+            );
+            if (amountData) {
+              return accu.concat({
+                ...curr,
+                agent: getDef(curr.address),
+                usd_amount_in: amountData.usd_amount_in,
+                usd_amount_out: amountData.usd_amount_out,
+              });
+            }
+            return accu.concat({
+              ...curr,
+              agent: getDef(curr.address),
+              usd_amount_in: 0,
+              usd_amount_out: 0,
+            });
+          }, [])
+          .filter(
+            (res) =>
+              !(
+                res.usd_amount_in === 0 &&
+                res.usd_amount_out === 0 &&
+                res.usd_balance === 0
+              )
+          );
+      }
+      return data
+        .reduce((accu: IMergedTopAA[], curr) => {
           const tvlData = tvl.find((t) => t.address === curr.address);
           if (tvlData) {
             return accu.concat({
@@ -100,15 +124,17 @@ const AgentsTableConnected: FC = () => {
           return accu.concat({
             ...curr,
             agent: getDef(curr.address),
-            usd_balance: -1,
+            usd_balance: 0,
           });
-        }
-        return accu;
-      }, []);
-      if (isSortByTvl) {
-        return res.sort((a, b) => b.usd_balance - a.usd_balance);
-      }
-      return res;
+        }, [])
+        .filter(
+          (res) =>
+            !(
+              res.usd_amount_in === 0 &&
+              res.usd_amount_out === 0 &&
+              res.usd_balance === 0
+            )
+        );
     }
     return [];
   }, [data, getDef, isSortByTvl, tvl]);
@@ -132,43 +158,6 @@ const AgentsTableConnected: FC = () => {
     }
   }, [addresses, dispatch, isAddressesInCache]);
 
-  const skipQueryData = useMemo(() => {
-    if (data && data.length >= 10) {
-      return data.length % 10 !== 0;
-    }
-    return true;
-  }, [data]);
-
-  const handleObserver: IntersectionObserverCallback = useCallback(
-    (entries) => {
-      if (
-        Array.isArray(entries) &&
-        entries[0].isIntersecting &&
-        !skipQueryData
-      ) {
-        dispatch(increaseAgentsTableDataLimit(10));
-      }
-    },
-    [dispatch, skipQueryData]
-  );
-
-  const observer = useMemo(
-    () =>
-      new IntersectionObserver(handleObserver, {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0,
-      }),
-    [handleObserver]
-  );
-
-  useEffect(() => {
-    if (loaderRef.current) {
-      observer.observe(loaderRef.current);
-    }
-    return () => observer.disconnect();
-  }, [handleObserver, observer]);
-
   return (
     <AgentsTable
       data={aaTop}
@@ -178,7 +167,6 @@ const AgentsTableConnected: FC = () => {
       handlePeriod={handlePeriod}
       isSelectedPeriod={isSelectedPeriod}
       isSortSelected={isSortSelected}
-      loaderRef={loaderRef}
     />
   );
 };

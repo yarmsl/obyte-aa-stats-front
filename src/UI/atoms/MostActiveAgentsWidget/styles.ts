@@ -18,6 +18,9 @@ export const styles: Record<string, SxProps> = {
   title: {
     fontSize: '18px',
     fontWeight: 300,
+    '& span': {
+      color: 'secondary.dark',
+    },
   },
   divider: {
     mt: '5px',
@@ -40,48 +43,43 @@ export const styles: Record<string, SxProps> = {
     bottom: 0,
     right: 0,
   },
-  mostActiveAA: {
-    display: 'flex',
+  link: {
+    width: '100%',
+    height: '30.5px',
     alignItems: 'center',
     justifyContent: 'space-between',
-    fontSize: 12,
+    display: 'flex',
     gap: '5px',
-  },
-  stats: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  counter: {
-    width: '50px',
-    fontSize: 14,
-    display: 'flex',
-    alignItems: 'center',
-    gap: '2px',
-  },
-  top: {
-    display: 'flex',
     overflow: 'hidden',
     fontSize: 14,
-    '&>p:first-of-type': {
-      minWidth: '20px',
-      fontSize: 'inherit',
-    },
-    '&>p:last-of-type': {
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      fontSize: 'inherit',
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'underline',
     },
   },
-  tooltip: {
-    backgroundColor: '#1a223f',
+  index: {
+    minWidth: '16px',
+    fontSize: 'inherit',
   },
-  tooltipBox: {
+  titleBox: {
+    flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
-    '&>div': {
-      display: 'flex',
-    },
+    overflow: 'hidden',
+    fontSize: 'inherit',
+  },
+  addressTitle: {
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    fontSize: '13px',
+  },
+  addressSubtitle: {
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    fontSize: '10px',
+    lineHeight: '11px',
+    fontWeight: 300,
   },
 };

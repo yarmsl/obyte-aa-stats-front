@@ -61,12 +61,6 @@ const UISlice = createSlice({
         allPeriodsUiControls.find((ctrl) => ctrl.value === action.payload)
           ?.value ?? initialState.agentsTablePeriodControls;
     },
-    increaseAgentsTableDataLimit: (
-      state: UIState,
-      action: PayloadAction<number>
-    ) => {
-      state.agentsTableDataLimit += action.payload;
-    },
     handleAgentsTableSortType: (
       state: UIState,
       action: PayloadAction<topAATypes>
@@ -113,7 +107,6 @@ export const {
   handleTotalGraphPeriodControl,
   handleTotalGraphActivitiesControls,
   handleAgentsTablePeriodControl,
-  increaseAgentsTableDataLimit,
   handleAgentsTableSortType,
   handleAgentsTableSortByTvl,
   handleAsset,

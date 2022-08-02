@@ -15,7 +15,6 @@ const AgentsTable: FC<IAgentsTableProps> = ({
   handlePeriod,
   isSelectedPeriod,
   isSortSelected,
-  loaderRef,
 }) => (
   <Box sx={styles.wrapper}>
     <Box sx={styles.root}>
@@ -37,9 +36,7 @@ const AgentsTable: FC<IAgentsTableProps> = ({
           <AgentItem key={d.address} {...d} onNavigate={onNavigate} />
         ))}
       </Box>
-      <Box ref={loaderRef} sx={styles.loading}>
-        {isLoading && <Loading />}
-      </Box>
+      <Box sx={styles.loading}>{isLoading && <Loading />}</Box>
     </Box>
   </Box>
 );

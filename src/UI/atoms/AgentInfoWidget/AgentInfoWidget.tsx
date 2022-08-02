@@ -20,10 +20,17 @@ const AgentInfoWidget: FC = () => {
   } = useMemo(() => dd(address), [address, dd]);
 
   const { isPortable } = useMedia();
+  const subtitle = useMemo(
+    () => (address !== description ? address : null),
+    [address, description]
+  );
 
   return (
     <Box sx={styles.root}>
-      <Typography sx={styles.title}>{description}</Typography>
+      <Box sx={styles.titleBox}>
+        <Typography sx={styles.title}>{description}</Typography>
+        {subtitle && <Typography sx={styles.subtitle}>{subtitle}</Typography>}
+      </Box>
 
       <Box sx={styles.linksWrapper}>
         <Link

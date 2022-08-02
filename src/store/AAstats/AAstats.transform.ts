@@ -1,6 +1,6 @@
 import { Serie } from '@nivo/line';
 import { FetchBaseQueryMeta } from '@reduxjs/toolkit/dist/query';
-import { getRange } from './utils';
+import { getActualDifferenceInPreviousPeriod, getRange } from './utils';
 
 export const transformStatsForOneAddress = (
   data: IAddress[] | undefined,
@@ -172,16 +172,26 @@ export const transformTvlValues = (
 };
 
 export const transformUSDInValues = (
-  data: ITotalActivity[] | undefined
-): number[] => {
+  data: ITotalActivity[] | undefined,
+  _: FetchBaseQueryMeta,
+  arg: IAAStatsUSDInValuesReq
+): { prev: number; value: number } => {
   if (Array.isArray(data) && data.length > 0) {
-    if (data.length < 2) {
-      return [0, ...data.map((d) => d.usd_amount_in)];
-    }
-
-    return data.map((d) => d.usd_amount_in);
+    const { from, to } = arg;
+    const diff = getActualDifferenceInPreviousPeriod(to);
+    return data.reduce(
+      (accu: { prev: number; value: number }, curr) => {
+        if (curr.period <= to && curr.period >= to - 24) {
+          accu.value += curr.usd_amount_in;
+        } else if (curr.period >= from && curr.period < from + diff) {
+          accu.prev += curr.usd_amount_in;
+        }
+        return accu;
+      },
+      { prev: 0, value: 0 }
+    );
   }
-  return [0, 0];
+  return { prev: 0, value: 0 };
 };
 
 export const transformTvlOverTimeValuesForOneAddress = (
@@ -218,36 +228,23 @@ export const transformTvlOverTimeValuesForOneAddress = (
 };
 
 export const transformUsdInValuesForOneAddress = (
-  data: IAddress[] | undefined
-): number[] => {
+  data: IAddress[] | undefined,
+  _: FetchBaseQueryMeta,
+  arg: IAAStatsAddressReq
+): { prev: number; value: number } => {
+  const { to } = arg;
   if (Array.isArray(data) && data.length > 0) {
-    if (Array.from(new Set(data.map((d) => d.asset))).length > 1) {
-      const periods = Array.from(new Set(data.map((d) => d.period)));
-      const merged = periods.map((period) => {
-        const dataForPeriod = data.filter((d) => d.period === period);
-        return dataForPeriod.reduce(
-          (accu: IAddress, curr) => ({
-            ...accu,
-            usd_amount_in: accu.usd_amount_in + curr.usd_amount_in,
-          }),
-          {
-            address: dataForPeriod[0].address,
-            amount_in: 0,
-            amount_out: 0,
-            asset: null,
-            bounced_count: 0,
-            num_users: 0,
-            period,
-            triggers_count: 0,
-            usd_amount_in: 0,
-            usd_amount_out: 0,
-            decimals: dataForPeriod[0].decimals,
-          }
-        );
-      });
-      return [merged[0].usd_amount_in, merged[merged.length - 1].usd_amount_in];
-    }
-    return [data[0].usd_amount_in, data[data.length - 1].usd_amount_in];
+    return data.reduce(
+      (accu: { prev: number; value: number }, curr) => {
+        if (curr.period <= to && curr.period >= to - 24) {
+          accu.value += curr.usd_amount_in;
+        }
+        accu.prev += curr.usd_amount_in;
+
+        return accu;
+      },
+      { prev: 0, value: 0 }
+    );
   }
-  return [0, 0];
+  return { prev: 0, value: 0 };
 };
