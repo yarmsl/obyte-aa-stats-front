@@ -6,19 +6,29 @@ export const styles: Record<string, SxProps> = {
     position: 'absolute',
   },
   menu: {
-    maxHeight: '350px',
+    maxHeight: '370px',
     overflowY: 'auto',
     width: '100%',
     overflowX: 'hidden',
     borderRadius: 1,
     bgcolor: 'background.paper',
+    scrollBehavior: 'smooth',
   },
   searchedItem: {
     width: '100%',
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    overflow: 'hidden',
+    gap: '5px',
   },
+  creds: {
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+
   labelText: {
     width: '100%',
     fontSize: '12px',
@@ -31,6 +41,10 @@ export const styles: Record<string, SxProps> = {
     fontWeight: 300,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+  },
+  tvl: {
+    fontSize: '10px',
+    color: 'secondary.dark',
   },
   goToLabel: {
     width: '100%',

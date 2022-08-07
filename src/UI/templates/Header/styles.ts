@@ -36,6 +36,6 @@ export const stylesByMode = (darkMode: boolean): Record<string, SxProps> => ({
       : '8px 8px 16px #cccfd4, -8px -8px 16px #ffffff',
   },
   search: {
-    width: '250px',
+    width: '320px',
   },
 });

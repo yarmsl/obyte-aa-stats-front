@@ -36,9 +36,7 @@ const AgentItem: FC<IAgentItemProps> = ({
         </Box>
         <Box sx={styles.cell}>{usd(usd_amount_in, fraction, true)}</Box>
         <Box sx={styles.cell}>{usd(usd_amount_out, fraction, true)}</Box>
-        <Box sx={styles.cell}>
-          {usd_balance === -1 ? 'no data' : usd(usd_balance, fraction, true)}
-        </Box>
+        <Box sx={styles.cell}>{usd(usd_balance, fraction, true)}</Box>
       </Box>
       <Divider sx={styles.divider} />
     </>

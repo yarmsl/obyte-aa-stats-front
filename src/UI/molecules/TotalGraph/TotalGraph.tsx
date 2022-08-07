@@ -35,7 +35,7 @@ const TotalGraph: FC<ITotalGraphProps> = ({
       <Box sx={styles.root}>
         <Box sx={styles.header}>
           <Box sx={styles.headerLeft}>
-            <Typography sx={styles.title}>Activities</Typography>
+            <Typography sx={styles.title}>Activity</Typography>
             <SelectButtons<ITotalWithTvlActivity>
               config={totalGraphActivitiesUiControls}
               isSelected={isSelectedActivities}

@@ -4,8 +4,10 @@ export const apiKey = process.env.REACT_APP_API_KEY || '';
 export const coinIcon = process.env.REACT_APP_CDN_ICONS_KEY || '';
 
 export const crutchCors = [
-  'liquidity-providers-distribution.json',
-  'odex.json',
-  'pool-v2.json',
-  'pool.json',
+  '/liquidity-providers-distribution.json',
+  '/odex.json',
+  '/pool-v2.json',
+  '/pool.json',
+  '/v1-v2-arb.json',
+  '/factory.json',
 ];

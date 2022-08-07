@@ -8,6 +8,11 @@ import ExploreIcon from '@mui/icons-material/Explore';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { safetyDefinitionByAddressSelector } from 'store/Obyte';
 import { useMedia } from 'lib/useMedia';
+import {
+  explorerAnalyticsClickEvent,
+  homepageAnalyticsClickEvent,
+  githubAnalyticsClickEvent,
+} from 'lib/analytics';
 import { styles } from './styles';
 
 const AgentInfoWidget: FC = () => {
@@ -28,8 +33,14 @@ const AgentInfoWidget: FC = () => {
   return (
     <Box sx={styles.root}>
       <Box sx={styles.titleBox}>
-        <Typography sx={styles.title}>{description}</Typography>
-        {subtitle && <Typography sx={styles.subtitle}>{subtitle}</Typography>}
+        <Typography sx={styles.title} component='h3'>
+          {description}
+        </Typography>
+        {subtitle && (
+          <Typography sx={styles.subtitle} component='h4'>
+            {subtitle}
+          </Typography>
+        )}
       </Box>
 
       <Box sx={styles.linksWrapper}>
@@ -38,6 +49,7 @@ const AgentInfoWidget: FC = () => {
           sx={styles.link}
           href={`https://explorer.obyte.org/#${address}`}
           target='_blank'
+          onClick={explorerAnalyticsClickEvent}
         >
           <ExploreIcon />
           <Typography sx={styles.linkText}>Explorer</Typography>
@@ -48,6 +60,7 @@ const AgentInfoWidget: FC = () => {
             sx={styles.link}
             href={homepage_url}
             target='_blank'
+            onClick={homepageAnalyticsClickEvent}
           >
             <HomeRoundedIcon />
             <Typography sx={styles.linkText}>Homepage</Typography>
@@ -59,6 +72,7 @@ const AgentInfoWidget: FC = () => {
             sx={styles.link}
             href={source_url}
             target='_blank'
+            onClick={githubAnalyticsClickEvent}
           >
             <GitHubIcon />
             <Typography sx={styles.linkText}>GitHub</Typography>

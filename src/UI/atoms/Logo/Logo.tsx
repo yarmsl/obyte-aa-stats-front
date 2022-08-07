@@ -10,8 +10,14 @@ const Logo: FC<ILogoProps> = ({ title, subtitle }) => {
       <Box sx={styles.logo} />
       {title && (
         <Box sx={styles.credits}>
-          <Typography sx={styles.title}>{title}</Typography>
-          {subtitle && <Typography sx={styles.subtitle}>{subtitle}</Typography>}
+          <Typography sx={styles.title} component='h1'>
+            {title}
+          </Typography>
+          {subtitle && (
+            <Typography sx={styles.subtitle} component='h2'>
+              {subtitle}
+            </Typography>
+          )}
         </Box>
       )}
     </ButtonBase>

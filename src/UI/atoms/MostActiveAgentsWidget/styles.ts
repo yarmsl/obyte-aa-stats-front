@@ -14,13 +14,14 @@ export const styles: Record<string, SxProps> = {
     width: '100%',
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   title: {
     fontSize: '18px',
     fontWeight: 300,
-    '& span': {
-      color: 'secondary.dark',
-    },
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
   },
   divider: {
     mt: '5px',
@@ -62,17 +63,25 @@ export const styles: Record<string, SxProps> = {
     fontSize: 'inherit',
   },
   titleBox: {
+    width: '100%',
     flexGrow: 1,
     display: 'flex',
-    flexDirection: 'column',
+    alignItems: 'center',
     overflow: 'hidden',
-    fontSize: 'inherit',
+    justifyContent: 'space-between',
+    gap: '5px',
   },
   addressTitle: {
+    minWidth: '200px',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     fontSize: '13px',
+  },
+  asWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: '10px',
   },
   addressSubtitle: {
     overflow: 'hidden',
@@ -81,5 +90,9 @@ export const styles: Record<string, SxProps> = {
     fontSize: '10px',
     lineHeight: '11px',
     fontWeight: 300,
+  },
+  value: {
+    minWidth: '45px',
+    ml: '5px',
   },
 };

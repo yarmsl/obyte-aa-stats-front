@@ -13,7 +13,7 @@ export const definitionByAddressSelector = createSelector(
   (definedData) => (address: string) =>
     Object.keys(definedData)
       .map((baseaa) => definedData[baseaa])
-      .find((def) => def.addresses.some((a) => a === address))
+      .find((def) => def.addresses.some((a) => a.address === address))
 );
 
 export const safetyDefinitionByAddressSelector = createSelector(
@@ -32,30 +32,15 @@ export const descriptionByAddressSelector = createSelector(
   (definition) => (address: string) => definition(address).description
 );
 
-export const addressesSelector = createSelector(
-  obyteSelector,
-  (obyte) => obyte.addresses
-);
-
-export const isAddressesInCacheSelector = createSelector(
-  definitionByAddressSelector,
-  addressesSelector,
-  (getDef, addresses) =>
-    addresses.length > 0 ? addresses.every((address) => getDef(address)) : true
-);
-
 export const fullFlattenDefinedDataSelector = createSelector(
   definedDataSelector,
   (definedData): ILabeledAddress[] =>
     Object.keys(definedData).reduce(
       (labeledAddresses: ILabeledAddress[], curr) =>
         labeledAddresses.concat(
-          // {
-          //   address: curr,
-          //   label: definedData[curr].definition.description, // base aa
-          // },
           definedData[curr].addresses.map((address) => ({
-            address,
+            tvl: address.tvl,
+            address: address.address,
             label: definedData[curr].definition.description,
           }))
         ),

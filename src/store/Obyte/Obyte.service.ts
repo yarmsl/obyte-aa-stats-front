@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { apiGetDef } from 'lib/api';
 import { Client } from 'obyte';
+import { TRootState } from 'store';
 import { showSnackBar } from 'store/SnackStack';
 import { updateDefinedData } from './Obyte.reducer';
 
@@ -17,31 +18,38 @@ const getDefData = async (
   address: string,
   client: Client
 ): Promise<IDefinition> => {
-  const res = await client.api.getDefinition(address);
-  if ('base_aa' in res[1]) {
-    const def = await client.api.getDefinition(res[1].base_aa);
-    return apiGetDef<IDefinition>(def[1].doc_url);
+  try {
+    const res = await client.api.getDefinition(address);
+    if ('base_aa' in res[1]) {
+      const def = await client.api.getDefinition(res[1].base_aa);
+      return apiGetDef<IDefinition>(def[1].doc_url);
+    }
+    return apiGetDef<IDefinition>(res[1].doc_url);
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message);
+    throw new Error('getDefFData error');
   }
-  return apiGetDef<IDefinition>(res[1].doc_url);
 };
 
 const getDefAddresses = async (
-  addresses: string[],
+  addresses: IRenderAATvl[],
   client: Client
 ): Promise<IBaseAAData[]> => {
   const res = addresses.map(async (address) => {
-    const temp = await client.api.getDefinition(address);
+    const temp = await client.api.getDefinition(address.address);
     if ('base_aa' in temp[1]) {
       return { address, base_aa: temp[1].base_aa as string };
     }
-    return { address, base_aa: address };
+    return { address, base_aa: address.address };
   });
   const adressesArr = await Promise.all(res);
-  const baseArr = Array.from(new Set(adressesArr.map((a) => a.base_aa)));
+  const baseArr = [...new Set(adressesArr.map((a) => a.base_aa))];
+
   return baseArr.map((base) => {
     const addrss = adressesArr
       .filter((a) => a.base_aa === base)
-      .map((a) => a.address);
+      .map((a) => ({ address: a.address.address, tvl: a.address.usd_balance }));
+
     return { base_aa: base, addresses: addrss };
   });
 };
@@ -61,6 +69,7 @@ export const obyteApi = createApi({
         try {
           await cacheDataLoaded;
           const socket = getObyteClient();
+
           const defData = await getDefData(arg, socket);
           updateCachedData((data) => ({ ...data, ...defData }));
           await cacheEntryRemoved;
@@ -77,16 +86,40 @@ export const obyteApi = createApi({
         }
       },
     }),
-    getDefinitions: build.query<IDefinedBaseAAData[], string[]>({
+    getDefinitions: build.query<IDefinedBaseAAData[], IRenderAATvl[]>({
       queryFn: () => ({ data: [] }),
       async onCacheEntryAdded(
         arg,
-        { cacheDataLoaded, cacheEntryRemoved, updateCachedData, dispatch }
+        {
+          cacheDataLoaded,
+          cacheEntryRemoved,
+          updateCachedData,
+          dispatch,
+          getState,
+        }
       ) {
         try {
           await cacheDataLoaded;
           const socket = getObyteClient();
-          const baseAAs = await getDefAddresses(arg, socket);
+
+          const { definedData } = (getState() as TRootState).obyte;
+          const definedAddresses = Object.keys(definedData).reduce(
+            (res: string[], key) =>
+              res.concat(definedData[key].addresses.map((a) => a.address)),
+            []
+          );
+
+          const undefinedAddresses = arg.reduce(
+            (accu: IRenderAATvl[], curr) => {
+              if (definedAddresses.includes(curr.address)) {
+                return accu;
+              }
+              return accu.concat(curr);
+            },
+            []
+          );
+
+          const baseAAs = await getDefAddresses(undefinedAddresses, socket);
 
           const defData = baseAAs.map(async (base) => ({
             ...base,
@@ -99,6 +132,7 @@ export const obyteApi = createApi({
             }
             return accu;
           }, []);
+
           if (result.length > 0) {
             dispatch(updateDefinedData(result));
             updateCachedData((data) => data.concat(result));
