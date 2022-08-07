@@ -5,12 +5,7 @@ import { batch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 import { useGetTopAAbyTvlQuery, useGetTopAAbyTypeQuery } from 'store/AAstats';
-import {
-  addressesSelector,
-  descriptionByAddressSelector,
-  isAddressesInCacheSelector,
-  obyteApi,
-} from 'store/Obyte';
+import { descriptionByAddressSelector, obyteApi } from 'store/Obyte';
 import {
   agentsTableSortTypeSelector,
   agentsTableSortByTvlSelector,
@@ -31,8 +26,7 @@ const AgentsTableConnected: FC = () => {
   const isSortByTvl = useAppSelector(agentsTableSortByTvlSelector);
   const { from, to } = useTimeframe(selectedPeriod, timeframe);
   const dd = useAppSelector(descriptionByAddressSelector);
-  const addresses = useAppSelector(addressesSelector);
-  const isAddressesInCache = useAppSelector(isAddressesInCacheSelector);
+
   const { setUrl } = useStateUrlParams();
 
   const handlePeriod = useCallback(
@@ -65,7 +59,10 @@ const AgentsTableConnected: FC = () => {
   );
 
   const onNavigate = useCallback(
-    (address: string) => () => nav(`/aa/${address}`),
+    (address: string) => () => {
+      nav(`/aa/${address}`);
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    },
     [nav]
   );
   const getDef = useCallback((address: string) => dd(address), [dd]);
@@ -153,10 +150,8 @@ const AgentsTableConnected: FC = () => {
   );
 
   useEffect(() => {
-    if (!isAddressesInCache) {
-      dispatch(obyteApi.util.prefetch('getDefinitions', addresses, {}));
-    }
-  }, [addresses, dispatch, isAddressesInCache]);
+    if (tvl) dispatch(obyteApi.util.prefetch('getDefinitions', tvl, {}));
+  }, [dispatch, tvl]);
 
   return (
     <AgentsTable

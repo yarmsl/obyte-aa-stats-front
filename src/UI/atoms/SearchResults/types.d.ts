@@ -3,6 +3,9 @@ interface ISearchResultsConnectedProps {
   open: boolean;
   searchText: string;
   onClose: () => void;
+  autoFocus: AutoFocusTypes;
+  onKeyDown: React.KeyboardEventHandler<HTMLUListElement>;
+  onSetFirstAddress: (address: string) => void;
 }
 
 interface ISearchResultsProps {
@@ -10,6 +13,8 @@ interface ISearchResultsProps {
   open: boolean;
   onAddressClick: (address: string) => () => void;
   searchText: string;
+  autoFocus: AutoFocusTypes;
+  onKeyDown: React.KeyboardEventHandler<HTMLUListElement>;
 }
 
 interface ISearchedItemProps {
@@ -17,9 +22,14 @@ interface ISearchedItemProps {
   address: string;
   label: string;
   searchText: string;
+  index: number;
+  arrLength: number;
+  tvl: number;
+  autoFocus: AutoFocusTypes;
 }
 
 interface ILabeledAddress {
   address: string;
   label: string;
+  tvl: number;
 }

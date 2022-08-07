@@ -27,7 +27,7 @@ export const styles: Record<string, SxProps> = {
     maxWidth: '100%',
     fontSize: '10px',
     fontWeight: 300,
-    color: 'primary.main',
+
     alignSelf: 'flex-start',
     overflow: 'hidden',
     whiteSpace: 'nowrap',

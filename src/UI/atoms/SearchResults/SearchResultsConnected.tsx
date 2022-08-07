@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useMemo } from 'react';
+import { FC, memo, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 import { fullFlattenDefinedDataSelector } from 'store/Obyte';
@@ -8,6 +8,9 @@ const SearchResultsConnected: FC<ISearchResultsConnectedProps> = ({
   open,
   searchText,
   onClose,
+  autoFocus,
+  onKeyDown,
+  onSetFirstAddress,
 }) => {
   const nav = useNavigate();
   const fullFlattenDefinedData = useAppSelector(fullFlattenDefinedDataSelector);
@@ -36,12 +39,18 @@ const SearchResultsConnected: FC<ISearchResultsConnectedProps> = ({
     return [];
   }, [fullFlattenDefinedData, searchText]);
 
+  useEffect(() => {
+    if (searchedData.length > 0) onSetFirstAddress(searchedData[0].address);
+  }, [onSetFirstAddress, searchedData]);
+
   return (
     <SearchResults
       open={open}
       data={searchedData}
       onAddressClick={handleAgentsPageReplaceFabric}
       searchText={searchText}
+      autoFocus={autoFocus}
+      onKeyDown={onKeyDown}
     />
   );
 };

@@ -1,6 +1,5 @@
 interface IObyteSlice {
   definedData: Record<string, Omit<IDefinedBaseAAData, 'base_aa'>>;
-  addresses: string[];
 }
 
 interface IDefinition {
@@ -13,7 +12,12 @@ interface IDefinition {
 
 interface IBaseAAData {
   base_aa: string;
-  addresses: string[];
+  addresses: IAddressWithTvl[];
+}
+
+interface IAddressWithTvl {
+  address: string;
+  tvl: number;
 }
 
 interface IDefinedBaseAAData extends IBaseAAData {

@@ -51,6 +51,21 @@ const TotalGraphConnected: FC = () => {
       dispatch(handleTotalGraphPeriodControl(30));
   }, [dispatch, selectedActivities, selectedPeriod]);
 
+  useEffect(() => {
+    if (
+      selectedActivities.some(
+        (a) =>
+          !(
+            a === 'usd_amount_in' ||
+            a === 'usd_amount_out' ||
+            a === 'usd_balance'
+          )
+      )
+    ) {
+      dispatch(handleTotalGraphActivitiesControls(['usd_balance']));
+    }
+  }, [dispatch, selectedActivities]);
+
   const handlePeriod = useCallback(
     (value: number) => () => {
       dispatch(handleTotalGraphPeriodControl(value));

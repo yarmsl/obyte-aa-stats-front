@@ -9,24 +9,30 @@ const SearchResults: FC<ISearchResultsProps> = ({
   data,
   onAddressClick,
   searchText,
+  autoFocus,
+  onKeyDown,
 }) => (
   <Fade in={open}>
     <Paper sx={styles.root}>
-      <MenuList sx={styles.menu}>
-        {searchText.length === 32 && (
-          <MenuItem onClick={onAddressClick(searchText)}>
+      <MenuList sx={styles.menu} onKeyDown={onKeyDown}>
+        {searchText.length === 32 && data.length === 0 && (
+          <MenuItem autoFocus onClick={onAddressClick(searchText)}>
             <Typography
               sx={styles.goToLabel}
             >{`Go to ${searchText}`}</Typography>
           </MenuItem>
         )}
-        {data.map(({ address, label }) => (
+        {data.map(({ address, label, tvl }, index, arr) => (
           <SearchedItem
             onClick={onAddressClick(address)}
             key={v4()}
             address={address}
             label={label}
             searchText={searchText}
+            index={index}
+            arrLength={arr.length}
+            tvl={tvl}
+            autoFocus={autoFocus}
           />
         ))}
         {data.length === 0 && searchText.length !== 32 && (

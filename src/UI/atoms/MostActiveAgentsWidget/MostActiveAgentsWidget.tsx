@@ -38,8 +38,9 @@ const MostActiveAgentsWidget: FC = () => {
     <NeuBox>
       <Box sx={styles.root}>
         <Box sx={styles.head}>
-          <Typography sx={styles.title}>
-            Most Active Agents. <span>Turnover 24h</span>
+          <Typography sx={styles.title}>Most Active Agents.</Typography>
+          <Typography color='secondary.dark' sx={styles.title}>
+            Turnover 24h
           </Typography>
         </Box>
         <Divider sx={styles.divider} />
@@ -58,7 +59,11 @@ const MostActiveAgentsWidget: FC = () => {
                   <Typography sx={styles.addressSubtitle}>{address}</Typography>
                 )}
               </Box>
-              <Typography color='secondary.dark' fontSize='inherit'>
+              <Typography
+                sx={styles.value}
+                color='secondary.dark'
+                fontSize='inherit'
+              >
                 {usd_amount_in}
               </Typography>
             </Link>
