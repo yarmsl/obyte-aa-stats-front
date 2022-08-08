@@ -61,7 +61,11 @@ const Search: FC<ISearchProps> = ({ isPortable = false }) => {
         e.preventDefault();
         fireSearchAnalitycsEvent(searchText);
         setAutoFocus('down');
-        if (firstAddress) nav(`aa/${firstAddress}`);
+        if (firstAddress) {
+          nav(`aa/${firstAddress}`);
+          setSearchText('');
+        }
+        setOpen(false);
       }
       if (e.code === 'ArrowDown') {
         e.preventDefault();

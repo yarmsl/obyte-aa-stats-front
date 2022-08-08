@@ -60,6 +60,31 @@ export const obyteApi = createApi({
     mode: 'cors',
   }),
   endpoints: (build) => ({
+    getTestData: build.query<unknown, string>({
+      queryFn: () => ({ data: undefined }),
+      async onCacheEntryAdded(
+        arg,
+        { cacheDataLoaded, cacheEntryRemoved, updateCachedData, dispatch }
+      ) {
+        try {
+          await cacheDataLoaded;
+          const socket = getObyteClient();
+
+          const assetData = await socket.api.getDefinition(arg);
+          updateCachedData(() => assetData);
+          await cacheEntryRemoved;
+          socket.close();
+        } catch (e) {
+          dispatch(
+            showSnackBar({
+              message: e instanceof Error ? e.message : 'assets query error',
+              title: 'Assets Query',
+              severity: 'error',
+            })
+          );
+        }
+      },
+    }),
     getDefinition: build.query<IDefinition | undefined, string>({
       queryFn: () => ({ data: undefined }),
       async onCacheEntryAdded(
@@ -154,4 +179,8 @@ export const obyteApi = createApi({
   }),
 });
 
-export const { useGetDefinitionQuery, useGetDefinitionsQuery } = obyteApi;
+export const {
+  useGetDefinitionQuery,
+  useGetDefinitionsQuery,
+  useGetTestDataQuery,
+} = obyteApi;

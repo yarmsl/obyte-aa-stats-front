@@ -33,11 +33,11 @@ const AgentInfoWidget: FC = () => {
   return (
     <Box sx={styles.root}>
       <Box sx={styles.titleBox}>
-        <Typography sx={styles.title} component='h3'>
+        <Typography sx={styles.title} component='h1'>
           {description}
         </Typography>
         {subtitle && (
-          <Typography sx={styles.subtitle} component='h4'>
+          <Typography sx={styles.subtitle} component='h2'>
             {subtitle}
           </Typography>
         )}
