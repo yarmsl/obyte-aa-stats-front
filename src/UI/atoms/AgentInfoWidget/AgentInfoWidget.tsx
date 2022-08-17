@@ -6,7 +6,10 @@ import { useAppSelector } from 'store';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ExploreIcon from '@mui/icons-material/Explore';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { safetyDefinitionByAddressSelector } from 'store/Obyte';
+import {
+  descriptionByAddressSelector,
+  safetyDefinitionByAddressSelector,
+} from 'store/Obyte';
 import { useMedia } from 'lib/useMedia';
 import {
   explorerAnalyticsClickEvent,
@@ -18,11 +21,16 @@ import { styles } from './styles';
 const AgentInfoWidget: FC = () => {
   const { address = '' } = useParams<{ address: string }>();
   const dd = useAppSelector(safetyDefinitionByAddressSelector);
-  const {
-    description,
-    homepage_url = '',
-    source_url = '',
-  } = useMemo(() => dd(address), [address, dd]);
+  const getDescription = useAppSelector(descriptionByAddressSelector);
+  const { homepage_url = '', source_url = '' } = useMemo(
+    () => dd(address),
+    [address, dd]
+  );
+
+  const description = useMemo(
+    () => getDescription(address),
+    [address, getDescription]
+  );
 
   const { isPortable } = useMedia();
   const subtitle = useMemo(

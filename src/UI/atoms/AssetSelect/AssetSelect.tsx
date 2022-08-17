@@ -16,16 +16,14 @@ const AssetSelect: FC = () => {
     HTMLInputElement | HTMLTextAreaElement
   > = useCallback(
     (e) => {
-      const value =
-        e.target.value === 'null' ? null : (e.target.value as assetsTypes);
-      dispatch(handleAsset(value));
-      setUrl({ asset: value });
+      dispatch(handleAsset(e.target.value as assetSymbolsTypes));
+      setUrl({ asset: e.target.value as assetSymbolsTypes });
     },
     [dispatch, setUrl]
   );
 
   const getAssetIcon = useCallback(
-    (assetValue: assetsTypes) =>
+    (assetValue: assetSymbolsTypes) =>
       assetsIconsConf.find((aic) => aic.assets.some((a) => a === assetValue))
         ?.icon || null,
     []
@@ -49,26 +47,26 @@ const AssetSelect: FC = () => {
           <Typography sx={styles.label}>all assets</Typography>
         </Box>
       </MenuItem>
-      <MenuItem value='null'>
+      {/* <MenuItem value='GBYTE'>
         <Box sx={styles.item}>
           <Box sx={styles.icon}>
             <img src={`${coinIcon}GBYTE.svg`} alt='GBYTE' />
           </Box>
           <Typography sx={styles.label}>GBYTE</Typography>
         </Box>
-      </MenuItem>
+      </MenuItem> */}
       {assets.map((ast) => (
-        <MenuItem key={ast} value={ast || 'null'}>
+        <MenuItem key={ast.assetId} value={ast.assetSymbol}>
           <Box sx={styles.item}>
             <Box sx={styles.icon}>
-              {getAssetIcon(ast) && (
+              {getAssetIcon(ast.assetSymbol) && (
                 <img
-                  src={`${coinIcon}${getAssetIcon(ast)}`}
-                  alt={ast || undefined}
+                  src={`${coinIcon}${getAssetIcon(ast.assetSymbol)}`}
+                  alt={ast.assetSymbol || undefined}
                 />
               )}
             </Box>
-            <Typography sx={styles.label}>{ast}</Typography>
+            <Typography sx={styles.label}>{ast.assetSymbol}</Typography>
           </Box>
         </MenuItem>
       ))}

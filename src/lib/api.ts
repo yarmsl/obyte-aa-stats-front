@@ -28,7 +28,7 @@ export const apiPost = async <T, K>(
 export const apiGetDef = async <T>(url: string): Promise<T> => {
   let resultedUrl = url;
   crutchCors.forEach((crutchUrl) => {
-    if (url.endsWith(crutchUrl)) resultedUrl = crutchUrl;
+    if (url != null && url.endsWith(crutchUrl)) resultedUrl = crutchUrl;
   });
   const response = await fetch(resultedUrl, {
     method: 'GET',
@@ -40,7 +40,7 @@ export const apiGetDef = async <T>(url: string): Promise<T> => {
   return response.json();
 };
 
-export const apiGetWOCors = async <T>(url: string): Promise<T> => {
+export const apiGet = async <T>(url: string): Promise<T> => {
   const response = await fetch(url, {
     method: 'GET',
     headers: {

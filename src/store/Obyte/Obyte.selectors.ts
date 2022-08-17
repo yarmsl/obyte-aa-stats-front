@@ -1,5 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { TRootState } from 'store';
+import { getAssetNameSelector } from 'store/AAstats';
 
 const obyteSelector = (state: TRootState): IObyteSlice => state.obyte;
 
@@ -28,8 +29,28 @@ export const safetyDefinitionByAddressSelector = createSelector(
 );
 
 export const descriptionByAddressSelector = createSelector(
-  safetyDefinitionByAddressSelector,
-  (definition) => (address: string) => definition(address).description
+  definitionByAddressSelector,
+  getAssetNameSelector,
+  (getDefinition, getAssetName) =>
+    (address: string): string => {
+      const definedData = getDefinition(address);
+      if (definedData) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const addressData = definedData.addresses.find(
+          (a) => a.address === address
+        )!;
+        const { xAsset, yAsset } = addressData;
+        if (xAsset && yAsset) {
+          const xAssetName = getAssetName(xAsset);
+          const yAssetName = getAssetName(yAsset);
+          if (xAssetName && yAssetName)
+            return `${definedData.definition.description} ${xAssetName}-${yAssetName}`;
+          return definedData.definition.description;
+        }
+        return definedData.definition.description;
+      }
+      return address;
+    }
 );
 
 export const fullFlattenDefinedDataSelector = createSelector(

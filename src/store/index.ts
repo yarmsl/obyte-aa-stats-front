@@ -11,7 +11,7 @@ import { ModalStackReducer } from './ModalStack';
 import { UIReducer } from './UI';
 import { TokenMiddleware } from './Auth/Auth.middleware';
 import { SnackStackReducer } from './SnackStack';
-import { aastatsAPI } from './AAstats';
+import { aastatsAPI, AAstatsReducer } from './AAstats';
 import { obyteApi, ObyteReducer } from './Obyte';
 
 const UIPersistConfig = {
@@ -30,6 +30,7 @@ const rootReducer = combineReducers({
   modalStack: ModalStackReducer,
   snackStack: SnackStackReducer,
   ui: persistReducer(UIPersistConfig, UIReducer),
+  aaStats: AAstatsReducer,
   obyte: persistReducer(ObytePersistConfig, ObyteReducer),
   [aastatsAPI.reducerPath]: aastatsAPI.reducer,
   [obyteApi.reducerPath]: obyteApi.reducer,

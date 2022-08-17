@@ -1,5 +1,3 @@
-import { coinIcon } from './constants';
-
 export const longPeriodsUiControls: IUiControls[] = [
   { label: '30 Days', value: 30, timeframe: 'daily', labelMobile: '30d' },
   { label: '90 Days', value: 90, timeframe: 'daily', labelMobile: '90d' },
@@ -110,30 +108,6 @@ export const agentGraphUiControls: IUiSelects<IAddressGraphData>[] = [
   },
 ];
 
-export const assetsConf: assetUiControl[] = [
-  { value: null, icon: 'GBYTE.svg' },
-  { value: 'O-GBYTE-ETH', icon: 'OETH.svg' },
-  { value: 'O-GBYTE-WBTC', icon: 'OBIT.svg' },
-  { value: 'GRDV2', icon: 'GRD.svg' },
-  { value: 'O-GBYTE-USDC', icon: 'OUSD.svg' },
-  { value: 'GRGBV2', icon: 'GRB.svg' },
-  { value: 'ETH', icon: 'ETH.svg' },
-  { value: 'USDC', icon: 'USDC.svg' },
-  { value: 'GRETHV2', icon: 'SFETH.svg' },
-  { value: 'WBTC', icon: 'WBTC.svg' },
-  { value: 'ITH', icon: 'ITH.svg' },
-  { value: 'O-OETH-ETH', icon: 'OETH.svg' },
-  { value: 'IUSD', icon: 'IUSD.svg' },
-  { value: 'GRBV2', icon: 'GRB.svg' },
-  { value: 'GRGB', icon: 'GRB.svg' },
-  { value: 'IBIT', icon: 'IBIT.svg' },
-  { value: 'O-OUSD-USDC', icon: 'OUSD.svg' },
-].map((asset) => ({
-  value: asset.value as assetsTypes,
-  label: asset.value?.replaceAll('-', ' ') || 'GBYTE',
-  icon: `${coinIcon}${asset.icon}`,
-}));
-
 export const assetsIconsConf: IAssetsIconsConf[] = [
   {
     icon: 'OETH.svg',
@@ -181,4 +155,5 @@ export const assetsIconsConf: IAssetsIconsConf[] = [
   { icon: 'ITH.svg', assets: ['ITH'] },
   { icon: 'IUSD.svg', assets: ['IUSD'] },
   { icon: 'IBIT.svg', assets: ['IBIT'] },
+  { icon: 'GBYTE.svg', assets: ['GBYTE'] },
 ];

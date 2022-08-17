@@ -3,7 +3,7 @@ import { Box, Divider, Link, Skeleton, Typography } from '@mui/material';
 import { FC, memo, MouseEvent, useCallback, useMemo } from 'react';
 import { useTimeframe } from 'lib/useTimeframe';
 import { useGetMostActiveAgentsQuery } from 'store/AAstats';
-import { safetyDefinitionByAddressSelector } from 'store/Obyte';
+import { descriptionByAddressSelector } from 'store/Obyte';
 import { useAppSelector } from 'store';
 import { Link as RouterLink } from 'react-router-dom';
 import { usd } from 'lib/currency';
@@ -12,7 +12,7 @@ import WaterMark from '../WaterMark/WaterMark';
 import { styles } from './styles';
 
 const MostActiveAgentsWidget: FC = () => {
-  const getDefinition = useAppSelector(safetyDefinitionByAddressSelector);
+  const getDefinition = useAppSelector(descriptionByAddressSelector);
   const { from, to } = useTimeframe(1, 'hourly');
   const stopPropagate = useCallback((e: MouseEvent) => e.stopPropagation(), []);
   const { data, isFetching } = useGetMostActiveAgentsQuery({
@@ -27,7 +27,7 @@ const MostActiveAgentsWidget: FC = () => {
       Array.isArray(data)
         ? data.map((ad) => ({
             ...ad,
-            title: getDefinition(ad.address).description,
+            title: getDefinition(ad.address),
             usd_amount_in: usd(ad.usd_amount_in, 2, true),
           }))
         : [],
@@ -55,9 +55,9 @@ const MostActiveAgentsWidget: FC = () => {
               <Typography sx={styles.index}>{`${i + 1}.`}</Typography>
               <Box sx={styles.titleBox}>
                 <Typography sx={styles.addressTitle}>{title}</Typography>
-                {address !== title && (
+                {/* {address !== title && (
                   <Typography sx={styles.addressSubtitle}>{address}</Typography>
-                )}
+                )} */}
               </Box>
               <Typography
                 sx={styles.value}

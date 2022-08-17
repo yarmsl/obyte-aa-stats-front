@@ -2,6 +2,7 @@ import { Serie } from '@nivo/line';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { apiKey } from 'conf/constants';
 import {
+  transformGetAssets,
   transformStatsForOneAddress,
   transformTopAA,
   transformTopAAByTvl,
@@ -30,6 +31,7 @@ export const aastatsAPI = createApi({
     'TopAA',
     'TopAAbyTvl',
     'TopAssets',
+    'Assets',
   ],
   refetchOnFocus: true,
   refetchOnReconnect: true,
@@ -163,6 +165,27 @@ export const aastatsAPI = createApi({
       }),
       providesTags: ['TopAssets'],
     }),
+    getAsset: build.query<IAssetMetaData[], void>({
+      query: () => ({
+        url: 'assets',
+        method: 'GET',
+      }),
+      providesTags: ['Assets'],
+      keepUnusedDataFor: 60 * 60 * 24,
+      transformResponse: transformGetAssets,
+    }),
+    getTopAACombinedByType: build.query<
+      IGetTopAACombinedByTypeRes[],
+      IGetTopAACombinedByTypeReq
+    >({
+      query: ({ type, from, to, timeframe, limit }) => ({
+        url: `top/aa/combined/${type}`,
+        method: 'POST',
+        body: { from, to, timeframe, limit },
+      }),
+      providesTags: ['TopAA'],
+      keepUnusedDataFor: 60 * 30,
+    }),
   }),
 });
 
@@ -179,4 +202,6 @@ export const {
   useGetTopAAbyTvlQuery,
   useGetTopAAbyTypeQuery,
   useGetTopAssetsQuery,
+  useGetAssetQuery,
+  useGetTopAACombinedByTypeQuery,
 } = aastatsAPI;
