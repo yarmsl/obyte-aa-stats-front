@@ -55,14 +55,15 @@ export const descriptionByAddressSelector = createSelector(
 
 export const fullFlattenDefinedDataSelector = createSelector(
   definedDataSelector,
-  (definedData): ILabeledAddress[] =>
+  descriptionByAddressSelector,
+  (definedData, getDescription): ILabeledAddress[] =>
     Object.keys(definedData).reduce(
       (labeledAddresses: ILabeledAddress[], curr) =>
         labeledAddresses.concat(
           definedData[curr].addresses.map((address) => ({
             tvl: address.tvl,
             address: address.address,
-            label: definedData[curr].definition.description,
+            label: getDescription(address.address),
           }))
         ),
       []

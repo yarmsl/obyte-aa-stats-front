@@ -144,7 +144,10 @@ export const obyteApi = createApi({
         }
       },
     }),
-    getDefinitions: build.query<IDefinedBaseAAData[], IRenderAATvl[]>({
+    getDefinitions: build.query<
+      IDefinedBaseAAData[],
+      IGetTopAACombinedByTypeRes[]
+    >({
       queryFn: () => ({ data: [] }),
       async onCacheEntryAdded(
         arg,
@@ -168,7 +171,7 @@ export const obyteApi = createApi({
           );
 
           const undefinedAddresses = arg.reduce(
-            (accu: IRenderAATvl[], curr) => {
+            (accu: IGetTopAACombinedByTypeRes[], curr) => {
               if (definedAddresses.includes(curr.address)) {
                 return accu;
               }
