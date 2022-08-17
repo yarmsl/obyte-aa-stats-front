@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { apiGetDef } from 'lib/api';
 import { Client } from 'obyte';
@@ -14,6 +15,25 @@ function getObyteClient(): Client {
   return obyte;
 }
 
+const getXYAssetsInfo = async (
+  address: string,
+  client: Client
+): Promise<{ xAsset: string; yAsset: string } | undefined> => {
+  try {
+    const info = await client.api.getDefinition(address);
+    if (
+      'params' in info[1] &&
+      'x_asset' in info[1].params &&
+      'y_asset' in info[1].params
+    )
+      return { xAsset: info[1].params.x_asset, yAsset: info[1].params.y_asset };
+    return undefined;
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message);
+    throw new Error('getXYAssetsInfo error');
+  }
+};
+
 const getDefData = async (
   address: string,
   client: Client
@@ -24,7 +44,8 @@ const getDefData = async (
       const def = await client.api.getDefinition(res[1].base_aa);
       return apiGetDef<IDefinition>(def[1].doc_url);
     }
-    return apiGetDef<IDefinition>(res[1].doc_url);
+    if ('doc_url' in res[1]) return apiGetDef<IDefinition>(res[1].doc_url);
+    throw new Error('doc_url or base_aa is absent');
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message);
     throw new Error('getDefFData error');
@@ -45,13 +66,26 @@ const getDefAddresses = async (
   const adressesArr = await Promise.all(res);
   const baseArr = [...new Set(adressesArr.map((a) => a.base_aa))];
 
-  return baseArr.map((base) => {
+  const res2 = baseArr.map(async (base) => {
     const addrss = adressesArr
       .filter((a) => a.base_aa === base)
-      .map((a) => ({ address: a.address.address, tvl: a.address.usd_balance }));
-
-    return { base_aa: base, addresses: addrss };
+      .map(async (a) => {
+        const assets = await getXYAssetsInfo(a.address.address, client);
+        if (assets)
+          return {
+            address: a.address.address,
+            tvl: a.address.usd_balance,
+            xAsset: assets.xAsset,
+            yAsset: assets.yAsset,
+          };
+        return { address: a.address.address, tvl: a.address.usd_balance };
+      });
+    return {
+      base_aa: base,
+      addresses: (await Promise.all(addrss)) as IAddressWithTvl[],
+    };
   });
+  return Promise.all(res2);
 };
 
 export const obyteApi = createApi({
@@ -69,8 +103,7 @@ export const obyteApi = createApi({
         try {
           await cacheDataLoaded;
           const socket = getObyteClient();
-
-          const assetData = await socket.api.getDefinition(arg);
+          const assetData = await socket.api.getAssetMetadata(arg);
           updateCachedData(() => assetData);
           await cacheEntryRemoved;
           socket.close();
@@ -153,7 +186,14 @@ export const obyteApi = createApi({
           const response = await Promise.allSettled(defData);
           const result = response.reduce((accu: IDefinedBaseAAData[], curr) => {
             if (curr.status === 'fulfilled') {
-              return accu.concat(curr.value);
+              return accu.concat({
+                ...curr.value,
+                definition: {
+                  description: curr.value.definition.description,
+                  homepage_url: curr.value.definition.homepage_url,
+                  source_url: curr.value.definition.source_url,
+                },
+              });
             }
             return accu;
           }, []);

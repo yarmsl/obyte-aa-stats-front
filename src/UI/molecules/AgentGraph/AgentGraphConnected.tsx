@@ -197,7 +197,7 @@ const AgentGraphConnected: FC = () => {
         );
       });
     } else {
-      addressData = addressData.filter((ad) => ad.asset === asset);
+      addressData = addressData.filter((ad) => ad.symbol === asset);
     }
     return slices.map(({ label, color, value }) => ({
       id: label,
@@ -251,7 +251,7 @@ const AgentGraphConnected: FC = () => {
         );
       });
     } else {
-      addressTvlData = addressTvlData.filter((atd) => atd.asset === asset);
+      addressTvlData = addressTvlData.filter((atd) => atd.symbol === asset);
     }
 
     if (addressTvlData.length > 0 && tvlConf) {
@@ -325,31 +325,36 @@ const AgentGraphConnected: FC = () => {
 
   useEffect(() => {
     if (tvlSelected && tvlData) {
-      const assets = Array.from(new Set(tvlData.map((t) => t.asset))).filter(
-        (a) => a != null
-      );
+      const assets = [
+        ...new Set(
+          tvlData.filter((d) => d.symbol !== undefined).map((t) => t.asset)
+        ),
+      ].map((assetId) => ({
+        assetId,
+        assetSymbol:
+          tvlData.find((a) => a.asset === assetId)?.symbol || 'GBYTE',
+      }));
+
       if (!equals(selectedAssets, assets)) {
         dispatch(handleAssets(assets));
       }
-      if (
-        !assets.some((a) => a === asset) &&
-        asset !== 'all' &&
-        asset !== null
-      ) {
+      if (!assets.some((a) => a.assetSymbol === asset) && asset !== 'all') {
         dispatch(handleAsset('all'));
       }
     } else if (data) {
-      const assets = Array.from(new Set(data.map((d) => d.asset))).filter(
-        (a) => a != null
-      );
+      const assets = [
+        ...new Set(
+          data.filter((d) => d.symbol !== undefined).map((t) => t.asset)
+        ),
+      ].map((assetId) => ({
+        assetId,
+        assetSymbol: data.find((a) => a.asset === assetId)?.symbol || 'GBYTE',
+      }));
+
       if (!equals(selectedAssets, assets)) {
         dispatch(handleAssets(assets));
       }
-      if (
-        !assets.some((a) => a === asset) &&
-        asset !== 'all' &&
-        asset !== null
-      ) {
+      if (!assets.some((a) => a.assetSymbol === asset) && asset !== 'all') {
         dispatch(handleAsset('all'));
       }
     }

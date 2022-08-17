@@ -57,11 +57,6 @@ export const agentsTableSortTypeSelector = createSelector(
   (ui) => ui.agentsTableSortType
 );
 
-export const agentsTableSortByTvlSelector = createSelector(
-  uiSelector,
-  (ui) => ui.agentsTableSortByTvl
-);
-
 export const agentLayoutsSelector = createSelector(
   uiSelector,
   (ui) => ui.agentLayouts

@@ -1,17 +1,16 @@
 import { useStateUrlParams } from 'lib/useStateUrlParams';
 import { useTimeframe } from 'lib/useTimeframe';
-import { FC, memo, useCallback, useEffect, useMemo } from 'react';
-import { batch } from 'react-redux';
+import { FC, memo, useCallback, useEffect } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
-import { useGetTopAAbyTvlQuery, useGetTopAAbyTypeQuery } from 'store/AAstats';
-import { descriptionByAddressSelector, obyteApi } from 'store/Obyte';
+import { useGetTopAACombinedByTypeQuery } from 'store/AAstats';
+import { obyteApi } from 'store/Obyte';
 import {
   agentsTableSortTypeSelector,
-  agentsTableSortByTvlSelector,
   agentsTablePeriodSelector,
   handleAgentsTableSortType,
-  handleAgentsTableSortByTvl,
+  // handleAgentsTableSortByTvl,
   handleAgentsTablePeriodControl,
   agentsTableTimeframeSelector,
 } from 'store/UI';
@@ -23,9 +22,9 @@ const AgentsTableConnected: FC = () => {
   const selectedPeriod = useAppSelector(agentsTablePeriodSelector);
   const timeframe = useAppSelector(agentsTableTimeframeSelector);
   const type = useAppSelector(agentsTableSortTypeSelector);
-  const isSortByTvl = useAppSelector(agentsTableSortByTvlSelector);
+
   const { from, to } = useTimeframe(selectedPeriod, timeframe);
-  const dd = useAppSelector(descriptionByAddressSelector);
+  // const dd = useAppSelector(descriptionByAddressSelector);
 
   const { setUrl } = useStateUrlParams();
 
@@ -44,16 +43,8 @@ const AgentsTableConnected: FC = () => {
 
   const onChangeSortType = useCallback(
     (dataKey: string) => () => {
-      if (dataKey === 'usd_balance') {
-        dispatch(handleAgentsTableSortByTvl(true));
-        setUrl({ t_sort: dataKey as topAATypes });
-        return;
-      }
-      batch(() => {
-        dispatch(handleAgentsTableSortByTvl(false));
-        dispatch(handleAgentsTableSortType(dataKey as topAATypes));
-      });
-      setUrl({ t_sort: dataKey as topAATypes });
+      dispatch(handleAgentsTableSortType(dataKey as combinedTypes));
+      setUrl({ t_sort: dataKey as combinedTypes });
     },
     [dispatch, setUrl]
   );
@@ -65,97 +56,97 @@ const AgentsTableConnected: FC = () => {
     },
     [nav]
   );
-  const getDef = useCallback((address: string) => dd(address), [dd]);
-  const { data, isFetching } = useGetTopAAbyTypeQuery({
-    from,
-    to,
-    timeframe,
-    limit: 10000,
-    type,
-  });
+  // const getDef = useCallback((address: string) => dd(address), [dd]);
 
-  const { data: tvl } = useGetTopAAbyTvlQuery({});
+  // const { data, isFetching } = useGetTopAAbyTypeQuery({
+  //   from,
+  //   to,
+  //   timeframe,
+  //   limit: 10000,
+  //   type,
+  // });
 
-  const aaTop = useMemo(() => {
-    if (data && tvl) {
-      if (isSortByTvl) {
-        return tvl
-          .reduce((accu: IMergedTopAA[], curr) => {
-            const amountData = data.find(
-              (amount) => amount.address === curr.address
-            );
-            if (amountData) {
-              return accu.concat({
-                ...curr,
-                agent: getDef(curr.address),
-                usd_amount_in: amountData.usd_amount_in,
-                usd_amount_out: amountData.usd_amount_out,
-              });
-            }
-            return accu.concat({
-              ...curr,
-              agent: getDef(curr.address),
-              usd_amount_in: 0,
-              usd_amount_out: 0,
-            });
-          }, [])
-          .filter(
-            (res) =>
-              !(
-                res.usd_amount_in === 0 &&
-                res.usd_amount_out === 0 &&
-                res.usd_balance === 0
-              )
-          );
-      }
-      return data
-        .reduce((accu: IMergedTopAA[], curr) => {
-          const tvlData = tvl.find((t) => t.address === curr.address);
-          if (tvlData) {
-            return accu.concat({
-              ...curr,
-              agent: getDef(curr.address),
-              usd_balance: tvlData.usd_balance,
-            });
-          }
-          return accu.concat({
-            ...curr,
-            agent: getDef(curr.address),
-            usd_balance: 0,
-          });
-        }, [])
-        .filter(
-          (res) =>
-            !(
-              res.usd_amount_in === 0 &&
-              res.usd_amount_out === 0 &&
-              res.usd_balance === 0
-            )
-        );
-    }
-    return [];
-  }, [data, getDef, isSortByTvl, tvl]);
+  // const { data: tvl } = useGetTopAAbyTvlQuery({});
+
+  // const aaTop = useMemo(() => {
+  //   if (data && tvl) {
+  //     if (isSortByTvl) {
+  //       return tvl
+  //         .reduce((accu: IMergedTopAA[], curr) => {
+  //           const amountData = data.find(
+  //             (amount) => amount.address === curr.address
+  //           );
+  //           if (amountData) {
+  //             return accu.concat({
+  //               ...curr,
+  //               agent: getDef(curr.address),
+  //               usd_amount_in: amountData.usd_amount_in,
+  //               usd_amount_out: amountData.usd_amount_out,
+  //             });
+  //           }
+  //           return accu.concat({
+  //             ...curr,
+  //             agent: getDef(curr.address),
+  //             usd_amount_in: 0,
+  //             usd_amount_out: 0,
+  //           });
+  //         }, [])
+  //         .filter(
+  //           (res) =>
+  //             !(
+  //               res.usd_amount_in === 0 &&
+  //               res.usd_amount_out === 0 &&
+  //               res.usd_balance === 0
+  //             )
+  //         );
+  //     }
+  //     return data
+  //       .reduce((accu: IMergedTopAA[], curr) => {
+  //         const tvlData = tvl.find((t) => t.address === curr.address);
+  //         if (tvlData) {
+  //           return accu.concat({
+  //             ...curr,
+  //             agent: getDef(curr.address),
+  //             usd_balance: tvlData.usd_balance,
+  //           });
+  //         }
+  //         return accu.concat({
+  //           ...curr,
+  //           agent: getDef(curr.address),
+  //           usd_balance: 0,
+  //         });
+  //       }, [])
+  //       .filter(
+  //         (res) =>
+  //           !(
+  //             res.usd_amount_in === 0 &&
+  //             res.usd_amount_out === 0 &&
+  //             res.usd_balance === 0
+  //           )
+  //       );
+  //   }
+  //   return [];
+  // }, [data, getDef, isSortByTvl, tvl]);
 
   const isSortSelected = useCallback(
-    (dataKey: keyof IMergedTopAA) => {
-      if (dataKey === 'usd_balance' && isSortByTvl) {
-        return true;
-      }
-      if (!isSortByTvl) {
-        return type === dataKey;
-      }
-      return false;
-    },
-    [isSortByTvl, type]
+    (dataKey: keyof IGetTopAACombinedByTypeRes) => type === dataKey,
+    [type]
   );
 
+  const { data, isFetching } = useGetTopAACombinedByTypeQuery({
+    from,
+    to,
+    type,
+    timeframe,
+  });
+
   useEffect(() => {
-    if (tvl) dispatch(obyteApi.util.prefetch('getDefinitions', tvl, {}));
-  }, [dispatch, tvl]);
+    if (data) dispatch(obyteApi.util.prefetch('getDefinitions', data, {}));
+  }, [dispatch, data]);
 
   return (
     <AgentsTable
-      data={aaTop}
+      data={data || []}
       isLoading={isFetching}
       onChangeSortType={onChangeSortType}
       onNavigate={onNavigate}

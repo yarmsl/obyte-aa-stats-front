@@ -13,10 +13,10 @@ export const transformStatsForOneAddress = (
       arg.to,
       1
     );
-    const assets = [...new Set(data.map((address) => address.asset))];
+    const assets = [...new Set(data.map((address) => address.symbol))];
     const assetArrays = assets.reduce(
       (accu: IAddress[][], curr) =>
-        accu.concat([data.filter((address) => address.asset === curr)]),
+        accu.concat([data.filter((address) => address.symbol === curr)]),
       []
     );
 
@@ -33,6 +33,7 @@ export const transformStatsForOneAddress = (
           decimals: assetArr[0].decimals,
           num_users: 0,
           period,
+          symbol: assetArr[0].symbol,
           triggers_count: 0,
           usd_amount_in: 0,
           usd_amount_out: 0,
@@ -96,6 +97,7 @@ export const transformTvlOverTimeForOneAddress = (
       period: address.period,
       balance: address.balance / 10 ** address.decimals,
       usd_balance: address.usd_balance,
+      symbol: address.symbol,
     }));
   }
   return [];
@@ -217,6 +219,7 @@ export const transformTvlOverTimeValuesForOneAddress = (
             balance: 0,
             usd_balance: 0,
             decimals: 0,
+            symbol: 'GBYTE',
           }
         );
       });
@@ -247,4 +250,16 @@ export const transformUsdInValuesForOneAddress = (
     );
   }
   return { prev: 0, value: 0 };
+};
+
+export const transformGetAssets = (
+  data: AssetsResponseType | undefined
+): IAssetMetaData[] => {
+  if (data) {
+    return Object.keys(data).map((key) => ({
+      ...data[key],
+      metadata_key: key,
+    }));
+  }
+  return [];
 };

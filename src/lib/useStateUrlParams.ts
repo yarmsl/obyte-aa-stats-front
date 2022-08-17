@@ -6,7 +6,7 @@ interface UrlParams {
   activity?: (keyof IAddressGraphData)[];
   g_period?: number;
   t_period?: number;
-  t_sort?: topAATypes;
+  t_sort?: combinedTypes;
   asset?: UiAssetTypes;
 }
 

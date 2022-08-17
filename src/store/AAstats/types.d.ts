@@ -1,3 +1,7 @@
+interface IAAstatsSlice {
+  assetsMetadata: IAssetMetaData[];
+}
+
 type tfTypes = 'hourly' | 'daily';
 type topAATypes =
   | 'usd_amount_in'
@@ -25,10 +29,11 @@ interface IAddress {
   bounced_count: number;
   num_users: number;
   period: number;
-  asset: assetsTypes;
+  asset: string | null;
+  symbol: assetSymbolsTypes;
   decimals: number;
 }
-type IAddressTvl = Pick<IAddress, 'address' | 'period' | 'asset'> & {
+type IAddressTvl = Pick<IAddress, 'address' | 'period' | 'asset' | 'symbol'> & {
   usd_balance: number;
   balance: number;
 };
@@ -90,3 +95,41 @@ type IRenderAddress = Pick<
 type IRenderTvlValues = Pick<ITotalTvl, 'period'> & { usd_balance: string };
 
 type IRenderAATvl = Pick<topAAbyTvlRes, 'address' | 'usd_balance'>;
+
+interface IAssetMetaDataRes {
+  decimals: number;
+  is_expired: boolean;
+  metadata_unit: string;
+  name: assetSymbolsTypes;
+}
+
+type AssetsResponseType = Record<string, IAssetMetaDataRes>;
+
+interface IAssetMetaData extends IAssetMetaDataRes {
+  metadata_key: string;
+}
+
+interface IGetTopAACombinedByTypeReq {
+  timeframe: tfTypes;
+  from: number;
+  to: number;
+  type: combinedTypes;
+  limit?: number;
+}
+
+type combinedTypes =
+  | 'usd_amount_in'
+  | 'usd_amount_out'
+  | 'triggers_count'
+  | 'num_users'
+  | 'usd_balance';
+
+interface IGetTopAACombinedByTypeRes {
+  address: string;
+  bounced_count: number;
+  num_users: number;
+  triggers_count: number;
+  usd_amount_in: number;
+  usd_amount_out: number;
+  usd_balance: number;
+}

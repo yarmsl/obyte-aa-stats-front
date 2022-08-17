@@ -18,6 +18,8 @@ interface IBaseAAData {
 interface IAddressWithTvl {
   address: string;
   tvl: number;
+  xAsset?: string;
+  yAsset?: string;
 }
 
 interface IDefinedBaseAAData extends IBaseAAData {

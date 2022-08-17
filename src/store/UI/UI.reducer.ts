@@ -63,20 +63,14 @@ const UISlice = createSlice({
     },
     handleAgentsTableSortType: (
       state: UIState,
-      action: PayloadAction<topAATypes>
+      action: PayloadAction<combinedTypes>
     ) => {
       state.agentsTableSortType = action.payload;
-    },
-    handleAgentsTableSortByTvl: (
-      state: UIState,
-      action: PayloadAction<boolean>
-    ) => {
-      state.agentsTableSortByTvl = action.payload;
     },
     handleAsset: (state: UIState, action: PayloadAction<UiAssetTypes>) => {
       state.asset = action.payload;
     },
-    handleAssets: (state: UIState, action: PayloadAction<assetsTypes[]>) => {
+    handleAssets: (state: UIState, action: PayloadAction<IAssetData[]>) => {
       state.assets = action.payload;
     },
     handleAgentGraphActivitiesControls: (
@@ -108,7 +102,6 @@ export const {
   handleTotalGraphActivitiesControls,
   handleAgentsTablePeriodControl,
   handleAgentsTableSortType,
-  handleAgentsTableSortByTvl,
   handleAsset,
   handleAssets,
   handleAgentGraphActivitiesControls,

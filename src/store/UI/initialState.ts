@@ -3,21 +3,12 @@ import { allPeriodsUiControls } from 'conf/uiControls';
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 const initialParams = new URLSearchParams(window.location.search);
 
-const getInitialTableSortType = (): {
-  agentsTableSortType: topAATypes;
-  agentsTableSortByTvl: boolean;
-} => {
+const getInitialTableSortType = (): combinedTypes => {
   if (initialParams.has('t_sort')) {
     const sortType = initialParams.get('t_sort')!;
-    const isAmount =
-      sortType === 'usd_amount_in' || sortType === 'usd_amount_out';
-
-    return {
-      agentsTableSortType: isAmount ? sortType : 'usd_amount_in',
-      agentsTableSortByTvl: !isAmount,
-    };
+    return sortType as combinedTypes;
   }
-  return { agentsTableSortType: 'usd_amount_in', agentsTableSortByTvl: false };
+  return 'usd_amount_in';
 };
 
 const getInitialGraphData = <T>(keyParam: string): T[] => {
@@ -30,7 +21,6 @@ const getInitialGraphData = <T>(keyParam: string): T[] => {
 
 const getInitialAsset = (): UiAssetTypes => {
   if (initialParams.has('asset')) {
-    if (initialParams.get('asset') === 'null') return null;
     return initialParams.get('asset') as UiAssetTypes;
   }
   return 'all';
@@ -47,7 +37,7 @@ const getInitialPeriod = (keyParam: string): number => {
   return keyParam === 't_period' ? 1 : 30;
 };
 
-const { agentsTableSortType, agentsTableSortByTvl } = getInitialTableSortType();
+const agentsTableSortType = getInitialTableSortType();
 
 const totalGraphActivitiesControls =
   getInitialGraphData<keyof ITotalWithTvlActivity>('activity');
@@ -306,7 +296,6 @@ export const initialState: UIState = {
   agentsTablePeriodControls,
   agentsTableDataLimit: 10,
   agentsTableSortType,
-  agentsTableSortByTvl,
   asset,
   assets: [],
   agentGraphActivitiesControls,

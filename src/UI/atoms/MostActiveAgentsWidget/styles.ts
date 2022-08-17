@@ -72,7 +72,7 @@ export const styles: Record<string, SxProps> = {
     gap: '5px',
   },
   addressTitle: {
-    minWidth: '200px',
+    // minWidth: '220px',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
@@ -83,14 +83,14 @@ export const styles: Record<string, SxProps> = {
     alignItems: 'center',
     fontSize: '10px',
   },
-  addressSubtitle: {
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-    fontSize: '10px',
-    lineHeight: '11px',
-    fontWeight: 300,
-  },
+  // addressSubtitle: {
+  //   overflow: 'hidden',
+  //   whiteSpace: 'nowrap',
+  //   textOverflow: 'ellipsis',
+  //   fontSize: '10px',
+  //   lineHeight: '11px',
+  //   fontWeight: 300,
+  // },
   value: {
     minWidth: '45px',
     ml: '5px',

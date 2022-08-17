@@ -8,12 +8,16 @@ interface UIState {
   totalGraphActivitiesControls: (keyof ITotalWithTvlActivity)[];
   agentsTablePeriodControls: number;
   agentsTableDataLimit: number;
-  agentsTableSortType: topAATypes;
-  agentsTableSortByTvl: boolean;
+  agentsTableSortType: combinedTypes;
   asset: UiAssetTypes;
-  assets: assetsTypes[];
+  assets: IAssetData[];
   agentGraphActivitiesControls: (keyof IAddressGraphData)[];
   agentGraphPeriodControl: number;
+}
+
+interface IAssetData {
+  assetSymbol: assetSymbolsTypes;
+  assetId: string | null;
 }
 
 interface IUiControls {
@@ -35,4 +39,4 @@ interface IUiSelects<V> {
 
 type graphYTypes = 'currency' | 'amount';
 
-type UiAssetTypes = assetsTypes | 'all';
+type UiAssetTypes = assetSymbolsTypes | 'all';
