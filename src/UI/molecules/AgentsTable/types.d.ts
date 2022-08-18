@@ -8,6 +8,7 @@ interface IAgentsTableProps {
   handlePeriod: (value: number) => () => void;
   isSelectedPeriod: (value: number) => boolean;
   isSortSelected: (dataKey: keyof IGetTopAACombinedByTypeRes) => boolean;
+  loaderRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 type IMergedTopAA = Pick<IRenderAATvl, 'usd_balance'> &

@@ -57,6 +57,11 @@ export const agentsTableSortTypeSelector = createSelector(
   (ui) => ui.agentsTableSortType
 );
 
+export const agentsTableLimitSelector = createSelector(
+  uiSelector,
+  (ui) => ui.agentsTableDataLimit
+);
+
 export const agentLayoutsSelector = createSelector(
   uiSelector,
   (ui) => ui.agentLayouts

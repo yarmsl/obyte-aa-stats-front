@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Divider, Slide, Typography } from '@mui/material';
 import { usd } from 'lib/currency';
 import { useMedia } from 'lib/useMedia';
-import { FC, memo, useMemo } from 'react';
+import { FC, memo, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'store';
 import { descriptionByAddressSelector } from 'store/Obyte';
@@ -25,22 +25,31 @@ const AgentItem: FC<IAgentItemProps> = ({
   );
   const { isMobile } = useMedia();
   const fraction = useMemo(() => (isMobile ? 0 : 2), [isMobile]);
+
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    setShow(true);
+  }, []);
+
   return (
     <>
-      <Box
-        sx={isSelected ? styles.selected : styles.root}
-        onClick={onNavigate(address)}
-      >
-        <Box sx={styles.agent}>
-          <Typography sx={styles.title}>{agent}</Typography>
-          <Typography sx={styles.address}>
-            {isAgent ? address : undefined}
-          </Typography>
+      <Slide direction='up' in={show}>
+        <Box
+          sx={isSelected ? styles.selected : styles.root}
+          onClick={onNavigate(address)}
+        >
+          <Box sx={styles.agent}>
+            <Typography sx={styles.title}>{agent}</Typography>
+            <Typography sx={styles.address}>
+              {isAgent ? address : undefined}
+            </Typography>
+          </Box>
+          <Box sx={styles.cell}>{usd(usd_amount_in, fraction, true)}</Box>
+          <Box sx={styles.cell}>{usd(usd_amount_out, fraction, true)}</Box>
+          <Box sx={styles.cell}>{usd(usd_balance, fraction, true)}</Box>
         </Box>
-        <Box sx={styles.cell}>{usd(usd_amount_in, fraction, true)}</Box>
-        <Box sx={styles.cell}>{usd(usd_amount_out, fraction, true)}</Box>
-        <Box sx={styles.cell}>{usd(usd_balance, fraction, true)}</Box>
-      </Box>
+      </Slide>
       <Divider sx={styles.divider} />
     </>
   );
