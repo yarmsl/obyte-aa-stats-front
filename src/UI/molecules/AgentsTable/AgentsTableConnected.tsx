@@ -1,7 +1,6 @@
 import { useStateUrlParams } from 'lib/useStateUrlParams';
 import { useTimeframe } from 'lib/useTimeframe';
 import { FC, memo, useCallback, useEffect } from 'react';
-
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 import { useGetTopAACombinedByTypeQuery } from 'store/AAstats';
@@ -10,7 +9,6 @@ import {
   agentsTableSortTypeSelector,
   agentsTablePeriodSelector,
   handleAgentsTableSortType,
-  // handleAgentsTableSortByTvl,
   handleAgentsTablePeriodControl,
   agentsTableTimeframeSelector,
 } from 'store/UI';
@@ -24,7 +22,6 @@ const AgentsTableConnected: FC = () => {
   const type = useAppSelector(agentsTableSortTypeSelector);
 
   const { from, to } = useTimeframe(selectedPeriod, timeframe);
-  // const dd = useAppSelector(descriptionByAddressSelector);
 
   const { setUrl } = useStateUrlParams();
 
@@ -56,77 +53,6 @@ const AgentsTableConnected: FC = () => {
     },
     [nav]
   );
-  // const getDef = useCallback((address: string) => dd(address), [dd]);
-
-  // const { data, isFetching } = useGetTopAAbyTypeQuery({
-  //   from,
-  //   to,
-  //   timeframe,
-  //   limit: 10000,
-  //   type,
-  // });
-
-  // const { data: tvl } = useGetTopAAbyTvlQuery({});
-
-  // const aaTop = useMemo(() => {
-  //   if (data && tvl) {
-  //     if (isSortByTvl) {
-  //       return tvl
-  //         .reduce((accu: IMergedTopAA[], curr) => {
-  //           const amountData = data.find(
-  //             (amount) => amount.address === curr.address
-  //           );
-  //           if (amountData) {
-  //             return accu.concat({
-  //               ...curr,
-  //               agent: getDef(curr.address),
-  //               usd_amount_in: amountData.usd_amount_in,
-  //               usd_amount_out: amountData.usd_amount_out,
-  //             });
-  //           }
-  //           return accu.concat({
-  //             ...curr,
-  //             agent: getDef(curr.address),
-  //             usd_amount_in: 0,
-  //             usd_amount_out: 0,
-  //           });
-  //         }, [])
-  //         .filter(
-  //           (res) =>
-  //             !(
-  //               res.usd_amount_in === 0 &&
-  //               res.usd_amount_out === 0 &&
-  //               res.usd_balance === 0
-  //             )
-  //         );
-  //     }
-  //     return data
-  //       .reduce((accu: IMergedTopAA[], curr) => {
-  //         const tvlData = tvl.find((t) => t.address === curr.address);
-  //         if (tvlData) {
-  //           return accu.concat({
-  //             ...curr,
-  //             agent: getDef(curr.address),
-  //             usd_balance: tvlData.usd_balance,
-  //           });
-  //         }
-  //         return accu.concat({
-  //           ...curr,
-  //           agent: getDef(curr.address),
-  //           usd_balance: 0,
-  //         });
-  //       }, [])
-  //       .filter(
-  //         (res) =>
-  //           !(
-  //             res.usd_amount_in === 0 &&
-  //             res.usd_amount_out === 0 &&
-  //             res.usd_balance === 0
-  //           )
-  //       );
-  //   }
-  //   return [];
-  // }, [data, getDef, isSortByTvl, tvl]);
 
   const isSortSelected = useCallback(
     (dataKey: keyof IGetTopAACombinedByTypeRes) => type === dataKey,
