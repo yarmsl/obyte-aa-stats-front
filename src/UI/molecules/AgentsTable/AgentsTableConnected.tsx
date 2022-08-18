@@ -1,7 +1,6 @@
 import { useStateUrlParams } from 'lib/useStateUrlParams';
 import { useTimeframe } from 'lib/useTimeframe';
-import { FC, memo, useCallback, useEffect } from 'react';
-
+import { FC, memo, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 import { useGetTopAACombinedByTypeQuery } from 'store/AAstats';
@@ -10,9 +9,10 @@ import {
   agentsTableSortTypeSelector,
   agentsTablePeriodSelector,
   handleAgentsTableSortType,
-  // handleAgentsTableSortByTvl,
   handleAgentsTablePeriodControl,
   agentsTableTimeframeSelector,
+  increaseAgentsTableDataLimit,
+  agentsTableLimitSelector,
 } from 'store/UI';
 import AgentsTable from './AgentsTable';
 
@@ -22,10 +22,9 @@ const AgentsTableConnected: FC = () => {
   const selectedPeriod = useAppSelector(agentsTablePeriodSelector);
   const timeframe = useAppSelector(agentsTableTimeframeSelector);
   const type = useAppSelector(agentsTableSortTypeSelector);
-
+  const limit = useAppSelector(agentsTableLimitSelector);
   const { from, to } = useTimeframe(selectedPeriod, timeframe);
-  // const dd = useAppSelector(descriptionByAddressSelector);
-
+  const loaderRef = useRef<HTMLDivElement | null>(null);
   const { setUrl } = useStateUrlParams();
 
   const handlePeriod = useCallback(
@@ -56,77 +55,6 @@ const AgentsTableConnected: FC = () => {
     },
     [nav]
   );
-  // const getDef = useCallback((address: string) => dd(address), [dd]);
-
-  // const { data, isFetching } = useGetTopAAbyTypeQuery({
-  //   from,
-  //   to,
-  //   timeframe,
-  //   limit: 10000,
-  //   type,
-  // });
-
-  // const { data: tvl } = useGetTopAAbyTvlQuery({});
-
-  // const aaTop = useMemo(() => {
-  //   if (data && tvl) {
-  //     if (isSortByTvl) {
-  //       return tvl
-  //         .reduce((accu: IMergedTopAA[], curr) => {
-  //           const amountData = data.find(
-  //             (amount) => amount.address === curr.address
-  //           );
-  //           if (amountData) {
-  //             return accu.concat({
-  //               ...curr,
-  //               agent: getDef(curr.address),
-  //               usd_amount_in: amountData.usd_amount_in,
-  //               usd_amount_out: amountData.usd_amount_out,
-  //             });
-  //           }
-  //           return accu.concat({
-  //             ...curr,
-  //             agent: getDef(curr.address),
-  //             usd_amount_in: 0,
-  //             usd_amount_out: 0,
-  //           });
-  //         }, [])
-  //         .filter(
-  //           (res) =>
-  //             !(
-  //               res.usd_amount_in === 0 &&
-  //               res.usd_amount_out === 0 &&
-  //               res.usd_balance === 0
-  //             )
-  //         );
-  //     }
-  //     return data
-  //       .reduce((accu: IMergedTopAA[], curr) => {
-  //         const tvlData = tvl.find((t) => t.address === curr.address);
-  //         if (tvlData) {
-  //           return accu.concat({
-  //             ...curr,
-  //             agent: getDef(curr.address),
-  //             usd_balance: tvlData.usd_balance,
-  //           });
-  //         }
-  //         return accu.concat({
-  //           ...curr,
-  //           agent: getDef(curr.address),
-  //           usd_balance: 0,
-  //         });
-  //       }, [])
-  //       .filter(
-  //         (res) =>
-  //           !(
-  //             res.usd_amount_in === 0 &&
-  //             res.usd_amount_out === 0 &&
-  //             res.usd_balance === 0
-  //           )
-  //       );
-  //   }
-  //   return [];
-  // }, [data, getDef, isSortByTvl, tvl]);
 
   const isSortSelected = useCallback(
     (dataKey: keyof IGetTopAACombinedByTypeRes) => type === dataKey,
@@ -138,11 +66,49 @@ const AgentsTableConnected: FC = () => {
     to,
     type,
     timeframe,
+    limit,
   });
 
   useEffect(() => {
     if (data) dispatch(obyteApi.util.prefetch('getDefinitions', data, {}));
   }, [dispatch, data]);
+
+  const skipQueryData = useMemo(() => {
+    if (data && data.length >= 10) {
+      return data.length % 10 !== 0;
+    }
+    return true;
+  }, [data]);
+
+  const handleObserver: IntersectionObserverCallback = useCallback(
+    (entries) => {
+      if (
+        Array.isArray(entries) &&
+        entries[0].isIntersecting &&
+        !skipQueryData
+      ) {
+        dispatch(increaseAgentsTableDataLimit(10));
+      }
+    },
+    [dispatch, skipQueryData]
+  );
+
+  const observer = useMemo(
+    () =>
+      new IntersectionObserver(handleObserver, {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0,
+      }),
+    [handleObserver]
+  );
+
+  useEffect(() => {
+    if (loaderRef.current) {
+      observer.observe(loaderRef.current);
+    }
+    return () => observer.disconnect();
+  }, [handleObserver, observer]);
 
   return (
     <AgentsTable
@@ -153,6 +119,7 @@ const AgentsTableConnected: FC = () => {
       handlePeriod={handlePeriod}
       isSelectedPeriod={isSelectedPeriod}
       isSortSelected={isSortSelected}
+      loaderRef={loaderRef}
     />
   );
 };

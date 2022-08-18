@@ -67,6 +67,12 @@ const UISlice = createSlice({
     ) => {
       state.agentsTableSortType = action.payload;
     },
+    increaseAgentsTableDataLimit: (
+      state: UIState,
+      action: PayloadAction<number>
+    ) => {
+      state.agentsTableDataLimit += action.payload;
+    },
     handleAsset: (state: UIState, action: PayloadAction<UiAssetTypes>) => {
       state.asset = action.payload;
     },
@@ -102,6 +108,7 @@ export const {
   handleTotalGraphActivitiesControls,
   handleAgentsTablePeriodControl,
   handleAgentsTableSortType,
+  increaseAgentsTableDataLimit,
   handleAsset,
   handleAssets,
   handleAgentGraphActivitiesControls,
