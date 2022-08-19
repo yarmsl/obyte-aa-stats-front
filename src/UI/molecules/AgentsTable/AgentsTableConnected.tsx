@@ -4,7 +4,6 @@ import { FC, memo, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 import { useGetTopAACombinedByTypeQuery } from 'store/AAstats';
-import { obyteApi } from 'store/Obyte';
 import {
   agentsTableSortTypeSelector,
   agentsTablePeriodSelector,
@@ -68,10 +67,6 @@ const AgentsTableConnected: FC = () => {
     timeframe,
     limit,
   });
-
-  useEffect(() => {
-    if (data) dispatch(obyteApi.util.prefetch('getDefinitions', data, {}));
-  }, [dispatch, data]);
 
   const skipQueryData = useMemo(() => {
     if (data && data.length >= 10) {

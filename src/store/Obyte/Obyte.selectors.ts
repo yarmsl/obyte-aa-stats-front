@@ -9,6 +9,21 @@ export const definedDataSelector = createSelector(
   (obyte) => obyte.definedData
 );
 
+export const dd4Table = createSelector(
+  definedDataSelector,
+  getAssetNameSelector,
+  (dd, getName) =>
+    Object.keys(dd).map((baseaa) => ({
+      baseaa,
+      addresses: dd[baseaa].addresses.map((a) => ({
+        ...a,
+        xAsset: a.xAsset ? getName(a.xAsset) : 'no data',
+        yAsset: a.yAsset ? getName(a.yAsset) : 'no data',
+      })),
+      description: dd[baseaa].definition.description,
+    }))
+);
+
 export const definitionByAddressSelector = createSelector(
   definedDataSelector,
   (definedData) => (address: string) =>

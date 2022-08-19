@@ -10,4 +10,5 @@ export const crutchCors = [
   '/pool.json',
   '/v1-v2-arb.json',
   '/factory.json',
+  '/desc.json',
 ];
