@@ -18,40 +18,16 @@ const TableDD: FC = () => {
         <TableHead>
           <TableRow>
             <TableCell>base_aa</TableCell>
-            <TableCell>address</TableCell>
-            <TableCell width={120}>xAsset</TableCell>
-            <TableCell width={120}>yAsset</TableCell>
             <TableCell>description</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {dd.map((data) =>
-            data.addresses.map((address, i) => (
-              <TableRow hover key={address.address}>
-                <TableCell>{i === 0 ? data.baseaa : null}</TableCell>
-                <TableCell>{address.address}</TableCell>
-                <TableCell
-                  sx={
-                    address.xAsset !== 'no data'
-                      ? { color: 'secondary.main' }
-                      : undefined
-                  }
-                >
-                  {address.xAsset}
-                </TableCell>
-                <TableCell
-                  sx={
-                    address.yAsset !== 'no data'
-                      ? { color: 'secondary.main' }
-                      : undefined
-                  }
-                >
-                  {address.yAsset}
-                </TableCell>
-                <TableCell>{i === 0 ? data.description : null}</TableCell>
-              </TableRow>
-            ))
-          )}
+          {dd.map((data) => (
+            <TableRow hover key={data.baseaa}>
+              <TableCell>{data.baseaa}</TableCell>
+              <TableCell>{data.description}</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
