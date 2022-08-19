@@ -1,6 +1,7 @@
 import { memo, lazy, FC, useEffect, useMemo } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { fireNavigationAnalyticsEvent } from 'lib/analytics';
+import Table from 'pages/Table/Table';
 import MainLayout from './UI/templates/MainLayout/MainLayout';
 import NotFound from './pages/NotFound/NotFound';
 
@@ -26,6 +27,7 @@ const Router: FC = () => {
       <Route path='*' element={<MainLayout />}>
         <Route path='' element={<Home />} />
         <Route path='aa/:address' element={<Agent />} />
+        <Route path='_table' element={<Table />} />
         <Route path='*' element={<NotFound />} />
       </Route>
       <Route path='*' element={<NotFound />} />

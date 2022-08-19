@@ -15,11 +15,14 @@ export const ObyteSlice = createSlice({
     ) => {
       action.payload.forEach((ap) => {
         if (ap.base_aa in state.definedData) {
-          state.definedData[ap.base_aa].addresses = Array.from(
-            new Set([
-              ...state.definedData[ap.base_aa].addresses,
-              ...ap.addresses,
-            ])
+          const allData = [
+            ...state.definedData[ap.base_aa].addresses,
+            ...ap.addresses,
+          ];
+          const uniqAddresses = [...new Set(allData.map((a) => a.address))];
+          state.definedData[ap.base_aa].addresses = uniqAddresses.map(
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            (address) => allData.find((data) => data.address === address)!
           );
         } else {
           state.definedData[ap.base_aa] = {
