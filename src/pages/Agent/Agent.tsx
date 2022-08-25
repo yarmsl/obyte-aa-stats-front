@@ -12,6 +12,7 @@ const Agent: FC = () => {
     () => getDescription(address),
     [address, getDescription]
   );
+
   return (
     <>
       <HelmetTitle title={`Obyte | ${title}`} />

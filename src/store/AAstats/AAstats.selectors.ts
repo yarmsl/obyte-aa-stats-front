@@ -10,9 +10,13 @@ export const assetMetaDataSelector = createSelector(
 
 export const getAssetNameSelector = createSelector(
   assetMetaDataSelector,
-  (assetsMetadata) => (assetMetadata: string) => {
+  (assetsMetadata) => (assetMetadata?: string) => {
     if (assetMetadata === 'base') return 'GBYTE';
-    return assetsMetadata.find((data) => data.metadata_key === assetMetadata)
-      ?.name;
+    const found = assetsMetadata.find(
+      (data) => data.metadata_key === assetMetadata
+    );
+    if (found) return found.name;
+
+    return 'not found';
   }
 );
