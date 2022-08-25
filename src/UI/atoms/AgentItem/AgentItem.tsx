@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Box, Divider, Slide, Typography } from '@mui/material';
+import { Box, Divider, Fade, Typography } from '@mui/material';
 import { usd } from 'lib/currency';
 import { useMedia } from 'lib/useMedia';
 import { FC, memo, useEffect, useMemo, useState } from 'react';
@@ -34,7 +34,7 @@ const AgentItem: FC<IAgentItemProps> = ({
 
   return (
     <>
-      <Slide direction='up' in={show}>
+      <Fade in={show}>
         <Box
           sx={isSelected ? styles.selected : styles.root}
           onClick={onNavigate(address)}
@@ -49,7 +49,7 @@ const AgentItem: FC<IAgentItemProps> = ({
           <Box sx={styles.cell}>{usd(usd_amount_out, fraction, true)}</Box>
           <Box sx={styles.cell}>{usd(usd_balance, fraction, true)}</Box>
         </Box>
-      </Slide>
+      </Fade>
       <Divider sx={styles.divider} />
     </>
   );

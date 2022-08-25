@@ -1,4 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { templates } from 'conf/aaTemplates';
 import { TRootState } from 'store';
 import { getAssetNameSelector } from 'store/AAstats';
 
@@ -17,8 +18,8 @@ export const dd4Table = createSelector(
       baseaa,
       addresses: dd[baseaa].addresses.map((a) => ({
         ...a,
-        xAsset: a.xAsset ? getName(a.xAsset) : 'no data',
-        yAsset: a.yAsset ? getName(a.yAsset) : 'no data',
+        xAsset: a.xAsset ? `${getName(a.xAsset)} (${a.xAsset})` : 'no data',
+        yAsset: a.yAsset ? `${getName(a.yAsset)} (${a.yAsset})` : 'no data',
       })),
       description: dd[baseaa].definition.description,
     }))
@@ -28,7 +29,7 @@ export const definitionByAddressSelector = createSelector(
   definedDataSelector,
   (definedData) => (address: string) =>
     Object.keys(definedData)
-      .map((baseaa) => definedData[baseaa])
+      .map((baseaa) => ({ ...definedData[baseaa], base_aa: baseaa }))
       .find((def) => def.addresses.some((a) => a.address === address))
 );
 
@@ -55,11 +56,11 @@ export const descriptionByAddressSelector = createSelector(
           (a) => a.address === address
         )!;
         const { xAsset, yAsset } = addressData;
-        if (xAsset && yAsset) {
-          const xAssetName = getAssetName(xAsset);
-          const yAssetName = getAssetName(yAsset);
-          if (xAssetName && yAssetName)
-            return `${definedData.definition.description} ${xAssetName}-${yAssetName}`;
+        if (xAsset || (xAsset && yAsset)) {
+          const xSymbol = getAssetName(xAsset);
+          const ySymbol = getAssetName(yAsset);
+          if (templates[definedData.base_aa])
+            return templates[definedData.base_aa](xSymbol, ySymbol);
           return definedData.definition.description;
         }
         return definedData.definition.description;
