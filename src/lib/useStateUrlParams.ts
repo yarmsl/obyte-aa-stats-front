@@ -7,7 +7,7 @@ interface UrlParams {
   g_period?: number;
   t_period?: number;
   t_sort?: combinedTypes;
-  asset?: UiAssetTypes;
+  asset?: string;
 }
 
 type keyType = keyof UrlParams;
