@@ -17,6 +17,6 @@ export const getAssetNameSelector = createSelector(
     );
     if (found) return found.name;
 
-    return 'not found';
+    return assetMetadata?.substring(0, 5) || '';
   }
 );

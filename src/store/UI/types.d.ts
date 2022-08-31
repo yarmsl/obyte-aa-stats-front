@@ -9,14 +9,14 @@ interface UIState {
   agentsTablePeriodControls: number;
   agentsTableDataLimit: number;
   agentsTableSortType: combinedTypes;
-  asset: UiAssetTypes;
+  asset: string;
   assets: IAssetData[];
   agentGraphActivitiesControls: (keyof IAddressGraphData)[];
   agentGraphPeriodControl: number;
 }
 
 interface IAssetData {
-  assetSymbol: assetSymbolsTypes;
+  assetSymbol: string;
   assetId: string | null;
 }
 
@@ -38,5 +38,3 @@ interface IUiSelects<V> {
 }
 
 type graphYTypes = 'currency' | 'amount';
-
-type UiAssetTypes = assetSymbolsTypes | 'all';

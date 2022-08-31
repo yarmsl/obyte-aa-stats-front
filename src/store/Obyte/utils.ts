@@ -181,7 +181,9 @@ export const getXYAssetsInfo = async (
           'DFMD744IOZQFN2MUCQFTSBEALINHZMXO',
         ].includes(base_aa)
       ) {
-        if ('home_asset' in params) return { xAsset: params.home_asset };
+        const stateVars = await client.api.getAaStateVars({ address });
+        if ('asset' in stateVars)
+          return { xAsset: (stateVars as { asset: string }).asset };
       }
     }
 

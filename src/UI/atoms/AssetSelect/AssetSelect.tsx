@@ -16,14 +16,14 @@ const AssetSelect: FC = () => {
     HTMLInputElement | HTMLTextAreaElement
   > = useCallback(
     (e) => {
-      dispatch(handleAsset(e.target.value as assetSymbolsTypes));
-      setUrl({ asset: e.target.value as assetSymbolsTypes });
+      dispatch(handleAsset(e.target.value));
+      setUrl({ asset: e.target.value });
     },
     [dispatch, setUrl]
   );
 
   const getAssetIcon = useCallback(
-    (assetValue: assetSymbolsTypes) =>
+    (assetValue: string) =>
       assetsIconsConf.find((aic) => aic.assets.some((a) => a === assetValue))
         ?.icon || null,
     []

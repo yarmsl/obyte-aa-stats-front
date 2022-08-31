@@ -73,7 +73,7 @@ const UISlice = createSlice({
     ) => {
       state.agentsTableDataLimit += action.payload;
     },
-    handleAsset: (state: UIState, action: PayloadAction<UiAssetTypes>) => {
+    handleAsset: (state: UIState, action: PayloadAction<string>) => {
       state.asset = action.payload;
     },
     handleAssets: (state: UIState, action: PayloadAction<IAssetData[]>) => {

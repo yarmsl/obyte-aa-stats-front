@@ -19,9 +19,9 @@ const getInitialGraphData = <T>(keyParam: string): T[] => {
   return ['usd_amount_in'] as unknown as T[];
 };
 
-const getInitialAsset = (): UiAssetTypes => {
+const getInitialAsset = (): string => {
   if (initialParams.has('asset')) {
-    return initialParams.get('asset') as UiAssetTypes;
+    return initialParams.get('asset') as string;
   }
   return 'all';
 };
