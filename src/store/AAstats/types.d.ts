@@ -30,7 +30,7 @@ interface IAddress {
   num_users: number;
   period: number;
   asset: string | null;
-  symbol: assetSymbolsTypes;
+  symbol: string;
   decimals: number;
 }
 type IAddressTvl = Pick<IAddress, 'address' | 'period' | 'asset' | 'symbol'> & {
@@ -100,7 +100,7 @@ interface IAssetMetaDataRes {
   decimals: number;
   is_expired: boolean;
   metadata_unit: string;
-  name: assetSymbolsTypes;
+  name: string;
 }
 
 type AssetsResponseType = Record<string, IAssetMetaDataRes>;

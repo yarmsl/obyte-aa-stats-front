@@ -16,7 +16,7 @@ interface UIState {
 }
 
 interface IAssetData {
-  assetSymbol: assetSymbolsTypes;
+  assetSymbol: string;
   assetId: string | null;
 }
 
@@ -39,4 +39,4 @@ interface IUiSelects<V> {
 
 type graphYTypes = 'currency' | 'amount';
 
-type UiAssetTypes = assetSymbolsTypes | 'all';
+type UiAssetTypes = string;

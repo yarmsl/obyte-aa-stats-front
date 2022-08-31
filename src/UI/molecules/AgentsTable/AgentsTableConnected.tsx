@@ -3,7 +3,11 @@ import { useTimeframe } from 'lib/useTimeframe';
 import { FC, memo, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
-import { useGetTopAACombinedByTypeQuery } from 'store/AAstats';
+import {
+  useGetTopAAbyTvlQuery,
+  useGetTopAACombinedByTypeQuery,
+} from 'store/AAstats';
+import { obyteApi } from 'store/Obyte';
 import {
   agentsTableSortTypeSelector,
   agentsTablePeriodSelector,
@@ -104,6 +108,15 @@ const AgentsTableConnected: FC = () => {
     }
     return () => observer.disconnect();
   }, [handleObserver, observer]);
+
+  const { data: fullData } = useGetTopAAbyTvlQuery({}, { skip: !data });
+
+  useEffect(() => {
+    if (data && data.length <= 10)
+      dispatch(obyteApi.util.prefetch('getDefinitions', data, {}));
+    else if (data && data?.length > 10 && fullData)
+      dispatch(obyteApi.util.prefetch('getDefinitions', fullData, {}));
+  }, [data, dispatch, fullData]);
 
   return (
     <AgentsTable
