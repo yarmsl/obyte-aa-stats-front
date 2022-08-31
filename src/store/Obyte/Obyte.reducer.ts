@@ -24,6 +24,7 @@ export const ObyteSlice = createSlice({
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             (address) => allData.find((data) => data.address === address)!
           );
+          state.definedData[ap.base_aa].definition = ap.definition;
         } else {
           state.definedData[ap.base_aa] = {
             addresses: ap.addresses,

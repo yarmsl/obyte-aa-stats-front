@@ -215,7 +215,7 @@ export const getDefData = async (
 export const getDefAddresses = async (
   addresses: IRenderAATvl[],
   client: Client
-): Promise<IBaseAAData[]> => {
+): Promise<IDefinedBaseAAData[]> => {
   const res = addresses.map(async (address) => {
     const temp = await client.api.getDefinition(address.address);
     if ('base_aa' in temp[1]) {
@@ -242,7 +242,8 @@ export const getDefAddresses = async (
       });
     return {
       base_aa: base,
-      addresses: (await Promise.all(addrss)) as IAddressWithTvl[],
+      addresses: (await Promise.all(addrss)) as IAddressInfo[],
+      definition: { description: '' },
     };
   });
   return Promise.all(res2);
