@@ -12,10 +12,10 @@ interface IDefinition {
 
 interface IBaseAAData {
   base_aa: string;
-  addresses: IAddressWithTvl[];
+  addresses: IAddressInfo[];
 }
 
-interface IAddressWithTvl {
+interface IAddressInfo {
   address: string;
   tvl: number;
   xAsset?: string;

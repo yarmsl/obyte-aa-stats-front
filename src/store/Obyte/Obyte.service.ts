@@ -109,10 +109,16 @@ export const obyteApi = createApi({
 
           const baseAAs = await getDefAddresses(undefinedAddresses, socket);
 
+          if (baseAAs.length > 0) {
+            dispatch(updateDefinedData(baseAAs));
+            updateCachedData((data) => data.concat(baseAAs));
+          }
+
           const defData = baseAAs.map(async (base) => ({
             ...base,
             definition: await getDefData(base.base_aa, socket),
           }));
+
           const response = await Promise.allSettled(defData);
           const result = response.reduce((accu: IDefinedBaseAAData[], curr) => {
             if (curr.status === 'fulfilled') {
