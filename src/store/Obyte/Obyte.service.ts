@@ -4,7 +4,7 @@ import { Client } from 'obyte';
 import { TRootState } from 'store';
 import { showSnackBar } from 'store/SnackStack';
 import { updateDefinedData } from './Obyte.reducer';
-import { getDefAddresses, getDefData } from './utils';
+import { getDefAddresses, getDefData, getSymbol } from './utils';
 
 let obyte: Client;
 
@@ -90,7 +90,9 @@ export const obyteApi = createApi({
           await cacheDataLoaded;
           const socket = getObyteClient();
 
-          const { definedData } = (getState() as TRootState).obyte;
+          const { obyte: obyteSlice, aaStats } = getState() as TRootState;
+          const { definedData } = obyteSlice;
+          const { assetsMetadata } = aaStats;
           const definedAddresses = Object.keys(definedData).reduce(
             (res: string[], key) =>
               res.concat(definedData[key].addresses.map((a) => a.address)),
@@ -109,9 +111,71 @@ export const obyteApi = createApi({
 
           const baseAAs = await getDefAddresses(undefinedAddresses, socket);
 
-          if (baseAAs.length > 0) {
-            dispatch(updateDefinedData(baseAAs));
-            updateCachedData((data) => data.concat(baseAAs));
+          const baseAAsWithAssetMetadata = baseAAs.map((base) => ({
+            ...base,
+            addresses: base.addresses.map((address) => {
+              let xSymbol;
+              let ySymbol;
+
+              if (address.xAsset && assetsMetadata[address.xAsset])
+                xSymbol = assetsMetadata[address.xAsset].name;
+              if (address.yAsset && assetsMetadata[address.yAsset])
+                ySymbol = assetsMetadata[address.yAsset].name;
+              if (address.xAsset === 'base') xSymbol = 'GBYTE';
+              if (address.yAsset === 'base') ySymbol = 'GBYTE';
+              if (xSymbol && ySymbol) return { ...address, xSymbol, ySymbol };
+              if (xSymbol) return { ...address, xSymbol };
+              return address;
+            }),
+          }));
+
+          if (baseAAsWithAssetMetadata.length > 0) {
+            dispatch(updateDefinedData(baseAAsWithAssetMetadata));
+          }
+
+          const baseAAwithUndefinedSymbols = baseAAsWithAssetMetadata.filter(
+            (data) =>
+              data.addresses.some(
+                (address) =>
+                  (address.xAsset && !address.xSymbol) ||
+                  (address.yAsset && !address.ySymbol)
+              )
+          );
+
+          const getBaseAAWithSymbolsByObyte = baseAAwithUndefinedSymbols.map(
+            async (base) => ({
+              ...base,
+              addresses: await Promise.all(
+                base.addresses.map(async (address) => {
+                  const { xAsset, xSymbol, yAsset, ySymbol } = address;
+                  if (xAsset && yAsset && !xSymbol && !ySymbol)
+                    return {
+                      ...address,
+                      xSymbol: await getSymbol(xAsset, obyte),
+                      ySymbol: await getSymbol(yAsset, obyte),
+                    };
+                  if (xAsset && !xSymbol)
+                    return {
+                      ...address,
+                      xSymbol: await getSymbol(xAsset, obyte),
+                    };
+                  if (yAsset && !ySymbol)
+                    return {
+                      ...address,
+                      xSymbol: await getSymbol(yAsset, obyte),
+                    };
+                  return address;
+                })
+              ),
+            })
+          );
+
+          const baseAAWithSymbolsByObyte = await Promise.all(
+            getBaseAAWithSymbolsByObyte
+          );
+
+          if (baseAAWithSymbolsByObyte.length > 0) {
+            dispatch(updateDefinedData(baseAAWithSymbolsByObyte));
           }
 
           const defData = baseAAs.map(async (base) => ({

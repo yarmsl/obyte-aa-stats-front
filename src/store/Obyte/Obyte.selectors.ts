@@ -1,7 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { templates } from 'conf/aaTemplates';
 import { TRootState } from 'store';
-import { getAssetNameSelector } from 'store/AAstats';
 
 const obyteSelector = (state: TRootState): IObyteSlice => state.obyte;
 
@@ -10,19 +9,12 @@ export const definedDataSelector = createSelector(
   (obyte) => obyte.definedData
 );
 
-export const dd4Table = createSelector(
-  definedDataSelector,
-  getAssetNameSelector,
-  (dd, getName) =>
-    Object.keys(dd).map((baseaa) => ({
-      baseaa,
-      addresses: dd[baseaa].addresses.map((a) => ({
-        ...a,
-        xAsset: a.xAsset ? `${getName(a.xAsset)} (${a.xAsset})` : 'no data',
-        yAsset: a.yAsset ? `${getName(a.yAsset)} (${a.yAsset})` : 'no data',
-      })),
-      description: dd[baseaa].definition.description,
-    }))
+export const dd4Table = createSelector(definedDataSelector, (dd) =>
+  Object.keys(dd).map((baseaa) => ({
+    baseaa,
+    addresses: dd[baseaa].addresses,
+    description: dd[baseaa].definition.description,
+  }))
 );
 
 export const definitionByAddressSelector = createSelector(
@@ -46,8 +38,7 @@ export const safetyDefinitionByAddressSelector = createSelector(
 
 export const descriptionByAddressSelector = createSelector(
   definitionByAddressSelector,
-  getAssetNameSelector,
-  (getDefinition, getAssetName) =>
+  (getDefinition) =>
     (address: string): string => {
       const definedData = getDefinition(address);
       if (definedData) {
@@ -55,12 +46,18 @@ export const descriptionByAddressSelector = createSelector(
         const addressData = definedData.addresses.find(
           (a) => a.address === address
         )!;
-        const { xAsset, yAsset } = addressData;
-        if (xAsset || (xAsset && yAsset)) {
-          const xSymbol = getAssetName(xAsset);
-          const ySymbol = getAssetName(yAsset);
+        const { xAsset, yAsset, xSymbol, ySymbol } = addressData;
+        if (xSymbol || (xSymbol && ySymbol)) {
           if (templates[definedData.base_aa])
             return templates[definedData.base_aa](xSymbol, ySymbol);
+          return definedData.definition.description;
+        }
+        if (xAsset || (xAsset && yAsset)) {
+          if (templates[definedData.base_aa])
+            return templates[definedData.base_aa](
+              xAsset.substring(0, 5),
+              yAsset?.substring(0, 5)
+            );
           return definedData.definition.description;
         }
         return definedData.definition.description;

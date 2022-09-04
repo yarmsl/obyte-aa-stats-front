@@ -231,13 +231,20 @@ export const getDefAddresses = async (
       .filter((a) => a.base_aa === base)
       .map(async (a) => {
         const assets = await getXYAssetsInfo(a.address.address, client);
-        if (assets)
+        if (assets) {
+          if (assets.xAsset && assets.yAsset)
+            return {
+              address: a.address.address,
+              tvl: a.address.usd_balance,
+              xAsset: assets.xAsset,
+              yAsset: assets.yAsset,
+            };
           return {
             address: a.address.address,
             tvl: a.address.usd_balance,
             xAsset: assets.xAsset,
-            yAsset: assets.yAsset,
           };
+        }
         return { address: a.address.address, tvl: a.address.usd_balance };
       });
     return {
@@ -247,4 +254,13 @@ export const getDefAddresses = async (
     };
   });
   return Promise.all(res2);
+};
+
+export const getSymbol = async (
+  asset: string,
+  client: Client
+): Promise<string> => {
+  const registry = client.api.getOfficialTokenRegistryAddress();
+  const symbol = await client.api.getSymbolByAsset(registry, asset);
+  return symbol;
 };

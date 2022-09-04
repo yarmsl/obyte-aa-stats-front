@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getAssetsMetadata } from '.';
 
 const initialState: IAAstatsSlice = {
-  assetsMetadata: [],
+  assetsMetadata: {},
 };
 
 export const AAstatsSlice = createSlice({
@@ -12,7 +12,7 @@ export const AAstatsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(
       getAssetsMetadata.fulfilled,
-      (state, action: PayloadAction<IAssetMetaData[]>) => {
+      (state, action: PayloadAction<AssetsResponseType>) => {
         state.assetsMetadata = action.payload;
       }
     );

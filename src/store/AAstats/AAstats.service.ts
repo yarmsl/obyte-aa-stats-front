@@ -2,7 +2,6 @@ import { Serie } from '@nivo/line';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { apiKey } from 'conf/constants';
 import {
-  transformGetAssets,
   transformStatsForOneAddress,
   transformTopAA,
   transformTopAAByTvl,
@@ -165,14 +164,14 @@ export const aastatsAPI = createApi({
       }),
       providesTags: ['TopAssets'],
     }),
-    getAsset: build.query<IAssetMetaData[], void>({
+    getAsset: build.query<AssetsResponseType, void>({
       query: () => ({
         url: 'assets',
         method: 'GET',
       }),
       providesTags: ['Assets'],
       keepUnusedDataFor: 60 * 60 * 24,
-      transformResponse: transformGetAssets,
+      // transformResponse: transformGetAssets,
     }),
     getTopAACombinedByType: build.query<
       IGetTopAACombinedByTypeRes[],

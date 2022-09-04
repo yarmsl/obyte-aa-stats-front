@@ -12,10 +12,9 @@ export const getAssetNameSelector = createSelector(
   assetMetaDataSelector,
   (assetsMetadata) => (assetMetadata?: string) => {
     if (assetMetadata === 'base') return 'GBYTE';
-    const found = assetsMetadata.find(
-      (data) => data.metadata_key === assetMetadata
-    );
-    if (found) return found.name;
+
+    if (`${assetMetadata}` in assetsMetadata)
+      return assetsMetadata.assetMetadata.name;
 
     return assetMetadata?.substring(0, 5) || '';
   }
