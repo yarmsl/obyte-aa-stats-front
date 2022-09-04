@@ -20,6 +20,8 @@ interface IAddressInfo {
   tvl: number;
   xAsset?: string;
   yAsset?: string;
+  xSymbol?: string;
+  ySymbol?: string;
 }
 
 interface IDefinedBaseAAData extends IBaseAAData {

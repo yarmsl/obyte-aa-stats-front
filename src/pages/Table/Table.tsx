@@ -21,6 +21,8 @@ const TableDD: FC = () => {
             <TableCell>address</TableCell>
             <TableCell width={120}>xAsset</TableCell>
             <TableCell width={120}>yAsset</TableCell>
+            <TableCell width={120}>xSymbol</TableCell>
+            <TableCell width={120}>ySymbol</TableCell>
             <TableCell>description</TableCell>
           </TableRow>
         </TableHead>
@@ -30,24 +32,10 @@ const TableDD: FC = () => {
               <TableRow hover key={address.address}>
                 <TableCell>{i === 0 ? data.baseaa : null}</TableCell>
                 <TableCell>{address.address}</TableCell>
-                <TableCell
-                  sx={
-                    address.xAsset !== 'no data'
-                      ? { color: 'secondary.main' }
-                      : undefined
-                  }
-                >
-                  {address.xAsset}
-                </TableCell>
-                <TableCell
-                  sx={
-                    address.yAsset !== 'no data'
-                      ? { color: 'secondary.main' }
-                      : undefined
-                  }
-                >
-                  {address.yAsset}
-                </TableCell>
+                <TableCell>{address.xAsset}</TableCell>
+                <TableCell>{address.yAsset}</TableCell>
+                <TableCell>{address.xSymbol}</TableCell>
+                <TableCell>{address.ySymbol}</TableCell>
                 <TableCell>{i === 0 ? data.description : null}</TableCell>
               </TableRow>
             ))

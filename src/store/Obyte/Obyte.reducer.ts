@@ -16,14 +16,19 @@ export const ObyteSlice = createSlice({
       action.payload.forEach((ap) => {
         if (ap.base_aa in state.definedData) {
           const allData = [
-            ...state.definedData[ap.base_aa].addresses,
             ...ap.addresses,
+            ...state.definedData[ap.base_aa].addresses,
           ];
-          const uniqAddresses = [...new Set(allData.map((a) => a.address))];
-          state.definedData[ap.base_aa].addresses = uniqAddresses.map(
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            (address) => allData.find((data) => data.address === address)!
-          );
+
+          const hash = new Map();
+          allData.forEach((data) => {
+            hash.set(
+              data.address,
+              Object.assign(hash.get(data.address) || {}, data)
+            );
+          });
+
+          state.definedData[ap.base_aa].addresses = [...hash.values()];
           state.definedData[ap.base_aa].definition = ap.definition;
         } else {
           state.definedData[ap.base_aa] = {
@@ -34,16 +39,6 @@ export const ObyteSlice = createSlice({
       });
     },
   },
-  // extraReducers: (builder) => {
-  //   builder.addMatcher(
-  //     aastatsAPI.endpoints.getTopAAbyTvl.matchFulfilled,
-  //     (state, action) => {
-  //       const addresses = action.payload.map((ap) => ap.address);
-  //       console.log(addresses);
-  //       // state.addresses = [...new Set(state.addresses.concat(addresses))];
-  //     }
-  //   );
-  // },
 });
 
 export const { updateDefinedData } = ObyteSlice.actions;

@@ -1,5 +1,5 @@
 interface IAAstatsSlice {
-  assetsMetadata: IAssetMetaData[];
+  assetsMetadata: AssetsResponseType;
 }
 
 type tfTypes = 'hourly' | 'daily';
