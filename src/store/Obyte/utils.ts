@@ -264,3 +264,88 @@ export const getSymbol = async (
   const symbol = await client.api.getSymbolByAsset(registry, asset);
   return symbol;
 };
+
+export const getDefinedAddresses = (
+  definedData: Record<string, Omit<IDefinedBaseAAData, 'base_aa'>>
+): string[] =>
+  Object.keys(definedData).reduce(
+    (res: string[], key) =>
+      res.concat(definedData[key].addresses.map((a) => a.address)),
+    []
+  );
+
+export const getUndefinedAddresses = (
+  allAddresses: IRenderAATvl[],
+  definedAddresses: string[]
+): IRenderAATvl[] =>
+  allAddresses.reduce((accu: IRenderAATvl[], curr) => {
+    if (definedAddresses.includes(curr.address)) {
+      return accu;
+    }
+    return accu.concat(curr);
+  }, []);
+
+export const getBaseAAsWithAssetMetadata = (
+  baseAAs: IDefinedBaseAAData[],
+  assetsMetadata: AssetsResponseType
+): IDefinedBaseAAData[] =>
+  baseAAs.map((base) => ({
+    ...base,
+    addresses: base.addresses.map((address) => {
+      let xSymbol;
+      let ySymbol;
+
+      if (address.xAsset === 'base') xSymbol = 'GBYTE';
+      if (address.yAsset === 'base') ySymbol = 'GBYTE';
+
+      if (address.xAsset && assetsMetadata[address.xAsset])
+        xSymbol = assetsMetadata[address.xAsset].name;
+      if (address.yAsset && assetsMetadata[address.yAsset])
+        ySymbol = assetsMetadata[address.yAsset].name;
+
+      if (xSymbol && ySymbol) return { ...address, xSymbol, ySymbol };
+      if (xSymbol) return { ...address, xSymbol };
+      return address;
+    }),
+  }));
+
+export const getBaseAAwithUndefinedSymbols = (
+  baseAAsWithAssetMetadata: IDefinedBaseAAData[]
+): IDefinedBaseAAData[] =>
+  baseAAsWithAssetMetadata.filter((data) =>
+    data.addresses.some(
+      (address) =>
+        (address.xAsset && !address.xSymbol) ||
+        (address.yAsset && !address.ySymbol)
+    )
+  );
+
+export const getBaseAAWithSymbolsByObyte = (
+  baseAAwithUndefinedSymbols: IDefinedBaseAAData[],
+  client: Client
+): Promise<IDefinedBaseAAData>[] =>
+  baseAAwithUndefinedSymbols.map(async (base) => ({
+    ...base,
+    addresses: await Promise.all(
+      base.addresses.map(async (address) => {
+        const { xAsset, xSymbol, yAsset, ySymbol } = address;
+        if (xAsset && yAsset && !xSymbol && !ySymbol)
+          return {
+            ...address,
+            xSymbol: await getSymbol(xAsset, client),
+            ySymbol: await getSymbol(yAsset, client),
+          };
+        if (xAsset && !xSymbol)
+          return {
+            ...address,
+            xSymbol: await getSymbol(xAsset, client),
+          };
+        if (yAsset && !ySymbol)
+          return {
+            ...address,
+            ySymbol: await getSymbol(yAsset, client),
+          };
+        return address;
+      })
+    ),
+  }));
