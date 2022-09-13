@@ -9,14 +9,6 @@ export const definedDataSelector = createSelector(
   (obyte) => obyte.definedData
 );
 
-export const dd4Table = createSelector(definedDataSelector, (dd) =>
-  Object.keys(dd).map((baseaa) => ({
-    baseaa,
-    addresses: dd[baseaa].addresses,
-    description: dd[baseaa].definition.description,
-  }))
-);
-
 export const definitionByAddressSelector = createSelector(
   definedDataSelector,
   (definedData) => (address: string) =>
@@ -46,20 +38,11 @@ export const descriptionByAddressSelector = createSelector(
         const addressData = definedData.addresses.find(
           (a) => a.address === address
         )!;
-        const { xAsset, yAsset, xSymbol, ySymbol } = addressData;
-        if (xSymbol || (xSymbol && ySymbol)) {
-          if (templates[definedData.base_aa])
-            return templates[definedData.base_aa](xSymbol, ySymbol);
-          return definedData.definition.description;
+
+        if (templates[definedData.base_aa]) {
+          return templates[definedData.base_aa](addressData);
         }
-        if (xAsset || (xAsset && yAsset)) {
-          if (templates[definedData.base_aa])
-            return templates[definedData.base_aa](
-              xAsset.substring(0, 5),
-              yAsset?.substring(0, 5)
-            );
-          return definedData.definition.description;
-        }
+
         return definedData.definition.description;
       }
       return address;
