@@ -15,13 +15,13 @@ interface IBaseAAData {
   addresses: IAddressInfo[];
 }
 
-interface IAddressInfo {
+interface IAssetEntity {
+  value?: string;
+  symbol?: string;
+}
+interface IAddressInfo extends Record<string, IAssetEntity> {
   address: string;
   tvl: number;
-  xAsset?: string;
-  yAsset?: string;
-  xSymbol?: string;
-  ySymbol?: string;
 }
 
 interface IDefinedBaseAAData extends IBaseAAData {

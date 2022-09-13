@@ -1,12 +1,13 @@
 /* eslint-disable camelcase */
 import { apiGetDef } from 'lib/api';
 import { Client } from 'obyte';
+import { isEmpty } from 'ramda';
 
 /** Get info about address` assets from obyte.js in accordance with https://docs.google.com/spreadsheets/d/1AeLeNnPKpXS4UXCwqL9rSh9DuvKKGyabji08nmSgBfI/edit#gid=0 */
-export const getXYAssetsInfo = async (
+export const getAssetsInfo = async (
   address: string,
   client: Client
-): Promise<{ xAsset: string; yAsset?: string } | undefined> => {
+): Promise<Record<string, IAssetEntity> | undefined> => {
   try {
     const info = await client.api.getDefinition(address);
     if ('base_aa' in info[1] && 'params' in info[1]) {
@@ -18,11 +19,11 @@ export const getXYAssetsInfo = async (
           '2JYYNOSRFGLI3TBI4FVSE6GFBUAZTTI3',
         ].includes(base_aa)
       ) {
-        if ('x_asset' in params && 'y_asset' in params)
-          return {
-            xAsset: params.x_asset,
-            yAsset: params.y_asset,
-          };
+        const { x_asset = '', y_asset = '' } = params;
+        return {
+          x_asset: { value: x_asset },
+          y_asset: { value: y_asset },
+        };
       }
 
       // Stability Fund for Bonded Stablecoins, Bonded Stablecoin Governance AA, Bonded Stablecoin Decision Engine AA.
@@ -38,20 +39,18 @@ export const getXYAssetsInfo = async (
           'R3WZUWKTFISJ53MGAGSS5OIVMDAFC3WV',
         ].includes(base_aa)
       ) {
-        if ('curve_aa' in params) {
-          const stateVars = await client.api.getAaStateVars({
-            address: params.curve_aa,
-          });
-          if ('asset2' in stateVars)
-            return { xAsset: (stateVars as { asset2: string }).asset2 };
-        }
+        const { curve_aa = '' } = params;
+        const stateVars = await client.api.getAaStateVars({
+          address: curve_aa,
+        });
+        const { asset2 = '' } = stateVars as { asset2: string };
+        return { asset2: { value: asset2 } };
       }
 
       // Counterstake Bridge Export AA.
       if (base_aa === 'DAN6VZNKNZBKJP7GYJST5FMONZOY4FNT') {
-        if ('asset' in params) {
-          return { xAsset: params.asset };
-        }
+        const { asset = '' } = params;
+        return { asset: { value: asset } };
       }
 
       // Bonded Stablecoins AA
@@ -65,15 +64,15 @@ export const getXYAssetsInfo = async (
         ].includes(base_aa)
       ) {
         const stateVars = await client.api.getAaStateVars({ address });
-        if ('asset2' in stateVars)
-          return { xAsset: (stateVars as { asset2: string }).asset2 };
+        const { asset2 = '' } = stateVars as { asset2: string };
+        return { asset2: { value: asset2 } };
       }
 
       // Bonded Stablecoin Stable AA.
       if (base_aa === 'YXPLX6Q3HBBSH2K5HLYM45W7P7HFSEIN') {
         const stateVars = await client.api.getAaStateVars({ address });
-        if ('asset' in stateVars)
-          return { xAsset: (stateVars as { asset: string }).asset };
+        const { asset = '' } = stateVars as { asset: string };
+        return { asset: { value: asset } };
       }
 
       // Arbitrage AA for buying/selling T1 tokens for the reserve currency when the price deviates from the peg.
@@ -83,38 +82,36 @@ export const getXYAssetsInfo = async (
           'WQBLYBRAMJVXDWS7BGTUNUTW2STO6LYP',
         ].includes(base_aa)
       ) {
-        if ('curve_aa' in params) {
-          const [stateVars, curveDef] = await Promise.all([
-            client.api.getAaStateVars({
-              address: params.curve_aa,
-            }),
-            client.api.getDefinition(params.curve_aa),
-          ]);
-          if (
-            'asset1' in stateVars &&
-            'params' in curveDef[1] &&
-            'reserve_asset' in curveDef[1].params
-          )
-            return {
-              xAsset: (stateVars as { asset1: string }).asset1,
-              yAsset: curveDef[1].params.reserve_asset,
-            };
-        }
+        const { curve_aa = '' } = params;
+        const [stateVars, curveDef] = await Promise.all([
+          client.api.getAaStateVars({
+            address: curve_aa,
+          }),
+          client.api.getDefinition(curve_aa),
+        ]);
+
+        const { asset1 = '' } = stateVars as { asset1: string };
+        const { reserve_asset = '' } = curveDef.at(1).params;
+
+        return {
+          asset1: { value: asset1 },
+          reserve_asset: { value: reserve_asset },
+        };
       }
 
       // Bonded Stablecoin Deposits AA.
       if (base_aa === 'GEZGVY4T3LK6N4NJAKNHNQIVAI5OYHPC') {
-        if ('curve_aa' in params) {
-          const [stateVars, stateVarsCurveAA] = await Promise.all([
-            client.api.getAaStateVars({ address }),
-            client.api.getAaStateVars({ address: params.curve_aa }),
-          ]);
-          if ('asset' in stateVars && 'asset2' in stateVarsCurveAA)
-            return {
-              xAsset: (stateVars as { asset: string }).asset,
-              yAsset: (stateVarsCurveAA as { asset2: string }).asset2,
-            };
-        }
+        const { curve_aa } = params;
+        const [stateVars, stateVarsCurveAA] = await Promise.all([
+          client.api.getAaStateVars({ address }),
+          client.api.getAaStateVars({ address: curve_aa }),
+        ]);
+        const { asset = '' } = stateVars as { asset: string };
+        const { asset2 = '' } = stateVarsCurveAA as { asset2: string };
+        return {
+          asset: { value: asset },
+          asset2: { value: asset2 },
+        };
       }
 
       // Counterstake Bridge Export Pooled Assistant AA, Counterstake Bridge Import Pooled Assistant AA.
@@ -126,10 +123,10 @@ export const getXYAssetsInfo = async (
         ].includes(base_aa)
       ) {
         const stateVars = await client.api.getAaStateVars({ address });
-        if ('shares_asset' in stateVars)
-          return {
-            xAsset: (stateVars as { shares_asset: string }).shares_asset,
-          };
+        const { shares_asset = '' } = stateVars as { shares_asset: string };
+        return {
+          shares_asset: { value: shares_asset },
+        };
       }
 
       // Obyte exchange protocol
@@ -139,39 +136,38 @@ export const getXYAssetsInfo = async (
           'B22543LKSS35Z55ROU4GDN26RT6MDKWU',
         ].includes(base_aa)
       ) {
-        if ('asset0' in params && 'asset1' in params)
-          return { xAsset: params.asset0, yAsset: params.asset1 };
+        const { asset0 = '', asset1 = '' } = params;
+        return { asset0: { value: asset0 }, asset1: { value: asset1 } };
       }
 
       // Discount Stablecoins AA.
       if (base_aa === 'JLLM2AUTHYUS5EW36YVSPDYIDDQRABU6') {
         const stateVars = await client.api.getAaStateVars({ address });
-        if ('asset' in stateVars)
-          return {
-            xAsset: (stateVars as { asset: string }).asset,
-          };
+        const { asset = '' } = stateVars as { asset: string };
+        return {
+          asset: { value: asset },
+        };
       }
 
       // Prophet prediction markets
       if (base_aa === 'AXG7G57VBLAHF3WRN5WMQ53KQEQDRONC') {
         const stateVars = await client.api.getAaStateVars({ address });
-        if ('yes_asset' in stateVars)
-          return {
-            xAsset: (stateVars as { yes_asset: string }).yes_asset,
-          };
+        const { yes_asset = '' } = stateVars as { yes_asset: string };
+        return {
+          yes_asset: { value: yes_asset },
+        };
       }
 
       // Counterstake Bridge Import Governance AA.
       if (base_aa === 'KDHCTQOTKTO6MLYOCU6OCBI7KK72DV3P') {
-        if ('import_aa' in params) {
-          const stateVars = await client.api.getAaStateVars({
-            address: params.import_aa,
-          });
-          if ('asset' in stateVars)
-            return {
-              xAsset: (stateVars as { asset: string }).asset,
-            };
-        }
+        const { import_aa = '' } = params;
+        const stateVars = await client.api.getAaStateVars({
+          address: import_aa,
+        });
+        const { asset = '' } = stateVars as { asset: string };
+        return {
+          asset: { value: asset },
+        };
       }
 
       // Counterstake Bridge Import AA.
@@ -182,15 +178,17 @@ export const getXYAssetsInfo = async (
         ].includes(base_aa)
       ) {
         const stateVars = await client.api.getAaStateVars({ address });
-        if ('asset' in stateVars)
-          return { xAsset: (stateVars as { asset: string }).asset };
+        const { asset = '' } = stateVars as { asset: string };
+        return {
+          asset: { value: asset },
+        };
       }
     }
 
     return undefined;
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message);
-    throw new Error('getXYAssetsInfo error');
+    throw new Error('getAssetsInfo error');
   }
 };
 
@@ -230,19 +228,12 @@ export const getDefAddresses = async (
     const addrss = adressesArr
       .filter((a) => a.base_aa === base)
       .map(async (a) => {
-        const assets = await getXYAssetsInfo(a.address.address, client);
+        const assets = await getAssetsInfo(a.address.address, client);
         if (assets) {
-          if (assets.xAsset && assets.yAsset)
-            return {
-              address: a.address.address,
-              tvl: a.address.usd_balance,
-              xAsset: assets.xAsset,
-              yAsset: assets.yAsset,
-            };
           return {
             address: a.address.address,
             tvl: a.address.usd_balance,
-            xAsset: assets.xAsset,
+            ...assets,
           };
         }
         return { address: a.address.address, tvl: a.address.usd_balance };
@@ -256,6 +247,9 @@ export const getDefAddresses = async (
   return Promise.all(res2);
 };
 
+export const getAssetsKeysArray = (address: IAddressInfo): string[] =>
+  Object.keys(address).filter((key) => !['address', 'tvl'].includes(key));
+
 export const getSymbol = async (
   asset: string,
   client: Client
@@ -268,11 +262,19 @@ export const getSymbol = async (
 export const getDefinedAddresses = (
   definedData: Record<string, Omit<IDefinedBaseAAData, 'base_aa'>>
 ): string[] =>
-  Object.keys(definedData).reduce(
-    (res: string[], key) =>
-      res.concat(definedData[key].addresses.map((a) => a.address)),
-    []
-  );
+  Object.keys(definedData).reduce((res: string[], key) => {
+    definedData[key].addresses.forEach((addressInfo) => {
+      const assets = getAssetsKeysArray(addressInfo).map(
+        (assetKey) => addressInfo[assetKey]
+      );
+
+      if (assets.every((asset) => Object.hasOwn(asset, 'symbol')))
+        res.push(addressInfo.address);
+
+      return res;
+    });
+    return [...new Set(res)];
+  }, []);
 
 export const getUndefinedAddresses = (
   allAddresses: IRenderAATvl[],
@@ -292,19 +294,32 @@ export const getBaseAAsWithAssetMetadata = (
   baseAAs.map((base) => ({
     ...base,
     addresses: base.addresses.map((address) => {
-      let xSymbol;
-      let ySymbol;
+      const assets = getAssetsKeysArray(address)
+        .map((key) => {
+          const assetInfo = address[key];
+          if (assetInfo.value === 'base') {
+            return { data: { ...assetInfo, symbol: 'GBYTE' }, key };
+          }
+          if (assetInfo.value && assetsMetadata[assetInfo.value])
+            return {
+              data: {
+                ...assetInfo,
+                symbol: assetsMetadata[assetInfo.value].name,
+              },
+              key,
+            };
+          return { data: assetInfo, key };
+        })
+        .reduce(
+          (accu: Record<string, IAssetEntity>, curr) => ({
+            ...accu,
+            [curr.key]: curr.data,
+          }),
+          {}
+        );
 
-      if (address.xAsset === 'base') xSymbol = 'GBYTE';
-      if (address.yAsset === 'base') ySymbol = 'GBYTE';
+      if (!isEmpty(assets)) return { ...address, ...assets };
 
-      if (address.xAsset && assetsMetadata[address.xAsset])
-        xSymbol = assetsMetadata[address.xAsset].name;
-      if (address.yAsset && assetsMetadata[address.yAsset])
-        ySymbol = assetsMetadata[address.yAsset].name;
-
-      if (xSymbol && ySymbol) return { ...address, xSymbol, ySymbol };
-      if (xSymbol) return { ...address, xSymbol };
       return address;
     }),
   }));
@@ -313,10 +328,10 @@ export const getBaseAAwithUndefinedSymbols = (
   baseAAsWithAssetMetadata: IDefinedBaseAAData[]
 ): IDefinedBaseAAData[] =>
   baseAAsWithAssetMetadata.filter((data) =>
-    data.addresses.some(
-      (address) =>
-        (address.xAsset && !address.xSymbol) ||
-        (address.yAsset && !address.ySymbol)
+    data.addresses.some((address) =>
+      getAssetsKeysArray(address).some(
+        (key) => address[key].value && !address[key].symbol
+      )
     )
   );
 
@@ -328,23 +343,22 @@ export const getBaseAAWithSymbolsByObyte = (
     ...base,
     addresses: await Promise.all(
       base.addresses.map(async (address) => {
-        const { xAsset, xSymbol, yAsset, ySymbol } = address;
-        if (xAsset && yAsset && !xSymbol && !ySymbol)
-          return {
-            ...address,
-            xSymbol: await getSymbol(xAsset, client),
-            ySymbol: await getSymbol(yAsset, client),
-          };
-        if (xAsset && !xSymbol)
-          return {
-            ...address,
-            xSymbol: await getSymbol(xAsset, client),
-          };
-        if (yAsset && !ySymbol)
-          return {
-            ...address,
-            ySymbol: await getSymbol(yAsset, client),
-          };
+        const assets = await getAssetsKeysArray(address)
+          .map((key) => ({ data: address[key], key }))
+          .reduce(async (accu: Promise<Record<string, IAssetEntity>>, curr) => {
+            if (curr.data.value && !curr.data.symbol)
+              return {
+                ...accu,
+                [curr.key]: {
+                  ...curr.data,
+                  symbol: await getSymbol(curr.data.value, client),
+                },
+              };
+
+            return { ...accu, [curr.key]: curr.data };
+          }, {} as Promise<Record<string, IAssetEntity>>);
+        if (!isEmpty(assets)) return { ...address, ...assets };
+
         return address;
       })
     ),

@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Client } from 'obyte';
+import { isEmpty } from 'ramda';
 import { TRootState } from 'store';
+import { getAssetsMetadata } from 'store/AAstats';
 import { showSnackBar } from 'store/SnackStack';
 import { updateDefinedData } from './Obyte.reducer';
 import {
@@ -101,9 +103,13 @@ export const obyteApi = createApi({
             socket
           );
 
+          const saftyAssetsMetaData = isEmpty(assetsMetadata)
+            ? await dispatch(getAssetsMetadata()).unwrap()
+            : assetsMetadata;
+
           const baseAAsWithAssetMetadata = getBaseAAsWithAssetMetadata(
             baseAAs,
-            assetsMetadata
+            saftyAssetsMetaData
           );
 
           if (baseAAsWithAssetMetadata.length > 0) {

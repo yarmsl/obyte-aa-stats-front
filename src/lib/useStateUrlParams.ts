@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-// import { usePage } from './usePage';
 
 interface UrlParams {
   activity?: (keyof IAddressGraphData)[];

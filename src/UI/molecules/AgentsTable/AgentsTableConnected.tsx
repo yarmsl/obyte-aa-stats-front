@@ -4,6 +4,7 @@ import { FC, memo, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 import {
+  isAssetMetaDataSelector,
   useGetTopAAbyTvlQuery,
   useGetTopAACombinedByTypeQuery,
 } from 'store/AAstats';
@@ -26,6 +27,7 @@ const AgentsTableConnected: FC = () => {
   const timeframe = useAppSelector(agentsTableTimeframeSelector);
   const type = useAppSelector(agentsTableSortTypeSelector);
   const limit = useAppSelector(agentsTableLimitSelector);
+  const isAssetsMetaData = useAppSelector(isAssetMetaDataSelector);
   const { from, to } = useTimeframe(selectedPeriod, timeframe);
   const loaderRef = useRef<HTMLDivElement | null>(null);
   const { setUrl } = useStateUrlParams();
@@ -51,7 +53,7 @@ const AgentsTableConnected: FC = () => {
     [dispatch, setUrl]
   );
 
-  const onNavigate = useCallback(
+  const handleNavigateFabric = useCallback(
     (address: string) => () => {
       nav(`/aa/${address}`);
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -109,21 +111,21 @@ const AgentsTableConnected: FC = () => {
     return () => observer.disconnect();
   }, [handleObserver, observer]);
 
-  const { data: fullData } = useGetTopAAbyTvlQuery({}, { skip: !data });
+  const { data: fullData } = useGetTopAAbyTvlQuery({});
 
   useEffect(() => {
-    if (data && data.length <= 10)
+    if (data && data.length <= 20 && isAssetsMetaData)
       dispatch(obyteApi.util.prefetch('getDefinitions', data, {}));
-    else if (data && data?.length > 10 && fullData)
+    if (fullData && isAssetsMetaData)
       dispatch(obyteApi.util.prefetch('getDefinitions', fullData, {}));
-  }, [data, dispatch, fullData]);
+  }, [isAssetsMetaData, data, dispatch, fullData]);
 
   return (
     <AgentsTable
       data={data || []}
       isLoading={isFetching}
       onChangeSortType={onChangeSortType}
-      onNavigate={onNavigate}
+      onNavigate={handleNavigateFabric}
       handlePeriod={handlePeriod}
       isSelectedPeriod={isSelectedPeriod}
       isSortSelected={isSortSelected}

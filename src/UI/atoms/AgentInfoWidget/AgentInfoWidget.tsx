@@ -1,13 +1,14 @@
 /* eslint-disable camelcase */
 import { Box, Link, Typography, IconButton } from '@mui/material';
-import { FC, memo, useMemo } from 'react';
+import { FC, memo, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAppSelector } from 'store';
+import { useAppDispatch, useAppSelector } from 'store';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ExploreIcon from '@mui/icons-material/Explore';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import {
   descriptionByAddressSelector,
+  obyteApi,
   safetyDefinitionByAddressSelector,
 } from 'store/Obyte';
 import { useMedia } from 'lib/useMedia';
@@ -16,12 +17,17 @@ import {
   homepageAnalyticsClickEvent,
   githubAnalyticsClickEvent,
 } from 'lib/analytics';
+import { getTvlByAddressSelector } from 'store/AAstats';
 import { styles } from './styles';
 
 const AgentInfoWidget: FC = () => {
   const { address = '' } = useParams<{ address: string }>();
+  const getTvlByAddress = useAppSelector(getTvlByAddressSelector);
+  const dispatch = useAppDispatch();
   const dd = useAppSelector(safetyDefinitionByAddressSelector);
   const getDescription = useAppSelector(descriptionByAddressSelector);
+  const { isPortable } = useMedia();
+
   const { homepage_url = '', source_url = '' } = useMemo(
     () => dd(address),
     [address, dd]
@@ -32,11 +38,21 @@ const AgentInfoWidget: FC = () => {
     [address, getDescription]
   );
 
-  const { isPortable } = useMedia();
   const subtitle = useMemo(
     () => (address !== description ? address : null),
     [address, description]
   );
+
+  const usd_balance = useMemo(
+    () => getTvlByAddress(address),
+    [address, getTvlByAddress]
+  );
+
+  useEffect(() => {
+    dispatch(
+      obyteApi.util.prefetch('getDefinitions', [{ address, usd_balance }], {})
+    );
+  }, [address, dispatch, usd_balance]);
 
   return (
     <Box sx={styles.root}>
