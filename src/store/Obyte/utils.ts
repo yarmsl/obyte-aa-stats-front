@@ -4,7 +4,7 @@ import { Client } from 'obyte';
 import { isEmpty } from 'ramda';
 
 /** Get info about address` assets from obyte.js in accordance with https://docs.google.com/spreadsheets/d/1AeLeNnPKpXS4UXCwqL9rSh9DuvKKGyabji08nmSgBfI/edit#gid=0 */
-export const getXYAssetsInfo = async (
+export const getAssetsInfo = async (
   address: string,
   client: Client
 ): Promise<Record<string, IAssetEntity> | undefined> => {
@@ -49,7 +49,7 @@ export const getXYAssetsInfo = async (
 
       // Counterstake Bridge Export AA.
       if (base_aa === 'DAN6VZNKNZBKJP7GYJST5FMONZOY4FNT') {
-        const { asset } = params;
+        const { asset = '' } = params;
         return { asset: { value: asset } };
       }
 
@@ -82,7 +82,7 @@ export const getXYAssetsInfo = async (
           'WQBLYBRAMJVXDWS7BGTUNUTW2STO6LYP',
         ].includes(base_aa)
       ) {
-        const { curve_aa } = params;
+        const { curve_aa = '' } = params;
         const [stateVars, curveDef] = await Promise.all([
           client.api.getAaStateVars({
             address: curve_aa,
@@ -188,7 +188,7 @@ export const getXYAssetsInfo = async (
     return undefined;
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message);
-    throw new Error('getXYAssetsInfo error');
+    throw new Error('getAssetsInfo error');
   }
 };
 
@@ -228,7 +228,7 @@ export const getDefAddresses = async (
     const addrss = adressesArr
       .filter((a) => a.base_aa === base)
       .map(async (a) => {
-        const assets = await getXYAssetsInfo(a.address.address, client);
+        const assets = await getAssetsInfo(a.address.address, client);
         if (assets) {
           return {
             address: a.address.address,

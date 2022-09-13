@@ -9,8 +9,6 @@ const getPrinted = (assetEntity: IAssetEntity): string => {
   if (assetEntity) {
     if (assetEntity.symbol) return assetEntity.symbol;
     if (assetEntity.value) return assetEntity.value.substring(0, 5);
-
-    return '';
   }
   return '';
 };

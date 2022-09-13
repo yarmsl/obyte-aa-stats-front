@@ -13,7 +13,7 @@ const LineChart: FC<ILineChartProps> = ({
   precision = 'day',
   xType = 'time',
   yType = 'currency',
-  isDataSerieLessThan1 = false,
+  // isDataSerieLessThan1 = false,
   fullDaysBetweenStartAndEnd,
   serieLength,
 }) => {
@@ -22,10 +22,9 @@ const LineChart: FC<ILineChartProps> = ({
 
   const formatYaxis = useMemo(() => {
     const symbol = yType === 'currency' ? '$' : '';
-    const format = isDataSerieLessThan1 ? 'f' : 's';
 
-    return `>-${symbol}.4~${format}`;
-  }, [isDataSerieLessThan1, yType]);
+    return `>-${symbol}.4~f`;
+  }, [yType]);
 
   const xFormat = useMemo(() => {
     if (xType === 'time') {
@@ -139,7 +138,7 @@ const LineChart: FC<ILineChartProps> = ({
         min: 'auto',
         max: 'auto',
       }}
-      yFormat={yType === 'currency' ? '<-$.2f' : '>-.4~f'}
+      yFormat={yType === 'currency' ? '<-$.2f' : '>-.2~f'}
       xFormat={xFormat}
       curve='linear'
       axisTop={null}
