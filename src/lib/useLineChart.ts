@@ -37,7 +37,7 @@ export const useLineChart = (data: Serie[]): useLineChartOutput => {
   );
 
   const isDataSerieLessThan1 = useMemo(
-    () => allSeries.every((s) => (s.y != null ? s.y < 1 : false)),
+    () => allSeries.every((s) => (s.y != null ? s.y < 2 : false)),
     [allSeries]
   );
 

@@ -1,11 +1,22 @@
 import { Box, Divider, Typography } from '@mui/material';
 import { PointTooltipProps } from '@nivo/line';
-import { FC, memo } from 'react';
+import { usd } from 'lib/currency';
+import { FC, memo, useMemo } from 'react';
 import NeuBox from 'UI/templates/NeuBox/NeuBox';
 
 const LineChartTooltip: FC<PointTooltipProps> = ({ point }) => {
   const { serieId, serieColor, data } = point;
-  const { xFormatted, yFormatted } = data;
+  const { xFormatted, yFormatted, y } = data;
+
+  const printedY = useMemo(
+    () =>
+      `${yFormatted}`.indexOf('$') !== -1
+        ? usd(+y, 2)
+        : (+y).toLocaleString(navigator.language || 'en-US', {
+            maximumFractionDigits: 2,
+          }),
+    [y, yFormatted]
+  );
 
   return (
     <NeuBox>
@@ -31,7 +42,7 @@ const LineChartTooltip: FC<PointTooltipProps> = ({ point }) => {
       <Divider />
       <Box>
         <Typography>
-          {serieId}: <b>{yFormatted}</b>
+          {serieId}: <b>{printedY}</b>
         </Typography>
       </Box>
     </NeuBox>
