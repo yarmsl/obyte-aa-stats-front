@@ -13,7 +13,7 @@ const LineChart: FC<ILineChartProps> = ({
   precision = 'day',
   xType = 'time',
   yType = 'currency',
-  // isDataSerieLessThan1 = false,
+  isDataSerieLessThan1 = false,
   fullDaysBetweenStartAndEnd,
   serieLength,
 }) => {
@@ -22,9 +22,9 @@ const LineChart: FC<ILineChartProps> = ({
 
   const formatYaxis = useMemo(() => {
     const symbol = yType === 'currency' ? '$' : '';
-
-    return `>-${symbol}.4~f`;
-  }, [yType]);
+    const format = isDataSerieLessThan1 ? 'f' : 's';
+    return `>-${symbol}.4~${format}`;
+  }, [isDataSerieLessThan1, yType]);
 
   const xFormat = useMemo(() => {
     if (xType === 'time') {
@@ -44,12 +44,12 @@ const LineChart: FC<ILineChartProps> = ({
       if (fullDaysBetweenStartAndEnd === 1)
         return { tickValues: 'every 3 hour', format: '%H:%M' };
       if (fullDaysBetweenStartAndEnd > 1 && fullDaysBetweenStartAndEnd < 8)
-        return { tickValues: 'every 1 day', format: '%b %d' };
-      return { tickValues: 'every 3 day', format: '%b %d' };
+        return { tickValues: 'every 30 hour', format: '%b %d' };
+      return { tickValues: 'every 4 day', format: '%b %d' };
     }
     if (fullDaysBetweenStartAndEnd <= 30) {
       if (fullDaysBetweenStartAndEnd === 0)
-        return { tickValues: 'every 1 day', format: '%b %d' };
+        return { tickValues: 'every 30 hour', format: '%b %d' };
       if (isTablet) {
         return { tickValues: 'every 5 day', format: '%b %d' };
       }
@@ -123,7 +123,7 @@ const LineChart: FC<ILineChartProps> = ({
             }
           : {
               top: 20,
-              right: 40,
+              right: 20,
               bottom: 23,
               left: 60,
             }
@@ -150,7 +150,6 @@ const LineChart: FC<ILineChartProps> = ({
               tickValues: formatDatesX.tickValues,
               tickSize: 0,
               tickPadding: 5,
-              tickRotation: 0,
               format: formatDatesX.format,
             }
       }
@@ -160,7 +159,6 @@ const LineChart: FC<ILineChartProps> = ({
           : {
               tickSize: 0,
               tickPadding: 5,
-              tickRotation: 0,
               format: formatYaxis,
               tickValues: yValuesCount,
             }
