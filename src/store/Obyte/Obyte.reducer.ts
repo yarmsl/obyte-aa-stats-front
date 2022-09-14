@@ -1,9 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { getAssetsMetadata } from 'store/AAstats';
+
 import { getAssetsKeysArray } from './utils';
 
 const initialState: IObyteSlice = {
   definedData: {},
+  agentsCache: {},
+  assetsCache: {},
 };
 
 export const ObyteSlice = createSlice({
@@ -55,8 +59,33 @@ export const ObyteSlice = createSlice({
         }
       });
     },
+    updateAssetsCache: (
+      state: IObyteSlice,
+      action: PayloadAction<IAssetEntity2[]>
+    ) => {
+      action.payload.forEach((asset) => {
+        if (!Object.hasOwn(state.assetsCache, asset.value)) {
+          Object.assign(state.assetsCache, { [asset.value]: asset.symbol });
+        }
+      });
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(
+      getAssetsMetadata.fulfilled,
+      (state, action: PayloadAction<AssetsResponseType>) => {
+        Object.assign(
+          state.assetsCache,
+          Object.keys(action.payload).reduce(
+            (res, key) =>
+              Object.assign(res, { [key]: action.payload[key].name }),
+            {}
+          )
+        );
+      }
+    );
   },
 });
 
-export const { updateDefinedData } = ObyteSlice.actions;
+export const { updateDefinedData, updateAssetsCache } = ObyteSlice.actions;
 export const { reducer: ObyteReducer } = ObyteSlice;

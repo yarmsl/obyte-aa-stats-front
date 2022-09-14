@@ -24,7 +24,7 @@ const UIPersistConfig = {
 const ObytePersistConfig = {
   key: 'obyte',
   storage,
-  whitelist: ['definedData'],
+  whitelist: ['definedData', 'assetsCache'],
 };
 
 const rootReducer = combineReducers({

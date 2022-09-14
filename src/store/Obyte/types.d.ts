@@ -1,5 +1,22 @@
 interface IObyteSlice {
   definedData: Record<string, Omit<IDefinedBaseAAData, 'base_aa'>>;
+  agentsCache: Record<string, IAgentCache>;
+  assetsCache: Record<string, string>;
+}
+
+interface IAgentCache {
+  addresses: Record<string, IAddressEntity>;
+  definition: IDefinition;
+}
+
+interface IAddressEntity {
+  tvl?: number;
+  assets: Record<string, string>;
+}
+
+interface IAssetEntity2 {
+  value: string;
+  symbol: string;
 }
 
 interface IDefinition {
