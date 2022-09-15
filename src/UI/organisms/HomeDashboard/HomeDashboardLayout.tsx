@@ -17,13 +17,13 @@ const HomeDashboardLayout: FC<IHomeDashboardLayoutProps> = ({
     <>
       <DragLayout
         cols={{ xxs: 1, xs: 2, sm: 3, md: 3, lg: 4 }}
+        compactType='vertical'
+        layouts={layouts}
         margin={isPortable ? [10, 10] : [25, 25]}
         rowHeight={145}
         isBounded
-        layouts={layouts}
-        onLayoutChange={handleLayouts}
         measureBeforeMount
-        compactType='vertical'
+        onLayoutChange={handleLayouts}
       >
         <DragBox key='widget-1'>
           <TvlValueWidget />

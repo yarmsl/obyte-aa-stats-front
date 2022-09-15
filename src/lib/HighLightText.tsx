@@ -21,8 +21,8 @@ export const HighlightText: FC<IHighlightTextProps> = memo(
       <span>
         {parts.map((part) => (
           <Box
-            component='span'
             key={v4()}
+            component='span'
             sx={
               part.toLowerCase() === highlight.toLowerCase()
                 ? styles.highlight

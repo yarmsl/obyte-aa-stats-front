@@ -316,12 +316,8 @@ const AgentGraphConnected: FC = () => {
     return graphData;
   }, [graphData, tvlSelected, tvlGraphData]);
 
-  const {
-    fullDaysBetweenStartAndEnd,
-    isDataSerieLessThan1,
-    isEveryValOfSerieIsNull,
-    serieLength,
-  } = useLineChart(totalData);
+  const { fullDaysBetweenStartAndEnd, isEveryValOfSerieIsNull, serieLength } =
+    useLineChart(totalData);
 
   useEffect(() => {
     if (tvlSelected && tvlData) {
@@ -374,23 +370,22 @@ const AgentGraphConnected: FC = () => {
 
   return (
     <AgentGraph
-      data={totalData}
-      handlePeriod={handlePeriod}
-      isSelectedPeriod={isSelectedPeriod}
-      handleActivities={handleActivities}
-      isSelectedActivities={isSelectedActivities}
-      presicion={presicion}
-      yType={yType}
-      isLoading={isLoading}
       actionButtonsConf={actionButtonsConf}
-      selectButtonConf={selectButtonConf}
+      data={totalData}
       fullDaysBetweenStartAndEnd={fullDaysBetweenStartAndEnd}
-      serieLength={serieLength}
-      isDataSerieLessThan1={isDataSerieLessThan1}
+      handleActivities={handleActivities}
+      handlePeriod={handlePeriod}
       isEveryValOfSerieIsNull={isEveryValOfSerieIsNull}
-      onContextMenu={handleOpenContextMenu}
+      isLoading={isLoading}
+      isSelectedActivities={isSelectedActivities}
+      isSelectedPeriod={isSelectedPeriod}
       mouseX={mouseX}
       mouseY={mouseY}
+      presicion={presicion}
+      selectButtonConf={selectButtonConf}
+      serieLength={serieLength}
+      yType={yType}
+      onContextMenu={handleOpenContextMenu}
       onContextMenuClose={handleCloseContextMenu}
     />
   );

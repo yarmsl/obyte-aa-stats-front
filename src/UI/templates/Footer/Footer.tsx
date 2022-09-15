@@ -17,7 +17,7 @@ const Footer: FC = () => (
     <Box>
       <Typography sx={styles.copyright}>
         © 2022{' '}
-        <Link sx={styles.link} href='https://obyte.org/' target='_blank'>
+        <Link href='https://obyte.org/' sx={styles.link} target='_blank'>
           Obyte.
         </Link>{' '}
         All Rights Reserved

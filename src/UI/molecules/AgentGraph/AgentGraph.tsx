@@ -22,7 +22,6 @@ const AgentGraph: FC<IAgentGraphProps> = ({
   isLoading,
   actionButtonsConf,
   selectButtonConf,
-  isDataSerieLessThan1,
   isEveryValOfSerieIsNull,
   fullDaysBetweenStartAndEnd,
   mouseX,
@@ -44,15 +43,15 @@ const AgentGraph: FC<IAgentGraphProps> = ({
             <AssetSelect />
             <SelectButtons<IAddressGraphData>
               config={selectButtonConf}
-              isSelected={isSelectedActivities}
               handler={handleActivities}
+              isSelected={isSelectedActivities}
             />
           </Box>
           {!isMobile && (
             <ActionButtons
               config={actionButtonsConf}
-              isSelected={isSelectedPeriod}
               handler={handlePeriod}
+              isSelected={isSelectedPeriod}
             />
           )}
         </Box>
@@ -64,11 +63,10 @@ const AgentGraph: FC<IAgentGraphProps> = ({
           ) : (
             <LineChart
               data={data}
-              precision={presicion}
-              yType={yType}
               fullDaysBetweenStartAndEnd={fullDaysBetweenStartAndEnd}
-              isDataSerieLessThan1={isDataSerieLessThan1}
+              precision={presicion}
               serieLength={serieLength}
+              yType={yType}
             />
           )}
         </Box>
@@ -76,25 +74,25 @@ const AgentGraph: FC<IAgentGraphProps> = ({
           <Box sx={styles.footer}>
             <ActionButtons
               config={actionButtonsConf}
-              isSelected={isSelectedPeriod}
               handler={handlePeriod}
+              isSelected={isSelectedPeriod}
             />
           </Box>
         )}
         {isLoading && (
           <Skeleton
+            animation='wave'
             sx={styles.skeleton}
             variant='rectangular'
-            animation='wave'
           />
         )}
         <WaterMark />
         <ShareMenu
           mouseX={mouseX}
           mouseY={mouseY}
-          onClose={onContextMenuClose}
-          title='Agent Chart'
           refEl={ref}
+          title='Agent Chart'
+          onClose={onContextMenuClose}
         />
       </Box>
     </NeuBox>

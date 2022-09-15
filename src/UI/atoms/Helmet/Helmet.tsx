@@ -12,7 +12,7 @@ const HelmetTitle = ({ title }: IHelmetProps): JSX.Element => {
   return (
     <Helmet>
       <title>{title}</title>
-      <meta name='theme-color' content={darkMode ? '#252850' : '#ffffff'} />
+      <meta content={darkMode ? '#252850' : '#ffffff'} name='theme-color' />
     </Helmet>
   );
 };

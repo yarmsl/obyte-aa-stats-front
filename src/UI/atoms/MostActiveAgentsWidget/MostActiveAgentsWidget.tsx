@@ -49,8 +49,8 @@ const MostActiveAgentsWidget: FC = () => {
             <Link
               key={address}
               component={RouterLink}
-              to={`aa/${address}`}
               sx={styles.link}
+              to={`aa/${address}`}
             >
               <Typography sx={styles.index}>{`${i + 1}.`}</Typography>
               <Box sx={styles.titleBox}>
@@ -60,9 +60,9 @@ const MostActiveAgentsWidget: FC = () => {
                 )} */}
               </Box>
               <Typography
-                sx={styles.value}
                 color='secondary.dark'
                 fontSize='inherit'
+                sx={styles.value}
               >
                 {usd_amount_in}
               </Typography>
@@ -72,9 +72,9 @@ const MostActiveAgentsWidget: FC = () => {
         <WaterMark />
         {isFetching && (
           <Skeleton
+            animation='wave'
             sx={styles.skeleton}
             variant='rectangular'
-            animation='wave'
           />
         )}
       </Box>

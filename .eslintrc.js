@@ -70,6 +70,18 @@ module.exports = {
         patterns: ['@mui/*/*/*', '!@mui/material/test-utils/*'],
       },
     ],
+    'react/jsx-sort-props': [
+      'error',
+      {
+        callbacksLast: true,
+        shorthandLast: true,
+        multiline: 'last',
+        ignoreCase: false,
+        noSortAlphabetically: false,
+        reservedFirst: true,
+        locale: 'auto',
+      },
+    ],
   },
   settings: {
     'import/resolver': {

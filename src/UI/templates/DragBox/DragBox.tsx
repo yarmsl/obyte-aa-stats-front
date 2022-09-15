@@ -8,8 +8,10 @@ const DragBox: FC<IDragBoxProps> = forwardRef(
     const darkMode = useAppSelector(darkModeSelector);
     return (
       <Box
-        style={style}
+        ref={ref}
         className={className}
+        component='div'
+        style={style}
         sx={{
           width: '100%',
           height: '100%',
@@ -27,8 +29,6 @@ const DragBox: FC<IDragBoxProps> = forwardRef(
             },
           },
         }}
-        component='div'
-        ref={ref}
         {...props}
       >
         {children}

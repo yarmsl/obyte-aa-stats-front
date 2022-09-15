@@ -15,8 +15,8 @@ const ModalStack: React.FC = () => {
     <>
       {modalStack.map((modal) => (
         <Dialog
-          PaperProps={{ sx: { bgcolor: 'transparent', boxShadow: 5 } }}
           key={v4()}
+          PaperProps={{ sx: { bgcolor: 'transparent', boxShadow: 5 } }}
           open={modal.open}
           onClose={() => dispatch(closeModalAction())}
         >

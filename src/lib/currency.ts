@@ -6,7 +6,7 @@ export const usd = (
   shorten?: boolean
 ): string => {
   if (shorten) {
-    if (value > 0) {
+    if (value >= 0) {
       return `$${shortenNumber(value, fraction != null ? fraction : 2)}`;
     }
     if (value < 0) {

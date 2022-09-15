@@ -89,25 +89,25 @@ const Search: FC<ISearchProps> = ({ isPortable = false }) => {
     <ClickAwayListener onClickAway={handleClose}>
       <Box sx={styles.root}>
         <TextField
-          onKeyDown={handleKeyDown}
           autoComplete='off'
           inputRef={inputRef}
-          fullWidth
+          placeholder='address or description'
+          size={isPortable ? 'medium' : 'small'}
           sx={styles.field}
+          value={searchText}
           InputProps={{
             sx: styles.input,
             startAdornment: <SearchIcon />,
           }}
-          size={isPortable ? 'medium' : 'small'}
-          value={searchText}
+          fullWidth
           onChange={handleChange}
-          placeholder='address or description'
+          onKeyDown={handleKeyDown}
         />
         <SearchResultsConnected
+          autoFocus={autoFocus}
           open={open}
           searchText={searchText}
           onClose={handleClose}
-          autoFocus={autoFocus}
           onKeyDown={handleSelfFocus}
           onSetFirstAddress={handleSetFirstAddress}
         />

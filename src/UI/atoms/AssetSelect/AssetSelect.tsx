@@ -31,15 +31,15 @@ const AssetSelect: FC = () => {
 
   return (
     <TextField
-      size='medium'
-      variant='standard'
-      color='secondary'
-      select
-      autoComplete='off'
-      value={asset || 'null'}
-      onChange={onAssetChange}
-      sx={styles.root}
       SelectProps={{ MenuProps: { sx: styles.menu } }}
+      autoComplete='off'
+      color='secondary'
+      size='medium'
+      sx={styles.root}
+      value={asset || 'null'}
+      variant='standard'
+      select
+      onChange={onAssetChange}
     >
       <MenuItem value='all'>
         <Box sx={styles.item}>
@@ -61,8 +61,8 @@ const AssetSelect: FC = () => {
             <Box sx={styles.icon}>
               {getAssetIcon(ast.assetSymbol) && (
                 <img
-                  src={`${coinIcon}${getAssetIcon(ast.assetSymbol)}`}
                   alt={ast.assetSymbol || undefined}
+                  src={`${coinIcon}${getAssetIcon(ast.assetSymbol)}`}
                 />
               )}
             </Box>

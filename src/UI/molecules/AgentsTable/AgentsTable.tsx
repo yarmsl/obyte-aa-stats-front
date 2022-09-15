@@ -22,10 +22,10 @@ const AgentsTable: FC<IAgentsTableProps> = ({
       <Box sx={styles.header}>
         <Typography sx={styles.title}>Autonomous Agents Top</Typography>
         <ActionButtons
+          color='primary'
           config={shortPeriodsUiControls}
           handler={handlePeriod}
           isSelected={isSelectedPeriod}
-          color='primary'
         />
       </Box>
       <AgentTableHead

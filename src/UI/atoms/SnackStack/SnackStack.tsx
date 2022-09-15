@@ -87,16 +87,16 @@ const SnackStack: FC<ISnackStackProps> = ({
 
   return (
     <SnackStackLayout
-      cuttedSnackStack={cuttedSnackStack}
       anchorOrigin={anchorOrigin}
-      spacing={spacing}
-      top={top}
-      right={right}
       bottom={bottom}
-      left={left}
-      transform={transform}
+      cuttedSnackStack={cuttedSnackStack}
       handleClose={handleClose}
       handleCloseByTimeout={handleCloseByTimeout}
+      left={left}
+      right={right}
+      spacing={spacing}
+      top={top}
+      transform={transform}
     />
   );
 };

@@ -16,7 +16,6 @@ export interface ILineChartProps {
     | 'year';
   xType?: xAxisTypes;
   yType?: yAxisTypes;
-  isDataSerieLessThan1?: boolean;
 }
 
 export type xAxisTypes = 'time' | 'linear';

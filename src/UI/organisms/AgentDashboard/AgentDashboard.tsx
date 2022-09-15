@@ -39,8 +39,8 @@ const AgentDashboard: FC = () => {
 
   return (
     <AgentDashboardLayout
-      layouts={agentLayouts}
       handleLayouts={handleLayouts}
+      layouts={agentLayouts}
     />
   );
 };

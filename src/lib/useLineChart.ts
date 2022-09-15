@@ -5,7 +5,6 @@ import { useMemo } from 'react';
 interface useLineChartOutput {
   serieLength: number;
   isEveryValOfSerieIsNull: boolean;
-  isDataSerieLessThan1: boolean;
   fullDaysBetweenStartAndEnd: number;
 }
 
@@ -36,15 +35,9 @@ export const useLineChart = (data: Serie[]): useLineChartOutput => {
     [allSeries]
   );
 
-  const isDataSerieLessThan1 = useMemo(
-    () => allSeries.every((s) => (s.y != null ? s.y < 2 : false)),
-    [allSeries]
-  );
-
   return {
     serieLength,
     isEveryValOfSerieIsNull,
-    isDataSerieLessThan1,
     fullDaysBetweenStartAndEnd,
   };
 };
