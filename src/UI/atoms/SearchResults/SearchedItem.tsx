@@ -24,10 +24,10 @@ const SearchedItem: FC<ISearchedItemProps> = ({
     <MenuItem autoFocus={focus} sx={styles.searchedItem} onClick={onClick}>
       <Box sx={styles.creds}>
         <Typography sx={styles.labelText}>
-          <HighlightText text={label} highlight={searchText} />
+          <HighlightText highlight={searchText} text={label} />
         </Typography>
         <Typography sx={styles.addressText}>
-          <HighlightText text={address} highlight={searchText} />
+          <HighlightText highlight={searchText} text={address} />
         </Typography>
       </Box>
       <Typography sx={styles.tvl}>TVL: {usd(tvl, 0, true)}</Typography>

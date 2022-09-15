@@ -37,7 +37,7 @@ const HomeDashboard: FC = () => {
   }, []);
 
   return (
-    <HomeDashboardLayout layouts={homeLayouts} handleLayouts={handleLayouts} />
+    <HomeDashboardLayout handleLayouts={handleLayouts} layouts={homeLayouts} />
   );
 };
 

@@ -10,11 +10,11 @@ const Logo: FC<ILogoProps> = ({ title, subtitle }) => {
       <Box sx={styles.logo} />
       {title && (
         <Box sx={styles.credits}>
-          <Typography sx={styles.title} component='h1'>
+          <Typography component='h1' sx={styles.title}>
             {title}
           </Typography>
           {subtitle && (
-            <Typography sx={styles.subtitle} component='h2'>
+            <Typography component='h2' sx={styles.subtitle}>
               {subtitle}
             </Typography>
           )}

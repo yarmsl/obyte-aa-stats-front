@@ -123,13 +123,13 @@ const AgentsTableConnected: FC = () => {
   return (
     <AgentsTable
       data={data || []}
-      isLoading={isFetching}
-      onChangeSortType={onChangeSortType}
-      onNavigate={handleNavigateFabric}
       handlePeriod={handlePeriod}
+      isLoading={isFetching}
       isSelectedPeriod={isSelectedPeriod}
       isSortSelected={isSortSelected}
       loaderRef={loaderRef}
+      onChangeSortType={onChangeSortType}
+      onNavigate={handleNavigateFabric}
     />
   );
 };

@@ -7,9 +7,9 @@ import Footer from '../Footer/Footer';
 import { styles } from './styles';
 
 const MainLayout: FC = () => (
-  <Container sx={styles.root} disableGutters maxWidth={false}>
+  <Container maxWidth={false} sx={styles.root} disableGutters>
     <Header />
-    <Container component='main' disableGutters sx={styles.main} maxWidth='lg'>
+    <Container component='main' maxWidth='lg' sx={styles.main} disableGutters>
       <Suspense fallback={<Loading fullscreen />}>
         <Outlet />
       </Suspense>

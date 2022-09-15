@@ -60,16 +60,16 @@ const SelectButtons = <V,>({
         groupsKeys.map((key, i) => (
           <ButtonGroup
             key={key}
-            size='medium'
             color={groupColor(i)}
+            size='medium'
             sx={styles.group}
           >
             {groups[key].map(({ value, label, labelMobile }) => (
               <Button
-                variant={isSelected(value) ? 'contained' : 'text'}
                 key={String(value)}
-                onClick={handler(value)}
                 sx={styles.gbutton}
+                variant={isSelected(value) ? 'contained' : 'text'}
+                onClick={handler(value)}
               >
                 {isMobile ? labelMobile : label}
               </Button>
@@ -80,11 +80,11 @@ const SelectButtons = <V,>({
       {buttons.map(({ label, value, labelMobile }, i) => (
         <Button
           key={String(value)}
+          color={singleColor(i)}
+          size='medium'
+          sx={styles.button}
           variant={isSelected(value) ? 'contained' : 'text'}
           onClick={handler(value)}
-          color={singleColor(i)}
-          sx={styles.button}
-          size='medium'
         >
           {isMobile ? labelMobile : label}
         </Button>

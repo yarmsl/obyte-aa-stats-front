@@ -45,11 +45,11 @@ const SearchResultsConnected: FC<ISearchResultsConnectedProps> = ({
 
   return (
     <SearchResults
-      open={open}
-      data={searchedData}
-      onAddressClick={handleAgentsPageReplaceFabric}
-      searchText={searchText}
       autoFocus={autoFocus}
+      data={searchedData}
+      open={open}
+      searchText={searchText}
+      onAddressClick={handleAgentsPageReplaceFabric}
       onKeyDown={onKeyDown}
     />
   );

@@ -18,12 +18,12 @@ const AgentDashboardLayout: FC<IAgentDashboardLayoutProps> = ({
       <AgentInfoWidget />
       <DragLayout
         cols={{ xxs: 1, xs: 2, sm: 3, md: 3, lg: 4 }}
+        layouts={layouts}
         margin={isPortable ? [10, 10] : [25, 25]}
         rowHeight={165}
         isBounded
-        layouts={layouts}
-        onLayoutChange={handleLayouts}
         measureBeforeMount
+        onLayoutChange={handleLayouts}
       >
         <DragBox key='widget-1'>
           <AgentTvlValueWidget />

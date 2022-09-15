@@ -14,17 +14,17 @@ const ActionButtons: FC<IActionButtonsProps> = ({
 
   return (
     <ButtonGroup
-      onMouseDown={stopPropagate}
-      size='medium'
       color={color}
+      size='medium'
       sx={styles.root}
+      onMouseDown={stopPropagate}
     >
       {config.map(({ label, labelMobile, value }) => (
         <Button
-          variant={isSelected(value) ? 'contained' : 'text'}
           key={value}
-          onClick={handler(value)}
           sx={styles.button}
+          variant={isSelected(value) ? 'contained' : 'text'}
+          onClick={handler(value)}
         >
           {isMobile ? labelMobile : label}
         </Button>

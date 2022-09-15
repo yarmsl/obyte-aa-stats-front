@@ -27,7 +27,7 @@ const Header: React.FC = () => {
     <AppBar color='transparent' sx={scrollTop ? styles.root : shadow}>
       <Toolbar sx={styles.header}>
         <Box sx={styles.headerLine}>
-          <Logo title='Obyte' subtitle='Autonomous Agents Statistics' />
+          <Logo subtitle='Autonomous Agents Statistics' title='Obyte' />
           <Box sx={styles.actions}>
             {!isPortable && (
               <Box sx={styles.search}>

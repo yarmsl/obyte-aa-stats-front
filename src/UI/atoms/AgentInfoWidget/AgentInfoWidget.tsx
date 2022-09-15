@@ -57,11 +57,11 @@ const AgentInfoWidget: FC = () => {
   return (
     <Box sx={styles.root}>
       <Box sx={styles.titleBox}>
-        <Typography sx={styles.title} component='h1'>
+        <Typography component='h1' sx={styles.title}>
           {description}
         </Typography>
         {subtitle && (
-          <Typography sx={styles.subtitle} component='h2'>
+          <Typography component='h2' sx={styles.subtitle}>
             {subtitle}
           </Typography>
         )}
@@ -70,8 +70,8 @@ const AgentInfoWidget: FC = () => {
       <Box sx={styles.linksWrapper}>
         <Link
           component={isPortable ? IconButton : 'a'}
-          sx={styles.link}
           href={`https://explorer.obyte.org/#${address}`}
+          sx={styles.link}
           target='_blank'
           onClick={explorerAnalyticsClickEvent}
         >
@@ -81,8 +81,8 @@ const AgentInfoWidget: FC = () => {
         {homepage_url && (
           <Link
             component={isPortable ? IconButton : 'a'}
-            sx={styles.link}
             href={homepage_url}
+            sx={styles.link}
             target='_blank'
             onClick={homepageAnalyticsClickEvent}
           >
@@ -93,8 +93,8 @@ const AgentInfoWidget: FC = () => {
         {source_url && (
           <Link
             component={isPortable ? IconButton : 'a'}
-            sx={styles.link}
             href={source_url}
+            sx={styles.link}
             target='_blank'
             onClick={githubAnalyticsClickEvent}
           >

@@ -24,13 +24,13 @@ const AgentTvlValueWidget: FC = () => {
   return (
     <NeuBox>
       <ValueWidget
-        value={value}
+        isLoading={isFetching}
         title='Total Value Locked'
-        unit='$'
-        shorten
         trend={prev}
         trendTooltip='TVL compared to the previous period (24h)'
-        isLoading={isFetching}
+        unit='$'
+        value={value}
+        shorten
       />
     </NeuBox>
   );

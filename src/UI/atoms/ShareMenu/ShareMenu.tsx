@@ -81,13 +81,13 @@ const ShareMenu: FC<IShareMenuProps> = ({
 
   return (
     <Menu
-      sx={{ maxWidth: '185px' }}
-      open={open}
-      disableRestoreFocus
-      anchorReference='anchorPosition'
-      onClose={onClose}
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       anchorPosition={open ? { top: mouseY!, left: mouseX! } : undefined}
+      anchorReference='anchorPosition'
+      open={open}
+      sx={{ maxWidth: '185px' }}
+      disableRestoreFocus
+      onClose={onClose}
     >
       <Typography sx={styles.title}>{title}</Typography>
       <MenuItem onClick={handleSaveAsPng}>

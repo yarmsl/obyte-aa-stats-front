@@ -185,30 +185,25 @@ const TotalGraphConnected: FC = () => {
     return data || [];
   }, [data, tvlSelected, tvl]);
 
-  const {
-    fullDaysBetweenStartAndEnd,
-    isDataSerieLessThan1,
-    isEveryValOfSerieIsNull,
-    serieLength,
-  } = useLineChart(total);
+  const { fullDaysBetweenStartAndEnd, isEveryValOfSerieIsNull, serieLength } =
+    useLineChart(total);
 
   return (
     <TotalGraph
-      data={total}
-      handlePeriod={handlePeriod}
-      isSelectedPeriod={isSelectedPeriod}
-      handleActivities={handleActivities}
-      isSelectedActivities={isSelectedActivities}
-      isLoading={isLoading}
-      presicion={presicion}
       actionButtonsConf={actionButtonsConf}
+      data={total}
       fullDaysBetweenStartAndEnd={fullDaysBetweenStartAndEnd}
-      serieLength={serieLength}
-      isDataSerieLessThan1={isDataSerieLessThan1}
+      handleActivities={handleActivities}
+      handlePeriod={handlePeriod}
       isEveryValOfSerieIsNull={isEveryValOfSerieIsNull}
-      onContextMenu={handleOpenContextMenu}
+      isLoading={isLoading}
+      isSelectedActivities={isSelectedActivities}
+      isSelectedPeriod={isSelectedPeriod}
       mouseX={mouseX}
       mouseY={mouseY}
+      presicion={presicion}
+      serieLength={serieLength}
+      onContextMenu={handleOpenContextMenu}
       onContextMenuClose={handleCloseContextMenu}
     />
   );

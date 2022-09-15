@@ -26,12 +26,12 @@ const Router: FC = () => {
 
   return (
     <Routes>
-      <Route path='*' element={<MainLayout />}>
-        <Route path='' element={<Home />} />
-        <Route path='aa/:address' element={<Agent />} />
-        <Route path='*' element={<NotFound />} />
+      <Route element={<MainLayout />} path='*'>
+        <Route element={<Home />} path='' />
+        <Route element={<Agent />} path='aa/:address' />
+        <Route element={<NotFound />} path='*' />
       </Route>
-      <Route path='*' element={<NotFound />} />
+      <Route element={<NotFound />} path='*' />
     </Routes>
   );
 };

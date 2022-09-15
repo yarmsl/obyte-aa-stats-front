@@ -20,10 +20,10 @@ const NotFound = (): JSX.Element => {
           There is no such page yet
         </Typography>
         <Button
-          onClick={() => nav('/')}
+          color='secondary'
           size='large'
           variant='contained'
-          color='secondary'
+          onClick={() => nav('/')}
         >
           back to safe
         </Button>

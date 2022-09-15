@@ -24,15 +24,15 @@ const SearchResults: FC<ISearchResultsProps> = ({
         )}
         {data.map(({ address, label, tvl }, index, arr) => (
           <SearchedItem
-            onClick={onAddressClick(address)}
             key={v4()}
             address={address}
+            arrLength={arr.length}
+            autoFocus={autoFocus}
+            index={index}
             label={label}
             searchText={searchText}
-            index={index}
-            arrLength={arr.length}
             tvl={tvl}
-            autoFocus={autoFocus}
+            onClick={onAddressClick(address)}
           />
         ))}
         {data.length === 0 && searchText.length !== 32 && (

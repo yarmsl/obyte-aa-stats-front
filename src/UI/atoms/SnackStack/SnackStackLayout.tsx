@@ -34,11 +34,11 @@ const SnackStackLayout: FC<ISnackStackLayoutProps> = ({
             closable = false,
           }) => (
             <Snackbar
-              anchorOrigin={anchorOrigin}
-              sx={{ position: 'relative' }}
               key={id}
-              open={open}
+              anchorOrigin={anchorOrigin}
               autoHideDuration={autoHideDuration}
+              open={open}
+              sx={{ position: 'relative' }}
               onClose={(event, reason) =>
                 handleCloseByTimeout(event, reason, id)
               }

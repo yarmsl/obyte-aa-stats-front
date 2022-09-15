@@ -20,13 +20,13 @@ const TurnoverValueWidget: FC = () => {
   return (
     <NeuBox>
       <ValueWidget
-        value={value}
+        isLoading={isFetching}
         title='Turnover 24h'
-        unit='$'
-        shorten
         trend={prev}
         trendTooltip='Turnover compared to the previous period (24h)'
-        isLoading={isFetching}
+        unit='$'
+        value={value}
+        shorten
       />
     </NeuBox>
   );

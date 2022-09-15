@@ -21,8 +21,8 @@ const AgentTableHead: FC<IAgentTableHeadProps> = ({
         {sort && (
           <IconButton
             color={isSortSelected(value) ? 'success' : 'default'}
-            onClick={onChangeSortType(value)}
             size='small'
+            onClick={onChangeSortType(value)}
           >
             <KeyboardArrowDownRoundedIcon fontSize='inherit' />
           </IconButton>

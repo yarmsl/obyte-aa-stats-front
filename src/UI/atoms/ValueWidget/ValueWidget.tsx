@@ -62,15 +62,15 @@ const ValueWidget: FC<IValueWidgetProps> = ({
         <Typography sx={styles.value}>{printValue}</Typography>
         {printTrend && (
           <Tooltip
+            disableHoverListener={!trendTooltip}
             title={trendTooltip || false}
             arrow
-            disableHoverListener={!trendTooltip}
           >
             <Box sx={styles.trend}>
               <IconButton
                 color={isValueGreater ? 'success' : 'error'}
-                sx={styles.trendIcon}
                 size='small'
+                sx={styles.trendIcon}
               >
                 {isValueGreater ? <TrendingUpIcon /> : <TrendingDownIcon />}
               </IconButton>
@@ -84,7 +84,7 @@ const ValueWidget: FC<IValueWidgetProps> = ({
         )}
       </Box>
       {isLoading && (
-        <Skeleton sx={styles.skeleton} variant='rectangular' animation='wave' />
+        <Skeleton animation='wave' sx={styles.skeleton} variant='rectangular' />
       )}
       <WaterMark />
     </Box>

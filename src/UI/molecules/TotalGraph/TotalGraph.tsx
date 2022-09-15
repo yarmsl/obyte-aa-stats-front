@@ -21,7 +21,6 @@ const TotalGraph: FC<ITotalGraphProps> = ({
   actionButtonsConf,
   fullDaysBetweenStartAndEnd,
   serieLength,
-  isDataSerieLessThan1,
   isEveryValOfSerieIsNull,
   mouseX,
   mouseY,
@@ -38,14 +37,14 @@ const TotalGraph: FC<ITotalGraphProps> = ({
             <Typography sx={styles.title}>Activity</Typography>
             <SelectButtons<ITotalWithTvlActivity>
               config={totalGraphActivitiesUiControls}
-              isSelected={isSelectedActivities}
               handler={handleActivities}
+              isSelected={isSelectedActivities}
             />
           </Box>
           <ActionButtons
             config={actionButtonsConf}
-            isSelected={isSelectedPeriod}
             handler={handlePeriod}
+            isSelected={isSelectedPeriod}
           />
         </Box>
         <Box sx={styles.wrapper} onMouseDown={stopPropagate}>
@@ -56,27 +55,26 @@ const TotalGraph: FC<ITotalGraphProps> = ({
           ) : (
             <LineChart
               data={data}
-              precision={presicion}
               fullDaysBetweenStartAndEnd={fullDaysBetweenStartAndEnd}
-              isDataSerieLessThan1={isDataSerieLessThan1}
+              precision={presicion}
               serieLength={serieLength}
             />
           )}
         </Box>
         {isLoading && (
           <Skeleton
+            animation='wave'
             sx={styles.skeleton}
             variant='rectangular'
-            animation='wave'
           />
         )}
         <WaterMark />
         <ShareMenu
           mouseX={mouseX}
           mouseY={mouseY}
-          onClose={onContextMenuClose}
-          title='Activities Chart'
           refEl={ref}
+          title='Activities Chart'
+          onClose={onContextMenuClose}
         />
       </Box>
     </NeuBox>
