@@ -1,6 +1,9 @@
-import { Box, IconButton } from '@mui/material';
-import { socialLinks } from 'conf/socialLinks';
 import { FC, memo } from 'react';
+
+import { Box, IconButton } from '@mui/material';
+
+import { socialLinks } from 'conf/socialLinks';
+
 import { styles } from './styles';
 
 const SocialBlock: FC = () => (

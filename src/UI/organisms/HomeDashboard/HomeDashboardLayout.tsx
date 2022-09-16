@@ -1,5 +1,6 @@
-import { useMedia } from 'lib/useMedia';
 import { FC, memo } from 'react';
+
+import { useMedia } from 'lib/useMedia';
 import MostActiveAgentsWidget from 'UI/atoms/MostActiveAgentsWidget/MostActiveAgentsWidget';
 import TurnoverValueWidget from 'UI/atoms/TurnoverValueWidget/TurnoverValueWidget';
 import TvlValueWidget from 'UI/atoms/TvlValueWidget/TvlValueWidget';

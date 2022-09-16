@@ -1,6 +1,7 @@
+import { useMemo } from 'react';
+
 import { Datum, Serie } from '@nivo/line';
 import { differenceInDays } from 'date-fns';
-import { useMemo } from 'react';
 
 interface useLineChartOutput {
   serieLength: number;

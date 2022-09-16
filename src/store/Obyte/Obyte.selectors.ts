@@ -1,4 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
+
 import { templates } from 'conf/aaTemplates';
 import { TRootState } from 'store';
 

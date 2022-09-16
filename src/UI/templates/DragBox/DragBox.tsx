@@ -1,5 +1,7 @@
-import { Box } from '@mui/material';
 import { FC, forwardRef, memo } from 'react';
+
+import { Box } from '@mui/material';
+
 import { useAppSelector } from 'store';
 import { darkModeSelector } from 'store/UI';
 

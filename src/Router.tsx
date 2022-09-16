@@ -1,9 +1,12 @@
 import { memo, lazy, FC, useEffect, useMemo } from 'react';
+
 import { Route, Routes, useLocation } from 'react-router-dom';
+
 import { fireNavigationAnalyticsEvent } from 'lib/analytics';
 import { useBeBack } from 'lib/useBeBack';
-import MainLayout from './UI/templates/MainLayout/MainLayout';
+
 import NotFound from './pages/NotFound/NotFound';
+import MainLayout from './UI/templates/MainLayout/MainLayout';
 
 const Home = lazy(() => import('pages/Home/Home'));
 const Agent = lazy(() => import('pages/Agent/Agent'));

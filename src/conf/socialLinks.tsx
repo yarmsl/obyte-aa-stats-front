@@ -1,13 +1,14 @@
+import FacebookIcon from '@mui/icons-material/Facebook';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import RedditIcon from '@mui/icons-material/Reddit';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import RedditIcon from '@mui/icons-material/Reddit';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import DiscordIcon from 'UI/icons/DiscordIcon';
-import WeixinIcon from 'UI/icons/WeixinIcon';
-import MediumIcon from 'UI/icons/MediumIcon';
+
 import BitcoinIcon from 'UI/icons/BitcoinIcon';
+import DiscordIcon from 'UI/icons/DiscordIcon';
+import MediumIcon from 'UI/icons/MediumIcon';
+import WeixinIcon from 'UI/icons/WeixinIcon';
 
 export const socialLinks = [
   {

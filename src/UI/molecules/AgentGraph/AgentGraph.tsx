@@ -1,13 +1,16 @@
-import { Box, Skeleton, Typography } from '@mui/material';
 import { FC, memo, MouseEvent, useCallback, useRef } from 'react';
-import WaterMark from 'UI/atoms/WaterMark/WaterMark';
-import LineChart from 'UI/atoms/LineChart/LineChart';
-import ActionButtons from 'UI/atoms/ActionButtons/ActionButtons';
-import SelectButtons from 'UI/atoms/SelectButtons/SelectButtons';
-import AssetSelect from 'UI/atoms/AssetSelect/AssetSelect';
+
+import { Box, Skeleton, Typography } from '@mui/material';
+
 import { useMedia } from 'lib/useMedia';
-import NeuBox from 'UI/templates/NeuBox/NeuBox';
+import ActionButtons from 'UI/atoms/ActionButtons/ActionButtons';
+import AssetSelect from 'UI/atoms/AssetSelect/AssetSelect';
+import LineChart from 'UI/atoms/LineChart/LineChart';
+import SelectButtons from 'UI/atoms/SelectButtons/SelectButtons';
 import ShareMenu from 'UI/atoms/ShareMenu/ShareMenu';
+import WaterMark from 'UI/atoms/WaterMark/WaterMark';
+import NeuBox from 'UI/templates/NeuBox/NeuBox';
+
 import { styles } from './styles';
 import { IAgentGraphProps } from './types';
 
@@ -56,19 +59,20 @@ const AgentGraph: FC<IAgentGraphProps> = ({
           )}
         </Box>
         <Box sx={styles.wrapper} onMouseDown={stopPropagate}>
-          {!isLoading && isEveryValOfSerieIsNull ? (
-            <Box sx={styles.nodata}>
-              <Typography>no data</Typography>
-            </Box>
-          ) : (
-            <LineChart
-              data={data}
-              fullDaysBetweenStartAndEnd={fullDaysBetweenStartAndEnd}
-              precision={presicion}
-              serieLength={serieLength}
-              yType={yType}
-            />
-          )}
+          {!isLoading &&
+            (!isEveryValOfSerieIsNull ? (
+              <LineChart
+                data={data}
+                fullDaysBetweenStartAndEnd={fullDaysBetweenStartAndEnd}
+                precision={presicion}
+                serieLength={serieLength}
+                yType={yType}
+              />
+            ) : (
+              <Box sx={styles.nodata}>
+                <Typography>no data</Typography>
+              </Box>
+            ))}
         </Box>
         {isMobile && (
           <Box sx={styles.footer}>

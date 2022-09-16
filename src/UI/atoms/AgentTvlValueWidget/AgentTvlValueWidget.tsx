@@ -1,6 +1,8 @@
-import { useTimeframe } from 'lib/useTimeframe';
 import { FC, memo, useMemo } from 'react';
+
 import { useParams } from 'react-router-dom';
+
+import { useTimeframe } from 'lib/useTimeframe';
 import { useGetTvlOverTimeValuesForOneAddressQuery } from 'store/AAstats';
 import NeuBox from 'UI/templates/NeuBox/NeuBox';
 

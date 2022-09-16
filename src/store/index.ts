@@ -1,18 +1,19 @@
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import {
   AnyAction,
   combineReducers,
   configureStore,
   ThunkDispatch,
 } from '@reduxjs/toolkit';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { ModalStackReducer } from './ModalStack';
-import { UIReducer } from './UI';
-import { TokenMiddleware } from './Auth/Auth.middleware';
-import { SnackStackReducer } from './SnackStack';
+
 import { aastatsAPI, AAstatsReducer } from './AAstats';
+import { TokenMiddleware } from './Auth/Auth.middleware';
+import { ModalStackReducer } from './ModalStack';
 import { obyteApi, ObyteReducer } from './Obyte';
+import { SnackStackReducer } from './SnackStack';
+import { UIReducer } from './UI';
 
 const UIPersistConfig = {
   key: 'ui',

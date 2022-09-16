@@ -1,5 +1,7 @@
-import { Box, Typography } from '@mui/material';
 import { FC, memo } from 'react';
+
+import { Box, Typography } from '@mui/material';
+
 import { styles } from './styles';
 
 const AgentDescription: FC = () => (

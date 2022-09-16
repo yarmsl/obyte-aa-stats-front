@@ -1,13 +1,16 @@
 import { memo, useMemo } from 'react';
+
 import { AppBar, Box, Toolbar } from '@mui/material';
-import Logo from 'UI/atoms/Logo/Logo';
+
+import { useMedia } from 'lib/useMedia';
 import { useScroll } from 'lib/useScroll';
 import { useAppSelector } from 'store';
-import SaveLayoutButton from 'UI/atoms/SaveLayoutButton/SaveLayoutButton';
-import DarkModeSwitcher from 'UI/atoms/DarkModeSwitcher/DarkModeSwitcher';
 import { darkModeSelector } from 'store/UI';
+import DarkModeSwitcher from 'UI/atoms/DarkModeSwitcher/DarkModeSwitcher';
+import Logo from 'UI/atoms/Logo/Logo';
+import SaveLayoutButton from 'UI/atoms/SaveLayoutButton/SaveLayoutButton';
 import Search from 'UI/atoms/Search/Search';
-import { useMedia } from 'lib/useMedia';
+
 import { stylesByMode } from './styles';
 
 const Header: React.FC = () => {

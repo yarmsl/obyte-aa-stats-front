@@ -1,13 +1,16 @@
 /* eslint-disable camelcase */
-import { Box, Divider, Link, Skeleton, Typography } from '@mui/material';
 import { FC, memo, MouseEvent, useCallback, useMemo } from 'react';
+
+import { Box, Divider, Link, Skeleton, Typography } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+
+import { usd } from 'lib/currency';
 import { useTimeframe } from 'lib/useTimeframe';
+import { useAppSelector } from 'store';
 import { useGetMostActiveAgentsQuery } from 'store/AAstats';
 import { descriptionByAddressSelector } from 'store/Obyte';
-import { useAppSelector } from 'store';
-import { Link as RouterLink } from 'react-router-dom';
-import { usd } from 'lib/currency';
 import NeuBox from 'UI/templates/NeuBox/NeuBox';
+
 import WaterMark from '../WaterMark/WaterMark';
 import { styles } from './styles';
 
@@ -55,9 +58,6 @@ const MostActiveAgentsWidget: FC = () => {
               <Typography sx={styles.index}>{`${i + 1}.`}</Typography>
               <Box sx={styles.titleBox}>
                 <Typography sx={styles.addressTitle}>{title}</Typography>
-                {/* {address !== title && (
-                  <Typography sx={styles.addressSubtitle}>{address}</Typography>
-                )} */}
               </Box>
               <Typography
                 color='secondary.dark'

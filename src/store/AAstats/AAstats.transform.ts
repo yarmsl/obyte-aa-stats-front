@@ -1,5 +1,6 @@
 import { Serie } from '@nivo/line';
 import { FetchBaseQueryMeta } from '@reduxjs/toolkit/dist/query';
+
 import { getActualDifferenceInPreviousPeriod, getRange } from './utils';
 
 export const transformStatsForOneAddress = (

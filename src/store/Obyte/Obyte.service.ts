@@ -2,9 +2,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Client } from 'obyte';
 import { isEmpty } from 'ramda';
+
 import { TRootState } from 'store';
 import { getAssetsMetadata } from 'store/AAstats';
 import { showSnackBar } from 'store/SnackStack';
+
 import { updateDefinedData } from './Obyte.reducer';
 import {
   getBaseAAsWithAssetMetadata,
@@ -31,7 +33,7 @@ export const obyteApi = createApi({
     mode: 'cors',
   }),
   endpoints: (build) => ({
-    getSymbol: build.query<unknown, { address: string; asset: string }>({
+    getSymbol: build.query<unknown, { address: string }>({
       queryFn: () => ({ data: undefined }),
       async onCacheEntryAdded(
         arg,
@@ -40,11 +42,11 @@ export const obyteApi = createApi({
         try {
           await cacheDataLoaded;
           const socket = getObyteClient();
-          const assetData = await socket.api.getSymbolByAsset(
-            arg.address,
-            arg.asset
+          const data = await getDefAddresses(
+            [{ address: arg.address, usd_balance: 0 }],
+            socket
           );
-          updateCachedData(() => assetData);
+          updateCachedData(() => data);
           await cacheEntryRemoved;
           socket.close();
         } catch (e) {
@@ -170,5 +172,5 @@ export const obyteApi = createApi({
 export const {
   useGetDefinitionQuery,
   useGetDefinitionsQuery,
-  useLazyGetSymbolQuery,
+  useGetSymbolQuery,
 } = obyteApi;

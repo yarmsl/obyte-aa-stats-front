@@ -1,3 +1,6 @@
+import { FC, memo, useCallback, useMemo } from 'react';
+
+import LinkIcon from '@mui/icons-material/Link';
 import {
   ListItemIcon,
   ListItemText,
@@ -5,12 +8,12 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
-import { FC, memo, useCallback, useMemo } from 'react';
-import LinkIcon from '@mui/icons-material/Link';
-import PngIcon from 'UI/icons/PngIcon';
+import { toPng } from 'html-to-image';
+
 import { useAppDispatch } from 'store';
 import { showSnackBar } from 'store/SnackStack';
-import { toPng } from 'html-to-image';
+import PngIcon from 'UI/icons/PngIcon';
+
 import { styles } from './styles';
 
 const ShareMenu: FC<IShareMenuProps> = ({

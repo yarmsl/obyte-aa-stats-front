@@ -1,10 +1,13 @@
-import { Box, Typography } from '@mui/material';
 import { FC, memo } from 'react';
-import ActionButtons from 'UI/atoms/ActionButtons/ActionButtons';
+
+import { Box, Typography } from '@mui/material';
+
 import { shortPeriodsUiControls } from 'conf/uiControls';
+import ActionButtons from 'UI/atoms/ActionButtons/ActionButtons';
 import AgentItem from 'UI/atoms/AgentItem/AgentItem';
-import Loading from 'UI/atoms/Loading/Loading';
 import AgentTableHead from 'UI/atoms/AgentTableHead/AgentTableHead';
+import Loading from 'UI/atoms/Loading/Loading';
+
 import { styles } from './styles';
 
 const AgentsTable: FC<IAgentsTableProps> = ({

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { IModalStack, ModalStackTypes } from './types';
 
 const initialState: IModalStack[] = [];

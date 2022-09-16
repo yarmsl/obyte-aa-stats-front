@@ -1,6 +1,8 @@
-import { Box } from '@mui/material';
-import { useNeuBoxShadow } from 'lib/useNeuBoxShadow';
 import { FC, forwardRef, memo } from 'react';
+
+import { Box } from '@mui/material';
+
+import { useNeuBoxShadow } from 'lib/useNeuBoxShadow';
 
 const NeuBox: FC<INeuBoxProps> = forwardRef(({ children, ...props }, ref) => {
   const { boxShadow } = useNeuBoxShadow();

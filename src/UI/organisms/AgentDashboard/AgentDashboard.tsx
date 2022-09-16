@@ -1,4 +1,10 @@
 import { FC, memo, useCallback, useEffect } from 'react';
+
+import { equals } from 'ramda';
+import { useParams } from 'react-router-dom';
+
+import { cleanUndef } from 'lib/clearUndef';
+import { useStateUrlParams } from 'lib/useStateUrlParams';
 import { useAppDispatch, useAppSelector } from 'store';
 import {
   agentLayoutsSelector,
@@ -6,10 +12,7 @@ import {
   clearCacheAgentLayout,
   initialAgentPageSearchParamsSelector,
 } from 'store/UI';
-import { cleanUndef } from 'lib/clearUndef';
-import { equals } from 'ramda';
-import { useStateUrlParams } from 'lib/useStateUrlParams';
-import { useParams } from 'react-router-dom';
+
 import AgentDashboardLayout from './AgentDashboardLayout';
 
 const AgentDashboard: FC = () => {

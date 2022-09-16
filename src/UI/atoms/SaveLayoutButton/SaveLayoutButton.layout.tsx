@@ -1,6 +1,7 @@
 import { FC, memo } from 'react';
-import { IconButton, Tooltip } from '@mui/material';
+
 import SaveIcon from '@mui/icons-material/Save';
+import { IconButton, Tooltip } from '@mui/material';
 
 const SaveLayoutButtonLayout: FC<ISaveLayoutButtonLayoutProps> = ({ save }) => (
   <Tooltip

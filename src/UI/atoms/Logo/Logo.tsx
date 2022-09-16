@@ -1,6 +1,8 @@
-import { Box, ButtonBase, Typography } from '@mui/material';
 import { FC, memo } from 'react';
+
+import { Box, ButtonBase, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+
 import { styles } from './styles';
 
 const Logo: FC<ILogoProps> = ({ title, subtitle }) => {

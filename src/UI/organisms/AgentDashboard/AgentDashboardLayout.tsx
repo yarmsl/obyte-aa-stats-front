@@ -1,12 +1,13 @@
-import { useMedia } from 'lib/useMedia';
 import { FC, memo } from 'react';
+
+import { useMedia } from 'lib/useMedia';
 import AgentInfoWidget from 'UI/atoms/AgentInfoWidget/AgentInfoWidget';
 import AgentTurnoverValueWidget from 'UI/atoms/AgentTurnoverValueWidget/AgentTurnoverValueWidget';
 import AgentTvlValueWidget from 'UI/atoms/AgentTvlValueWidget/AgentTvlValueWidget';
 import AgentGraphConnected from 'UI/molecules/AgentGraph/AgentGraphConnected';
 import AgentsTableConnected from 'UI/molecules/AgentsTable/AgentsTableConnected';
-import DragLayout from 'UI/templates/DragLayout/DragLayout';
 import DragBox from 'UI/templates/DragBox/DragBox';
+import DragLayout from 'UI/templates/DragLayout/DragLayout';
 
 const AgentDashboardLayout: FC<IAgentDashboardLayoutProps> = ({
   layouts,

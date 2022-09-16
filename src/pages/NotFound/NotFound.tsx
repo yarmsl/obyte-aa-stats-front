@@ -1,12 +1,18 @@
 import { Box, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import HelmetTitle from '../../UI/atoms/Helmet/Helmet';
+
+import HelmetTitle from '../../UI/atoms/Meta/Meta';
 
 const NotFound = (): JSX.Element => {
   const nav = useNavigate();
   return (
     <>
-      <HelmetTitle title='404' />
+      <HelmetTitle
+        description='Obyte 404'
+        ogDescription='Obyte 404'
+        ogTitle='Obyte 404'
+        title='404'
+      />
       <Box
         sx={{
           width: '100%',

@@ -1,11 +1,14 @@
 /* eslint-disable camelcase */
+import { FC, memo, useEffect, useMemo, useState } from 'react';
+
 import { Box, Divider, Fade, Typography } from '@mui/material';
+import { useParams } from 'react-router-dom';
+
 import { usd } from 'lib/currency';
 import { useMedia } from 'lib/useMedia';
-import { FC, memo, useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'store';
 import { descriptionByAddressSelector } from 'store/Obyte';
+
 import { styles } from './styles';
 
 const AgentItem: FC<IAgentItemProps> = ({

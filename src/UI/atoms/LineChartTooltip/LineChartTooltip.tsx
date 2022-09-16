@@ -1,7 +1,9 @@
+import { FC, memo, useMemo } from 'react';
+
 import { Box, Divider, Typography } from '@mui/material';
 import { PointTooltipProps } from '@nivo/line';
+
 import { usd } from 'lib/currency';
-import { FC, memo, useMemo } from 'react';
 import NeuBox from 'UI/templates/NeuBox/NeuBox';
 
 const LineChartTooltip: FC<PointTooltipProps> = ({ point }) => {

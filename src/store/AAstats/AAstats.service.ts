@@ -1,6 +1,8 @@
 import { Serie } from '@nivo/line';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
 import { apiKey } from 'conf/constants';
+
 import {
   transformStatsForOneAddress,
   transformTopAA,

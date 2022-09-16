@@ -1,4 +1,9 @@
 import { FC, memo, useCallback, useEffect } from 'react';
+
+import { equals } from 'ramda';
+
+import { cleanUndef } from 'lib/clearUndef';
+import { useStateUrlParams } from 'lib/useStateUrlParams';
 import { useAppDispatch, useAppSelector } from 'store';
 import {
   cacheHomeLayout,
@@ -6,9 +11,7 @@ import {
   homeLayoutsSelector,
   initialHomeSearchParamsSelector,
 } from 'store/UI';
-import { cleanUndef } from 'lib/clearUndef';
-import { equals } from 'ramda';
-import { useStateUrlParams } from 'lib/useStateUrlParams';
+
 import HomeDashboardLayout from './HomeDashboardLayout';
 
 const HomeDashboard: FC = () => {

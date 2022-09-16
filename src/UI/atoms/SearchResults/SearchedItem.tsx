@@ -1,7 +1,10 @@
+import { FC, memo, useMemo } from 'react';
+
 import { Box, MenuItem, Typography } from '@mui/material';
+
 import { usd } from 'lib/currency';
 import { HighlightText } from 'lib/HighLightText';
-import { FC, memo, useMemo } from 'react';
+
 import { styles } from './styles';
 
 const SearchedItem: FC<ISearchedItemProps> = ({

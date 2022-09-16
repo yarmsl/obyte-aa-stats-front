@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
-import { apiGetDef } from 'lib/api';
 import { Client } from 'obyte';
 import { isEmpty } from 'ramda';
+
+import { apiGetDef } from 'lib/api';
 
 /** Get info about address` assets from obyte.js in accordance with https://docs.google.com/spreadsheets/d/1AeLeNnPKpXS4UXCwqL9rSh9DuvKKGyabji08nmSgBfI/edit#gid=0 */
 export const getAssetsInfo = async (
@@ -150,7 +151,12 @@ export const getAssetsInfo = async (
       }
 
       // Prophet prediction markets
-      if (base_aa === 'AXG7G57VBLAHF3WRN5WMQ53KQEQDRONC') {
+      if (
+        [
+          'AXG7G57VBLAHF3WRN5WMQ53KQEQDRONC',
+          'A4EH5ZF5L4KEAHQIUSDEQGILHPEFJFPW',
+        ].includes(base_aa)
+      ) {
         const stateVars = await client.api.getAaStateVars({ address });
         const { yes_asset = '' } = stateVars as { yes_asset: string };
         return {
