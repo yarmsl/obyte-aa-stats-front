@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
+
 import { useAppSelector } from 'store';
 import { darkModeSelector } from 'store/UI';
+
 import { useMedia } from './useMedia';
 
 interface IUseNeuBoxShadow {

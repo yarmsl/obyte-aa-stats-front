@@ -1,6 +1,9 @@
-import { Button, ButtonGroup } from '@mui/material';
-import { useMedia } from 'lib/useMedia';
 import { FC, memo, MouseEvent, useCallback } from 'react';
+
+import { Button, ButtonGroup } from '@mui/material';
+
+import { useMedia } from 'lib/useMedia';
+
 import { styles } from './styles';
 
 const ActionButtons: FC<IActionButtonsProps> = ({

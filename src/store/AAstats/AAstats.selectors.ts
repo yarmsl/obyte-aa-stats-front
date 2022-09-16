@@ -1,4 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
+
 import { TRootState } from 'store';
 
 const aaStatsSelector = (state: TRootState): IAAstatsSlice => state.aaStats;

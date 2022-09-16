@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { allPeriodsUiControls } from 'conf/uiControls';
+
 import { initialState } from './initialState';
 
 const UISlice = createSlice({

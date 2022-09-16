@@ -1,4 +1,14 @@
 import { FC, memo, useCallback, useEffect, useMemo } from 'react';
+
+import {
+  longPeriodsUiControls,
+  shortPeriodsUiControls,
+  totalGraphActivitiesUiControls,
+} from 'conf/uiControls';
+import { useContextMenu } from 'lib/useContextMenu';
+import { useLineChart } from 'lib/useLineChart';
+import { useStateUrlParams } from 'lib/useStateUrlParams';
+import { useTimeframe } from 'lib/useTimeframe';
 import { useAppDispatch, useAppSelector } from 'store';
 import {
   useGetTotalActivityOverTimeQuery,
@@ -11,15 +21,7 @@ import {
   handleTotalGraphActivitiesControls,
   totalGraphTimeframeSelector,
 } from 'store/UI';
-import {
-  longPeriodsUiControls,
-  shortPeriodsUiControls,
-  totalGraphActivitiesUiControls,
-} from 'conf/uiControls';
-import { useTimeframe } from 'lib/useTimeframe';
-import { useLineChart } from 'lib/useLineChart';
-import { useStateUrlParams } from 'lib/useStateUrlParams';
-import { useContextMenu } from 'lib/useContextMenu';
+
 import TotalGraph from './TotalGraph';
 
 const TotalGraphConnected: FC = () => {

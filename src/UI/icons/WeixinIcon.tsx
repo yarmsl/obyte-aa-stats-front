@@ -1,5 +1,6 @@
-import { SvgIcon, SvgIconProps } from '@mui/material';
 import { FC } from 'react';
+
+import { SvgIcon, SvgIconProps } from '@mui/material';
 
 const WeixinIcon: FC<SvgIconProps> = (props) => (
   <SvgIcon viewBox='0 0 33 33' {...props}>

@@ -1,4 +1,5 @@
 import { ReactElement, useEffect, useMemo } from 'react';
+
 import {
   CssBaseline,
   ThemeProvider,
@@ -6,12 +7,14 @@ import {
 } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { BrowserRouter } from 'react-router-dom';
+
 import { useAppDispatch, useAppSelector } from 'store';
-import SnackStack from 'UI/atoms/SnackStack/SnackStack';
-import { darkModeSelector } from 'store/UI';
 import { getAssetsMetadata } from 'store/AAstats';
-import ModalStack from './UI/atoms/ModalStack/ModalStack';
+import { darkModeSelector } from 'store/UI';
+import SnackStack from 'UI/atoms/SnackStack/SnackStack';
+
 import Router from './Router';
+import ModalStack from './UI/atoms/ModalStack/ModalStack';
 import { theme } from './UI/theme';
 import './css/fonts.css';
 

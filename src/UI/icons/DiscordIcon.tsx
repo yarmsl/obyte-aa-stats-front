@@ -1,5 +1,6 @@
-import { SvgIcon, SvgIconProps } from '@mui/material';
 import { FC } from 'react';
+
+import { SvgIcon, SvgIconProps } from '@mui/material';
 
 const DiscordIcon: FC<SvgIconProps> = (props) => (
   <SvgIcon {...props}>

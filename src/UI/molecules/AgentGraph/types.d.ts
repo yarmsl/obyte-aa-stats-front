@@ -1,5 +1,7 @@
-import { Serie } from '@nivo/line';
 import { MouseEvent } from 'react';
+
+import { Serie } from '@nivo/line';
+
 import { yAxisTypes } from 'UI/atoms/LineChart/types';
 
 /* eslint-disable no-unused-vars */

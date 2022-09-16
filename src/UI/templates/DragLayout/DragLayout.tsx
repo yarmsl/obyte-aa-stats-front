@@ -1,5 +1,6 @@
-import { Box } from '@mui/material';
 import { FC, memo } from 'react';
+
+import { Box } from '@mui/material';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';

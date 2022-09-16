@@ -1,8 +1,11 @@
-import { Container } from '@mui/material';
 import { FC, memo, Suspense } from 'react';
+
+import { Container } from '@mui/material';
 import { Outlet } from 'react-router-dom';
+
 import Loading from 'UI/atoms/Loading/Loading';
 import Header from 'UI/templates/Header/Header';
+
 import Footer from '../Footer/Footer';
 import { styles } from './styles';
 

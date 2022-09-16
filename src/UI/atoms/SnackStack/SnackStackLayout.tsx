@@ -1,6 +1,8 @@
-import { Alert, AlertTitle, IconButton, Snackbar, Stack } from '@mui/material';
 import { FC, memo } from 'react';
+
 import CloseIcon from '@mui/icons-material/Close';
+import { Alert, AlertTitle, IconButton, Snackbar, Stack } from '@mui/material';
+
 import { ISnackStackLayoutProps } from './types';
 
 const SnackStackLayout: FC<ISnackStackLayoutProps> = ({

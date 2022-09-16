@@ -1,6 +1,8 @@
 import { FC, memo, useCallback } from 'react';
+
 import { useAppDispatch, useAppSelector } from 'store';
 import { darkModeSelector, toggleDarkMode } from 'store/UI';
+
 import DarkModeSwitcherLayout from './DarkModeSwitcherLayout';
 
 const DarkModeSwitcher: FC = () => {

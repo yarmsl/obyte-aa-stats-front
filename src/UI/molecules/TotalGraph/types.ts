@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { Serie } from '@nivo/line';
 import { MouseEvent } from 'react';
+
+import { Serie } from '@nivo/line';
 
 export interface ITotalGraphProps {
   data: Serie[];

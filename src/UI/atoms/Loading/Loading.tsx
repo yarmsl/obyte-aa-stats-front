@@ -1,5 +1,6 @@
-import { Backdrop, Box, CircularProgress, Typography } from '@mui/material';
 import { FC, memo } from 'react';
+
+import { Backdrop, Box, CircularProgress, Typography } from '@mui/material';
 
 const Loading: FC<ILoadingProps> = ({ fullscreen }) => {
   if (fullscreen) {

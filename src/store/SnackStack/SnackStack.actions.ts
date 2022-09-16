@@ -1,4 +1,5 @@
 import { TAppDispatch } from 'store';
+
 import { closeSnackBar, removeSnackBar } from '.';
 
 export const closeSnackAction =

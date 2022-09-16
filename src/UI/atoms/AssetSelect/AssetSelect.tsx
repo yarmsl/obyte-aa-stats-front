@@ -1,10 +1,13 @@
+import { ChangeEventHandler, FC, memo, useCallback } from 'react';
+
 import { Box, MenuItem, TextField, Typography } from '@mui/material';
+
 import { coinIcon } from 'conf/constants';
 import { assetsIconsConf } from 'conf/uiControls';
 import { useStateUrlParams } from 'lib/useStateUrlParams';
-import { ChangeEventHandler, FC, memo, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 import { assetSelector, assetsSelector, handleAsset } from 'store/UI';
+
 import { styles } from './styles';
 
 const AssetSelect: FC = () => {

@@ -1,6 +1,8 @@
-import { Dialog } from '@mui/material';
 import { memo } from 'react';
+
+import { Dialog } from '@mui/material';
 import { v4 } from 'uuid';
+
 import { useAppDispatch, useAppSelector } from '../../../store';
 import {
   closeModalAction,

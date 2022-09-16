@@ -1,12 +1,15 @@
 import { FC, memo, useCallback, useMemo } from 'react';
+
 import { ResponsiveLine } from '@nivo/line';
-import { useMedia } from 'lib/useMedia';
-import { darkModeSelector } from 'store/UI';
-import { useAppSelector } from 'store';
-import { shortenNumber } from 'lib/shortenNumber';
+
 import { usd } from 'lib/currency';
-import { ILineChartProps } from './types';
+import { shortenNumber } from 'lib/shortenNumber';
+import { useMedia } from 'lib/useMedia';
+import { useAppSelector } from 'store';
+import { darkModeSelector } from 'store/UI';
+
 import LineChartTooltip from '../LineChartTooltip/LineChartTooltip';
+import { ILineChartProps } from './types';
 
 const LineChart: FC<ILineChartProps> = ({
   data,
@@ -157,8 +160,8 @@ const LineChart: FC<ILineChartProps> = ({
             }
           : {
               top: 20,
-              right: 20,
-              bottom: 23,
+              right: 30,
+              bottom: 25,
               left: 70,
             }
       }

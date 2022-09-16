@@ -4,8 +4,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/state-in-constructor */
-import NotFound from 'pages/NotFound/NotFound';
 import React, { Component, ErrorInfo, ReactNode } from 'react';
+
+import NotFound from 'pages/NotFound/NotFound';
 
 interface Props {
   children: ReactNode;

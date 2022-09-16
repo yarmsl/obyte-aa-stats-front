@@ -1,9 +1,12 @@
-import { Box, Link, Typography } from '@mui/material';
 import { FC, memo } from 'react';
+
+import { Box, Link, Typography } from '@mui/material';
+
 // import { useAppDispatch } from 'store';
 // import { useGetTopAAbyTvlQuery } from 'store/AAstats';
 // import { obyteApi } from 'store/Obyte';
 import SocialBlock from 'UI/atoms/SocialBlock/SocialBlock';
+
 import { styles } from './styles';
 
 const Footer: FC = () => (

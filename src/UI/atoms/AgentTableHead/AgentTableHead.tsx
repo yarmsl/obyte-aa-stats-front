@@ -1,6 +1,8 @@
-import { Box, IconButton, Typography } from '@mui/material';
 import { FC, memo } from 'react';
+
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import { Box, IconButton, Typography } from '@mui/material';
+
 import { styles } from './styles';
 
 const columns: IAgentTableHeadConf[] = [

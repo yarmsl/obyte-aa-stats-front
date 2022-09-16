@@ -1,4 +1,5 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
+
 import NeuBox from 'UI/templates/NeuBox/NeuBox';
 
 import ValueWidget from './ValueWidget';

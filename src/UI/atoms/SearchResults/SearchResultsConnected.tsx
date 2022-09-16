@@ -1,7 +1,10 @@
 import { FC, memo, useCallback, useEffect, useMemo } from 'react';
+
 import { useNavigate } from 'react-router-dom';
+
 import { useAppSelector } from 'store';
 import { fullFlattenDefinedDataSelector } from 'store/Obyte';
+
 import SearchResults from './SearchResults';
 
 const SearchResultsConnected: FC<ISearchResultsConnectedProps> = ({
@@ -18,6 +21,7 @@ const SearchResultsConnected: FC<ISearchResultsConnectedProps> = ({
   const handleAgentsPageReplaceFabric = useCallback(
     (address: string) => () => {
       nav(`aa/${address}`);
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       onClose();
     },
     [nav, onClose]

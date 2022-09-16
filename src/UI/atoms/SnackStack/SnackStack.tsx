@@ -1,9 +1,12 @@
-import { SnackbarCloseReason } from '@mui/material';
 import { FC, memo, useCallback, useMemo } from 'react';
+
+import { SnackbarCloseReason } from '@mui/material';
+
 import { useAppDispatch, useAppSelector } from 'store';
 import { closeSnackAction, snackBarsStackSelector } from 'store/SnackStack';
-import { ISnackStackProps } from './types';
+
 import SnackStackLayout from './SnackStackLayout';
+import { ISnackStackProps } from './types';
 
 const SnackStack: FC<ISnackStackProps> = ({
   anchorOrigin = undefined,

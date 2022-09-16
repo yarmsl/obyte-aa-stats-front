@@ -1,3 +1,8 @@
+import { FC, memo, useCallback, useEffect, useMemo } from 'react';
+
+import { equals } from 'ramda';
+import { useParams } from 'react-router-dom';
+
 import {
   agentGraphUiControls,
   allPeriodsUiControls,
@@ -7,9 +12,6 @@ import { useContextMenu } from 'lib/useContextMenu';
 import { useLineChart } from 'lib/useLineChart';
 import { useStateUrlParams } from 'lib/useStateUrlParams';
 import { useTimeframe } from 'lib/useTimeframe';
-import { equals } from 'ramda';
-import { FC, memo, useCallback, useEffect, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 import {
   useGetStatsForOneAddressQuery,
@@ -27,6 +29,7 @@ import {
   handleAsset,
   handleAssets,
 } from 'store/UI';
+
 import AgentGraph from './AgentGraph';
 
 const AgentGraphConnected: FC = () => {

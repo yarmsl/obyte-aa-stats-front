@@ -1,6 +1,8 @@
-import { Fade, MenuItem, MenuList, Paper, Typography } from '@mui/material';
 import { FC, memo } from 'react';
+
+import { Fade, MenuItem, MenuList, Paper, Typography } from '@mui/material';
 import { v4 } from 'uuid';
+
 import SearchedItem from './SearchedItem';
 import { styles } from './styles';
 

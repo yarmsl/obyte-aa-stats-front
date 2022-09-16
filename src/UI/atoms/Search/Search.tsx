@@ -1,4 +1,3 @@
-import { Box, ClickAwayListener, TextField } from '@mui/material';
 import {
   ChangeEventHandler,
   FC,
@@ -9,9 +8,13 @@ import {
   useRef,
   useState,
 } from 'react';
+
 import SearchIcon from '@mui/icons-material/Search';
+import { Box, ClickAwayListener, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+
 import { fireSearchAnalitycsEvent } from 'lib/analytics';
+
 import SearchResultsConnected from '../SearchResults/SearchResultsConnected';
 import { styles } from './styles';
 

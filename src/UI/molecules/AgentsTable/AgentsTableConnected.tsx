@@ -1,7 +1,9 @@
+import { FC, memo, useCallback, useEffect, useMemo, useRef } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+
 import { useStateUrlParams } from 'lib/useStateUrlParams';
 import { useTimeframe } from 'lib/useTimeframe';
-import { FC, memo, useCallback, useEffect, useMemo, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 import {
   isAssetMetaDataSelector,
@@ -18,6 +20,7 @@ import {
   increaseAgentsTableDataLimit,
   agentsTableLimitSelector,
 } from 'store/UI';
+
 import AgentsTable from './AgentsTable';
 
 const AgentsTableConnected: FC = () => {

@@ -1,6 +1,9 @@
-import { Box, Button, ButtonGroup } from '@mui/material';
-import { useMedia } from 'lib/useMedia';
 import { memo, MouseEvent, useCallback, useMemo } from 'react';
+
+import { Box, Button, ButtonGroup } from '@mui/material';
+
+import { useMedia } from 'lib/useMedia';
+
 import { styles } from './styles';
 
 const SelectButtons = <V,>({

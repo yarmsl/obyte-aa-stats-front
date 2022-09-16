@@ -1,5 +1,6 @@
-import { addDays, endOfDay, endOfHour } from 'date-fns';
 import { useMemo } from 'react';
+
+import { addDays, endOfDay, endOfHour } from 'date-fns';
 
 interface IUseTimeframeOutput {
   from: number;

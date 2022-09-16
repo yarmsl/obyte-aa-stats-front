@@ -64,6 +64,8 @@ export const templates: IAgentsTemplate = {
     `Discount Stablecoin ${getPrinted(asset)}`,
   AXG7G57VBLAHF3WRN5WMQ53KQEQDRONC: ({ yes_asset }) =>
     `Prophet prediction market ${getPrinted(yes_asset)}`,
+  A4EH5ZF5L4KEAHQIUSDEQGILHPEFJFPW: ({ yes_asset }) =>
+    `Prophet prediction market ${getPrinted(yes_asset)}`,
   KDHCTQOTKTO6MLYOCU6OCBI7KK72DV3P: ({ asset }) =>
     `Counterstake Bridge Import Governance AA for ${getPrinted(asset)}`,
   QXHLP4MLXSWHJGD3WUBFTXQSIA2R3QFG: ({ asset2 }) =>

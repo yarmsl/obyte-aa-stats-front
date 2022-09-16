@@ -1,3 +1,7 @@
+import { FC, memo, MouseEvent, useCallback, useMemo } from 'react';
+
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import {
   Box,
   Divider,
@@ -6,10 +10,9 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+
 import { usd } from 'lib/currency';
-import { FC, memo, MouseEvent, useCallback, useMemo } from 'react';
-import TrendingDownIcon from '@mui/icons-material/TrendingDown';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+
 import WaterMark from '../WaterMark/WaterMark';
 import { styles } from './styles';
 

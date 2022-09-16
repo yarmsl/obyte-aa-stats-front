@@ -1,4 +1,5 @@
 import { TAppDispatch } from 'store';
+
 import { closeModal, removeModal } from '.';
 
 export const closeModalAction =

@@ -1,7 +1,9 @@
-import { useTimeframe } from 'lib/useTimeframe';
 import { FC, memo, useMemo } from 'react';
+
+import { useTimeframe } from 'lib/useTimeframe';
 import { useGetTotalUsdInValuesQuery } from 'store/AAstats';
 import NeuBox from 'UI/templates/NeuBox/NeuBox';
+
 import ValueWidget from '../ValueWidget/ValueWidget';
 
 const TurnoverValueWidget: FC = () => {

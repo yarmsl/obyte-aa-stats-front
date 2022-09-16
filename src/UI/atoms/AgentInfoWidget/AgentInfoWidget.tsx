@@ -1,23 +1,26 @@
 /* eslint-disable camelcase */
-import { Box, Link, Typography, IconButton } from '@mui/material';
 import { FC, memo, useEffect, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from 'store';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+
 import ExploreIcon from '@mui/icons-material/Explore';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import {
-  descriptionByAddressSelector,
-  obyteApi,
-  safetyDefinitionByAddressSelector,
-} from 'store/Obyte';
-import { useMedia } from 'lib/useMedia';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import { Box, Link, Typography, IconButton } from '@mui/material';
+import { useParams } from 'react-router-dom';
+
 import {
   explorerAnalyticsClickEvent,
   homepageAnalyticsClickEvent,
   githubAnalyticsClickEvent,
 } from 'lib/analytics';
+import { useMedia } from 'lib/useMedia';
+import { useAppDispatch, useAppSelector } from 'store';
 import { getTvlByAddressSelector } from 'store/AAstats';
+import {
+  descriptionByAddressSelector,
+  obyteApi,
+  safetyDefinitionByAddressSelector,
+} from 'store/Obyte';
+
 import { styles } from './styles';
 
 const AgentInfoWidget: FC = () => {
