@@ -105,13 +105,11 @@ export const obyteApi = createApi({
             socket
           );
 
-          const saftyAssetsMetaData = isEmpty(assetsMetadata)
-            ? await dispatch(getAssetsMetadata()).unwrap()
-            : assetsMetadata;
-
           const baseAAsWithAssetMetadata = getBaseAAsWithAssetMetadata(
             baseAAs,
-            saftyAssetsMetaData
+            isEmpty(assetsMetadata)
+              ? await dispatch(getAssetsMetadata()).unwrap()
+              : assetsMetadata
           );
 
           if (baseAAsWithAssetMetadata.length > 0) {
