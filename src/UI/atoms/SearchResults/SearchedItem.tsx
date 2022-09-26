@@ -23,17 +23,22 @@ const SearchedItem: FC<ISearchedItemProps> = ({
       (autoFocus === 'down' && index === 0),
     [arrLength, autoFocus, index]
   );
+  const isLabel = useMemo(() => label !== address, [address, label]);
   return (
     <MenuItem autoFocus={focus} sx={styles.searchedItem} onClick={onClick}>
       <Box sx={styles.creds}>
         <Typography sx={styles.labelText}>
           <HighlightText highlight={searchText} text={label} />
         </Typography>
-        <Typography sx={styles.addressText}>
-          <HighlightText highlight={searchText} text={address} />
-        </Typography>
+        {isLabel && (
+          <Typography sx={styles.addressText}>
+            <HighlightText highlight={searchText} text={address} />
+          </Typography>
+        )}
       </Box>
-      <Typography sx={styles.tvl}>TVL: {usd(tvl, 0, true)}</Typography>
+      {tvl != null && (
+        <Typography sx={styles.tvl}>TVL: {usd(tvl, 0, true)}</Typography>
+      )}
     </MenuItem>
   );
 };
