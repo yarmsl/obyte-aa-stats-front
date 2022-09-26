@@ -8,7 +8,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import { aastatsAPI, AAstatsReducer } from './AAstats';
+import { aastatsAPI } from './AAstats';
 import { TokenMiddleware } from './Auth/Auth.middleware';
 import { ModalStackReducer } from './ModalStack';
 import { obyteApi, ObyteReducer } from './Obyte';
@@ -24,14 +24,13 @@ const UIPersistConfig = {
 const ObytePersistConfig = {
   key: 'obyte',
   storage,
-  whitelist: ['definedData', 'assetsCache'],
+  whitelist: ['assetsCache', 'agentsCache'],
 };
 
 const rootReducer = combineReducers({
   modalStack: ModalStackReducer,
   snackStack: SnackStackReducer,
   ui: persistReducer(UIPersistConfig, UIReducer),
-  aaStats: AAstatsReducer,
   obyte: persistReducer(ObytePersistConfig, ObyteReducer),
   [aastatsAPI.reducerPath]: aastatsAPI.reducer,
   [obyteApi.reducerPath]: obyteApi.reducer,

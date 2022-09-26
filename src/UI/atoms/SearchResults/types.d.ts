@@ -24,12 +24,12 @@ interface ISearchedItemProps {
   searchText: string;
   index: number;
   arrLength: number;
-  tvl: number;
+  tvl?: number;
   autoFocus: AutoFocusTypes;
 }
 
 interface ILabeledAddress {
   address: string;
   label: string;
-  tvl: number;
+  tvl?: number;
 }

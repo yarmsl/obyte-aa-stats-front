@@ -6,7 +6,6 @@ import { useStateUrlParams } from 'lib/useStateUrlParams';
 import { useTimeframe } from 'lib/useTimeframe';
 import { useAppDispatch, useAppSelector } from 'store';
 import {
-  isAssetMetaDataSelector,
   useGetTopAAbyTvlQuery,
   useGetTopAACombinedByTypeQuery,
 } from 'store/AAstats';
@@ -30,7 +29,6 @@ const AgentsTableConnected: FC = () => {
   const timeframe = useAppSelector(agentsTableTimeframeSelector);
   const type = useAppSelector(agentsTableSortTypeSelector);
   const limit = useAppSelector(agentsTableLimitSelector);
-  const isAssetsMetaData = useAppSelector(isAssetMetaDataSelector);
   const { from, to } = useTimeframe(selectedPeriod, timeframe);
   const loaderRef = useRef<HTMLDivElement | null>(null);
   const { setUrl } = useStateUrlParams();
@@ -117,11 +115,23 @@ const AgentsTableConnected: FC = () => {
   const { data: fullData } = useGetTopAAbyTvlQuery({});
 
   useEffect(() => {
-    if (data && data.length <= 20 && isAssetsMetaData)
-      dispatch(obyteApi.util.prefetch('getDefinitions', data, {}));
-    if (fullData && isAssetsMetaData)
-      dispatch(obyteApi.util.prefetch('getDefinitions', fullData, {}));
-  }, [isAssetsMetaData, data, dispatch, fullData]);
+    if (data && data.length <= 20)
+      dispatch(
+        obyteApi.util.prefetch(
+          'getDefinitions',
+          data.map((d) => d.address),
+          {}
+        )
+      );
+    if (fullData)
+      dispatch(
+        obyteApi.util.prefetch(
+          'getDefinitions',
+          fullData.map((fD) => fD.address),
+          {}
+        )
+      );
+  }, [data, dispatch, fullData]);
 
   return (
     <AgentsTable

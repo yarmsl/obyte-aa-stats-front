@@ -160,7 +160,7 @@ const LineChart: FC<ILineChartProps> = ({
             }
           : {
               top: 20,
-              right: 30,
+              right: 35,
               bottom: 25,
               left: 70,
             }

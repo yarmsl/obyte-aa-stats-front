@@ -7,15 +7,23 @@ import { TRootState } from 'store';
 import { getAssetsMetadata } from 'store/AAstats';
 import { showSnackBar } from 'store/SnackStack';
 
-import { updateDefinedData } from './Obyte.reducer';
 import {
-  getBaseAAsWithAssetMetadata,
-  getBaseAAWithSymbolsByObyte,
-  getBaseAAwithUndefinedSymbols,
-  getDefAddresses,
-  getDefData,
-  getDefinedAddresses,
-  getUndefinedAddresses,
+  updateAgentsCacheByAddresses,
+  updateAgentsCacheByAssetsSymbols,
+  updateAgentsCacheByAssetsValues,
+  updateAgentsCacheByDefinition,
+} from './Obyte.reducer';
+import {
+  getAddressesBaseAA,
+  getAddressesWithDefinedSymbolsByMeta,
+  getAddressesWithDefinedSymbolsByObyte,
+  getAddressesWithTemplatedAssetsValues,
+  getAddressesWithUndefinedBaseAA,
+  getAddressesWithUndefinedSymbols,
+  getBaseAAWithDefinition,
+  getBaseAAwithUndefinedDefinition,
+  getDefinitionData,
+  getTemplatedAddressesWithUndefinedAsset,
 } from './utils';
 
 let obyte: Client;
@@ -33,33 +41,6 @@ export const obyteApi = createApi({
     mode: 'cors',
   }),
   endpoints: (build) => ({
-    getSymbol: build.query<unknown, { address: string }>({
-      queryFn: () => ({ data: undefined }),
-      async onCacheEntryAdded(
-        arg,
-        { cacheDataLoaded, cacheEntryRemoved, updateCachedData, dispatch }
-      ) {
-        try {
-          await cacheDataLoaded;
-          const socket = getObyteClient();
-          const data = await getDefAddresses(
-            [{ address: arg.address, usd_balance: 0 }],
-            socket
-          );
-          updateCachedData(() => data);
-          await cacheEntryRemoved;
-          socket.close();
-        } catch (e) {
-          dispatch(
-            showSnackBar({
-              message: e instanceof Error ? e.message : 'assets query error',
-              title: 'Assets Query',
-              severity: 'error',
-            })
-          );
-        }
-      },
-    }),
     getDefinition: build.query<IDefinition | undefined, string>({
       queryFn: () => ({ data: undefined }),
       async onCacheEntryAdded(
@@ -70,10 +51,9 @@ export const obyteApi = createApi({
           await cacheDataLoaded;
           const socket = getObyteClient();
 
-          const defData = await getDefData(arg, socket);
+          const defData = await getDefinitionData(arg, socket);
           updateCachedData((data) => ({ ...data, ...defData }));
           await cacheEntryRemoved;
-          socket.close();
         } catch (e) {
           dispatch(
             showSnackBar({
@@ -86,7 +66,7 @@ export const obyteApi = createApi({
         }
       },
     }),
-    getDefinitions: build.query<IDefinedBaseAAData[], IRenderAATvl[]>({
+    getDefinitions: build.query<IDefinedBaseAAData[], string[]>({
       queryFn: () => ({ data: [] }),
       async onCacheEntryAdded(
         arg,
@@ -96,62 +76,64 @@ export const obyteApi = createApi({
           await cacheDataLoaded;
           const socket = getObyteClient();
 
-          const { obyte: obyteSlice, aaStats } = getState() as TRootState;
-          const { definedData } = obyteSlice;
-          const { assetsMetadata } = aaStats;
-
-          const baseAAs = await getDefAddresses(
-            getUndefinedAddresses(arg, getDefinedAddresses(definedData)),
+          /** 1. create/update cache: base_aa -> addresses -> address */
+          const { agentsCache: agentsCache1 } = (getState() as TRootState)
+            .obyte;
+          const addressesBaseAA = await getAddressesBaseAA(
+            getAddressesWithUndefinedBaseAA(agentsCache1, arg),
             socket
           );
+          dispatch(updateAgentsCacheByAddresses(addressesBaseAA));
 
-          const baseAAsWithAssetMetadata = getBaseAAsWithAssetMetadata(
-            baseAAs,
-            isEmpty(assetsMetadata)
-              ? await dispatch(getAssetsMetadata()).unwrap()
-              : assetsMetadata
+          /** 2. update cache by addresses with templated asset values */
+          const { agentsCache: agentsCache2 } = (getState() as TRootState)
+            .obyte;
+          const addressesWithTemplatedAssetsValues =
+            await getAddressesWithTemplatedAssetsValues(
+              getTemplatedAddressesWithUndefinedAsset(agentsCache2),
+              socket
+            );
+          dispatch(
+            updateAgentsCacheByAssetsValues(addressesWithTemplatedAssetsValues)
           );
 
-          if (baseAAsWithAssetMetadata.length > 0) {
-            dispatch(updateDefinedData(baseAAsWithAssetMetadata));
-          }
-
-          const baseAAWithSymbolsByObyte = await Promise.all(
-            getBaseAAWithSymbolsByObyte(
-              getBaseAAwithUndefinedSymbols(baseAAsWithAssetMetadata),
-              socket
+          /** 3. update cache by addresses with asset symbols from api */
+          const { agentsCache: agentsCache3, assetsCache } = (
+            getState() as TRootState
+          ).obyte;
+          dispatch(
+            updateAgentsCacheByAssetsSymbols(
+              getAddressesWithDefinedSymbolsByMeta(
+                getAddressesWithUndefinedSymbols(agentsCache3),
+                isEmpty(assetsCache)
+                  ? await dispatch(getAssetsMetadata()).unwrap()
+                  : assetsCache
+              )
             )
           );
 
-          if (baseAAWithSymbolsByObyte.length > 0) {
-            dispatch(updateDefinedData(baseAAWithSymbolsByObyte));
-          }
+          /** 4. update cache by addresses with asset symbols from obyte.js */
+          const { agentsCache: agentsCache4 } = (getState() as TRootState)
+            .obyte;
+          const addressesWithDefinedSymbolsByObyte =
+            await getAddressesWithDefinedSymbolsByObyte(
+              getAddressesWithUndefinedSymbols(agentsCache4),
+              socket
+            );
+          dispatch(
+            updateAgentsCacheByAssetsSymbols(addressesWithDefinedSymbolsByObyte)
+          );
 
-          const defData = baseAAs.map(async (base) => ({
-            ...base,
-            definition: await getDefData(base.base_aa, socket),
-          }));
+          /** 5. update cache by adresses with their base_aa and json`s definition */
+          const { agentsCache: agentsCache5 } = (getState() as TRootState)
+            .obyte;
+          const baseAAWithDefinition = await getBaseAAWithDefinition(
+            getBaseAAwithUndefinedDefinition(agentsCache5),
+            socket
+          );
+          dispatch(updateAgentsCacheByDefinition(baseAAWithDefinition));
 
-          const response = await Promise.allSettled(defData);
-          const result = response.reduce((accu: IDefinedBaseAAData[], curr) => {
-            if (curr.status === 'fulfilled') {
-              return accu.concat({
-                ...curr.value,
-                definition: {
-                  description: curr.value.definition.description,
-                  homepage_url: curr.value.definition.homepage_url,
-                  source_url: curr.value.definition.source_url,
-                },
-              });
-            }
-            return accu;
-          }, []);
-
-          if (result.length > 0) {
-            dispatch(updateDefinedData(result));
-          }
           await cacheEntryRemoved;
-          socket.close();
         } catch (e) {
           dispatch(
             showSnackBar({
@@ -167,8 +149,4 @@ export const obyteApi = createApi({
   }),
 });
 
-export const {
-  useGetDefinitionQuery,
-  useGetDefinitionsQuery,
-  useGetSymbolQuery,
-} = obyteApi;
+export const { useGetDefinitionQuery, useGetDefinitionsQuery } = obyteApi;

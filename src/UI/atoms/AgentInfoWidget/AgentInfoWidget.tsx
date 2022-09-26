@@ -14,7 +14,6 @@ import {
 } from 'lib/analytics';
 import { useMedia } from 'lib/useMedia';
 import { useAppDispatch, useAppSelector } from 'store';
-import { getTvlByAddressSelector } from 'store/AAstats';
 import {
   descriptionByAddressSelector,
   obyteApi,
@@ -25,7 +24,6 @@ import { styles } from './styles';
 
 const AgentInfoWidget: FC = () => {
   const { address = '' } = useParams<{ address: string }>();
-  const getTvlByAddress = useAppSelector(getTvlByAddressSelector);
   const dispatch = useAppDispatch();
   const dd = useAppSelector(safetyDefinitionByAddressSelector);
   const getDescription = useAppSelector(descriptionByAddressSelector);
@@ -46,16 +44,9 @@ const AgentInfoWidget: FC = () => {
     [address, description]
   );
 
-  const usd_balance = useMemo(
-    () => getTvlByAddress(address),
-    [address, getTvlByAddress]
-  );
-
   useEffect(() => {
-    dispatch(
-      obyteApi.util.prefetch('getDefinitions', [{ address, usd_balance }], {})
-    );
-  }, [address, dispatch, usd_balance]);
+    dispatch(obyteApi.util.prefetch('getDefinitions', [address], {}));
+  }, [address, dispatch]);
 
   return (
     <Box sx={styles.root}>
