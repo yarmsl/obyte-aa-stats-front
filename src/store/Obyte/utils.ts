@@ -2,14 +2,11 @@
 import { Client } from 'obyte';
 import { isEmpty } from 'ramda';
 
-import {
-  agentsDescriptionTemplates,
-  getAssetsInfoForTemplatedAgent,
-} from 'conf/agentsTemplates';
+import { templates } from 'conf/templates';
 import { apiGetDef } from 'lib/api';
 
 /** templated base agents */
-const templatedBaseAAs = agentsDescriptionTemplates.reduce(
+const templatedBaseAAs = templates.reduce(
   (baseAAs: string[], template) => baseAAs.concat(template.baseAAs),
   []
 );
@@ -105,6 +102,37 @@ export const getTemplatedAddressesWithUndefinedAsset = (
   }, []);
 
 /**
+ * Get info about address` assets from obyte.js
+ * @param address Agent`s address
+ * @param client obyte.js Client
+ * */
+const getAssetsInfoForTemplatedAgentsFabric = async (
+  address: string,
+  client: Client
+): Promise<Record<string, string> | undefined> => {
+  try {
+    const definition = await client.api.getDefinition(address);
+    if (
+      Object.hasOwn(definition[1], 'base_aa') &&
+      Object.hasOwn(definition[1], 'params')
+    ) {
+      const { base_aa, params } = definition[1];
+
+      const found = templates.find((template) =>
+        template.baseAAs.includes(base_aa)
+      );
+
+      if (found) return found.getTemplateParams({ params, client, address });
+    }
+
+    return undefined;
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message);
+    throw new Error('getAssetsInfo error');
+  }
+};
+
+/**
  * Get array of addresses, base_aa and assets values
  * @param addressesWithBaseAA addresses with their base_aa
  * @param client obyte.js Client
@@ -116,7 +144,7 @@ export const getAddressesWithTemplatedAssetsValues = async (
 ): Promise<IAddressWithTemplatedAssetInfo[]> =>
   addressesWithBaseAA.reduce(
     async (accu: Promise<IAddressWithTemplatedAssetInfo[]>, current) => {
-      const assetsInfo = await getAssetsInfoForTemplatedAgent(
+      const assetsInfo = await getAssetsInfoForTemplatedAgentsFabric(
         current.address,
         client
       );

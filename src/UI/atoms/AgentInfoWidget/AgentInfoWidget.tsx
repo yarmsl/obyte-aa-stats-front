@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
-import { FC, memo, useEffect, useMemo } from 'react';
+import { FC, memo, useEffect, useMemo, useRef, useState } from 'react';
 
 import ExploreIcon from '@mui/icons-material/Explore';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import { Box, Link, Typography, IconButton } from '@mui/material';
+import { Box, Link, Typography, IconButton, Tooltip } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
 import {
@@ -23,6 +23,8 @@ import {
 import { styles } from './styles';
 
 const AgentInfoWidget: FC = () => {
+  const ref = useRef<HTMLHeadingElement | null>(null);
+  const [showTooltip, setShowTooltip] = useState(false);
   const { address = '' } = useParams<{ address: string }>();
   const dispatch = useAppDispatch();
   const dd = useAppSelector(safetyDefinitionByAddressSelector);
@@ -45,15 +47,27 @@ const AgentInfoWidget: FC = () => {
   );
 
   useEffect(() => {
-    dispatch(obyteApi.util.prefetch('getDefinitions', [address], {}));
-  }, [address, dispatch]);
+    if (subtitle === null) {
+      dispatch(obyteApi.util.prefetch('getDefinitions', [address], {}));
+    }
+  }, [address, dispatch, subtitle]);
+
+  useEffect(() => {
+    if (ref && ref.current) {
+      const { offsetWidth, scrollWidth } = ref.current;
+      if (offsetWidth < scrollWidth) setShowTooltip(true);
+      else setShowTooltip(false);
+    }
+  }, [address]);
 
   return (
     <Box sx={styles.root}>
       <Box sx={styles.titleBox}>
-        <Typography component='h1' sx={styles.title}>
-          {description}
-        </Typography>
+        <Tooltip placement='bottom-end' title={showTooltip ? description : ''}>
+          <Typography ref={ref} component='h1' sx={styles.title}>
+            {description}
+          </Typography>
+        </Tooltip>
         {subtitle && (
           <Typography component='h2' sx={styles.subtitle}>
             {subtitle}
