@@ -1,10 +1,7 @@
 /* eslint-disable camelcase */
 import { createSelector } from '@reduxjs/toolkit';
 
-import {
-  agentsDescriptionTemplates,
-  IAgentsDescriptionTemplate,
-} from 'conf/agentsTemplates';
+import { templates, ITemplate } from 'conf/templates';
 import { TRootState } from 'store';
 import { getTvlByAddressSelector } from 'store/AAstats';
 
@@ -20,12 +17,8 @@ export const assetsCacheSelector = createSelector(
   (obyte) => obyte.assetsCache
 );
 
-const templateSelector = (
-  base_aa: string
-): IAgentsDescriptionTemplate | undefined =>
-  agentsDescriptionTemplates.find((template) =>
-    template.baseAAs.includes(base_aa)
-  );
+const templateSelector = (base_aa: string): ITemplate | undefined =>
+  templates.find((template) => template.baseAAs.includes(base_aa));
 
 export const definitionByAddressSelector = createSelector(
   agentsCacheSelector,
