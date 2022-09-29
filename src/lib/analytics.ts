@@ -1,40 +1,35 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-declare global {
-  interface Window {
-    dataLayer: Record<string, any> | undefined;
-    [key: string]: any;
-  }
-}
+import ReactGA from 'react-ga4';
 
-enum AnalyticsEvents {
-  SEARCH_EVENT = 'searchEvent',
-  HOMEPAGE_CLICK_EVENT = 'homepageClickEvent',
-  EXPLORER_CLICK_EVENT = 'explorerClickEvent',
-  GITHUB_CLICK_EVENT = 'githubClickEvent',
-  NAVIGATION_EVENT = 'navigationEvent',
+enum AnalyticsActions {
+  SEARCH = 'search',
+  HOMEPAGE = 'homepageClick',
+  EXPLORER = 'explorerClick',
+  GITHUB = 'githubClick',
+  NAVIGATION = 'navigation',
 }
 
 const sendToAnalytics = (analyticsData: {
-  event: string;
-  value?: string;
+  action: string;
+  value?: number;
+  label?: string;
 }): void => {
-  if (window && window.dataLayer) {
-    window.dataLayer.push(analyticsData);
+  if (ReactGA.isInitialized) {
+    ReactGA.event({ category: 'my_events', ...analyticsData });
   }
 };
 
 export const fireSearchAnalitycsEvent = (searchText: string): void =>
-  sendToAnalytics({ event: AnalyticsEvents.SEARCH_EVENT, value: searchText });
+  sendToAnalytics({ action: AnalyticsActions.SEARCH, label: searchText });
 
 export const homepageAnalyticsClickEvent = (): void =>
-  sendToAnalytics({ event: AnalyticsEvents.HOMEPAGE_CLICK_EVENT });
+  sendToAnalytics({ action: AnalyticsActions.HOMEPAGE });
 
 export const explorerAnalyticsClickEvent = (): void =>
-  sendToAnalytics({ event: AnalyticsEvents.EXPLORER_CLICK_EVENT });
+  sendToAnalytics({ action: AnalyticsActions.EXPLORER });
 
 export const githubAnalyticsClickEvent = (): void =>
-  sendToAnalytics({ event: AnalyticsEvents.GITHUB_CLICK_EVENT });
+  sendToAnalytics({ action: AnalyticsActions.GITHUB });
 
 export const fireNavigationAnalyticsEvent = (fullUrl: string): void =>
-  sendToAnalytics({ event: AnalyticsEvents.NAVIGATION_EVENT, value: fullUrl });
+  sendToAnalytics({ action: AnalyticsActions.NAVIGATION, label: fullUrl });
